@@ -52,9 +52,6 @@ void printBoard(char** Board){
 
 int main(int argc, const char** argv) {
     string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-    vector<char> board = fenToBoard(fen);
-    for(char i: board){
-        cout << i;
-    }
+    char** board = fenToBoard(fen);
     printBoard(fenToBoard(fen));
 }
