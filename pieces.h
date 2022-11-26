@@ -1,3 +1,6 @@
+#ifndef PIECES.H
+#define PIECES.H
+
 #include <vector>
 
 class Board;
@@ -34,3 +37,6 @@ class Knight: public Pieces {
 class Bishop: public Pieces {
     virtual void updateMoves() override;   
 };
+
+#endif
+
