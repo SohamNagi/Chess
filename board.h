@@ -1,5 +1,5 @@
-#ifndef BOARDSTATE.H
-#define BOARDSTATE.H
+#ifndef BOARD.H
+#define BOARD.H
 
 #include <vector>
 #include <string>
