@@ -15,14 +15,17 @@ class Pieces {
 };
 
 class Pawn : public Pieces {
+    bool moved;
     virtual void updateMoves() override;
 };
 
 class Rook: public Pieces {
+    bool moved;
     virtual void updateMoves() override;
 };
 
 class King: public Pieces {
+    bool moved;
     virtual void updateMoves() override;
 };
 
