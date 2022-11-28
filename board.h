@@ -15,6 +15,7 @@ class BoardState{
         std::vector<Pieces> boardState;
         std::vector<Coord> LastMove;
         Coord en_passant;
+        int eval;
 
     private:
 
@@ -31,7 +32,7 @@ class BoardState{
     private:
 
         std::string FEN();
-        void notifyStateChange();
+        void notifyStateChange(); // updates eval?
 };
 
 #endif
