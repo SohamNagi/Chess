@@ -7,12 +7,15 @@ class Board;
 class Coord;
 
 class Pieces {
-        virtual void updateMoves() = 0;
+    public:
         Board* board;
         bool isWhite;
         Coord* location;
         char type;
-        std::vector <Coord*> legalmoves;
+        bool isEmpty;
+        std::vector <int> legalmoves;
+    public:
+        virtual void updateMoves() = 0;
 };
 
 class Pawn : public Pieces {
@@ -39,6 +42,10 @@ class Knight: public Pieces {
 };
 
 class Bishop: public Pieces {
+    virtual void updateMoves() override;   
+};
+
+class emptyPiece: public Pieces {
     virtual void updateMoves() override;   
 };
 
