@@ -10,7 +10,7 @@ class Pieces {
     public:
         Board* board;
         bool isWhite;
-        Coord* location;
+        int location;
         char type;
         bool isEmpty;
         std::vector <int> legalmoves;
