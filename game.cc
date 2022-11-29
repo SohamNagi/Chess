@@ -10,6 +10,6 @@ Game::Game(std::string fen, std::string white, std::string black):
     }
 
     if (black = "human"){
-        blackPlayer = new human ();
+        blackPlayer = new Human();
     }
 }
