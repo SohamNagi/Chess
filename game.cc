@@ -3,7 +3,7 @@
 #include <string>
 
 Game::Game(std::string fen, std::string white, std::string black):
-    boardstate{Board(fen)}
+    boardstate{new Board(fen)}
 {
     if(white == "human"){
         whitePlayer = new Human();
