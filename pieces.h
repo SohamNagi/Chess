@@ -15,6 +15,7 @@ class Pieces {
         bool isEmpty;
         std::vector <int> legalmoves;
     public:
+        Pieces(Board* board, bool isWhite, int location, char type, bool isEmpty);
         virtual void updateMoves() = 0;
 };
 
