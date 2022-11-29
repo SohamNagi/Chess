@@ -17,7 +17,7 @@ class Player {
         void resign();
         void offerDraw();
         bool move(Coord start, Coord end, Pieces** board);
-        void getmove();
+        virtual void getmove() = 0;
         void castle(Rook* rook);
         void promote(char c);
 };
