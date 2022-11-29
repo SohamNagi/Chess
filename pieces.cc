@@ -22,11 +22,11 @@
 // temporarily make text render function where you can select a square and see its legal moves (as + symbols)
 
 // Empty Piece constructor
-emptyPiece::emptyPiece(Board* board, Coord* location) :
+emptyPiece::emptyPiece(Board* board, int location) :
     board{ board }, isWhite{ false }, location{ location }, type{ 'e' }, isEmpty{ true } {}
 
 // Pawn constructor
-Pawn::Pawn(Board* board, bool isWhite, Coord* location, char type;) :
+Pawn::Pawn(Board* board, bool isWhite, int location, char type;) :
     board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ false }, moved{ false } {}
 
 void Pawn::updateMoves() override {
@@ -68,7 +68,7 @@ void Pawn::updateMoves() override {
 }
 
 // Rook constructor
-Rook::Rook(Board* board, bool isWhite, Coord* location, char type;) :
+Rook::Rook(Board* board, bool isWhite, int location, char type;) :
     board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ false }, moved{ false } {}
 
 void Rook::updateMoves() override {
@@ -115,7 +115,7 @@ void Rook::updateMoves() override {
 }
 
 // King constructor
-King::King(Board* board, bool isWhite, Coord* location, char type;) :
+King::King(Board* board, bool isWhite, int location, char type;) :
     board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ false }, moved{ false } {}
 
 void King::updateMoves() override {
@@ -131,7 +131,7 @@ void King::updateMoves() override {
 }
 
 // Queen constructor
-Queen::Queen(Board* board, bool isWhite, Coord* location, char type;) :
+Queen::Queen(Board* board, bool isWhite, int location, char type;) :
     board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ false } {}
 
 void Queen::updateMoves() override {
@@ -260,7 +260,7 @@ void Queen::updateMoves() override {
 }
 
 // Knight constructor
-Knight::Knight(Board* board, bool isWhite, Coord* location, char type;) :
+Knight::Knight(Board* board, bool isWhite, int location, char type;) :
     board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ false } {}
 
 void Knight::updateMoves() override {
@@ -278,7 +278,7 @@ void Knight::updateMoves() override {
 }
 
 // Bishop constructor
-Bishop::Bishop(Board* board, bool isWhite, Coord* location, char type;) :
+Bishop::Bishop(Board* board, bool isWhite, int location, char type;) :
     board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ false } {}
 
 void Bishop::updateMoves() override {
