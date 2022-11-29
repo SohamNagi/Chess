@@ -28,6 +28,7 @@ class Board{
     public:
         void attachPiece();
         void detachPiece();
+        Board(std::string fen)
 
     private:
 
