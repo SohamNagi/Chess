@@ -1,13 +1,14 @@
 #include "board.h"
 #include "pieces.h"
 
+// Setup boards may be in check
 Board::Board(std::string input):
+    halfMoves{0},moves{1},WhiteCheck{false}, blackCheck{false}, eval{0}
 {
     int row = 7;
     int col = 0;
     int i = 0;
     boardState.resize(64);
-
     while (input[i] != ' ') {
         char curr = input[i];
         int index = (8*row) + col;
@@ -38,7 +39,3 @@ Board::Board(std::string input):
         i++;
     }
 }
-
-std::string BoardState::FEN(){
-    
-};
