@@ -4,7 +4,10 @@
 #include <algorithm>
 
 
-bool player::move(int start, int end, Board* board) {
+Player::Player(bool isWhite, Board* board): isWhite(isWhite), board{board} {};
+
+
+bool Player::move(int start, int end, Board* board) {
 
     // Checks if the square (represented as an index to the
     //    boardState) contains and empty.
