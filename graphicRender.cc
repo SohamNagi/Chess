@@ -1,37 +1,42 @@
 #include "graphicRender.h"
 #include "window.h"
+#include "game.h"
 
-graphicObserver::graphicObserver(int t, int b, int l, int r, Game* sub):
-    top{t}, bottom{b}, left{l}, right{r}, rows{(b-t)+1}, cols{(r-l)+1}, win{new Xwindow(cols*10,rows*10)}, subject{sub}
+graphicObserver::graphicObserver(Game* sub):
+    win{new Xwindow(500,500)}, subject{sub}
 {
-    grid.assign(((cols*bottom) + right + 1), 0);
+    grid.assign(64, ' ');
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+            if (j % 2 == 0){
+                win->fillRectangle((j*10), (i*10), 10, 10, 1);
+            } else {
+                win->fillRectangle((j*10), (i*10), 10, 10, 0);
+            }
+        }
+    }
 };
 
 graphicObserver::~graphicObserver(){
     delete win;
 }
 
-int graphicObserver::charColor(char c){
-    if (c == ' ') { // White for blank
-        return 0;
-    } else if (48 <= c && c <= 57){ // Blue for number
-        return 4;
-    } else if (65 <= c && c <= 90){ // Green for upper-case
-        return 3;
-    } else if (97 <= c && c <= 122) { // Red for lower-case
-        return 2;
-    } else { // Black for anything else
-        return 1;
-    }
-}
-
 void graphicObserver::notify(){
-    for (int i = top; i <= bottom; ++i) {
-        for (int j = left; j <= right; ++j) {
-            int c = charColor(subject->getState(i,j));
-            if (grid[(cols * i) + j] != c){
-                grid[(cols * i) + j] = c; 
-                win->fillRectangle((j*10)-(left * 10), (i*10)-(top * 10), 10, 10, c);  
+    for (int i = 0; i <= 7; ++i) {
+        for (int j = 0; j <= 7; ++j) {
+            int index = (8*i) + j;
+            char curr = subject->getState(index);
+            if(curr != grid[index]){
+                grid[index] = curr;
+                if(j%2 == 0){
+                    win->fillRectangle(j,i,10,10,1);
+                } else {
+                    win->fillRectangle(j,i,10,10,0);
+                }
+                if (curr != ' '){
+                    std::string s(1, curr);
+                    win->drawString(i*10, j*10, s);
+                }
             }
         }
     }

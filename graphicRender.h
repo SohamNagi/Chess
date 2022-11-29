@@ -12,7 +12,7 @@ class graphicObserver : public Observer{
     std::vector<int> grid;
     public:
         int charColor(char c);
-        graphicObserver(int t, int b, int l, int r, Game* sub);
+        graphicObserver(Game* sub);
         void notify() override;
         virtual ~graphicObserver();
 };

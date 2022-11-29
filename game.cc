@@ -60,3 +60,7 @@ void Game::start(){
     }
   }
 }
+
+char Game::getState(int index){
+  return boardstate->boardState[index]->type;
+};

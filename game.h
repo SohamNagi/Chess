@@ -6,6 +6,7 @@
 #include "board.h"
 #include "observer.h"
 
+class Piece;
 class Player;
 
 class Game {
@@ -30,8 +31,7 @@ class Game {
         void attach(Observer *o);
         void detach(Observer *o);
         void notifyObservers();
+        char getState(int index);
 };
 
 #endif
-
-
