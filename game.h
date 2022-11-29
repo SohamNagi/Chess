@@ -14,6 +14,7 @@ class Game {
         std::vector<std::string> history;
         Player* whitePlayer;
         Player* blackPlayer;
+        int result;
     
     public:
         Board* boardstate;
@@ -23,7 +24,7 @@ class Game {
         void undo();
         void makeMoves();
         void start();
-
+        int getResult();
 
 };
 

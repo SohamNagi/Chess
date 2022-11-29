@@ -9,7 +9,10 @@ Game::Game(std::string fen, std::string white, std::string black):
         whitePlayer = new Human();
     }
 
-    if (black = "human"){
+    if (black == "human"){
         blackPlayer = new Human();
     }
 }
+
+
+int Game::getResult(){return result;}
