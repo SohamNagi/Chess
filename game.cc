@@ -1,9 +1,15 @@
 #include "game.h"
+#include "human.h"
+#include <string>
 
-Game::Game(string board, string white, string black):
-    boardstate{board}
+Game::Game(std::string fen, std::string white, std::string black):
+    boardstate{Board(fen)}
 {
     if(white == "human"){
-        whitePlayer
+        whitePlayer = new Human();
+    }
+
+    if (black = "human"){
+        blackPlayer = new human ();
     }
 }

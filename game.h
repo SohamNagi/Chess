@@ -3,8 +3,8 @@
 
 #include <vector>
 #include <string>
+#include "board.h"
 
-class BoardState;
 class Player;
 
 class Game {
@@ -16,10 +16,10 @@ class Game {
         Player* blackPlayer;
     
     public:
-        BoardState* boardstate;
+        Board* boardstate;
 
     // Methods for Game:
-        Game(string board, string white, string black);
+        Game(std::string fen, std::string white, std::string black);
         void undo();
         void makeMoves();
         void start();
