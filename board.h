@@ -7,7 +7,7 @@
 
 #include "pieces.h"
 
-class Board{
+class Board {
 
     // Fields for Board
     public:
