@@ -31,18 +31,8 @@ graphicObserver::~graphicObserver(){
 
 void graphicObserver::notify(){
     int shift = 50;
-    for(int i = 7; i >= 0; i--){
-        for(int j = 7; j >= 0; --j){
-            int index = (8*j) + i;
-            char curr = subject->getState(63 - index);
-            if(curr != grid[index]){
-                grid[index] = curr;
-
-                if (curr != ' '){
-                    std::string s(1, curr);
-                    win->drawString(i*50 + 25 + shift, j*50 + 25 + shift, s);
-                }
-            }
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
         }
     }
     win->fillRectangle(shift, shift, 400, 5, 1);
@@ -50,10 +40,6 @@ void graphicObserver::notify(){
     win->fillRectangle(400+shift, shift, 5, 405, 1);
     win->fillRectangle(shift, 400+shift, 400, 5, 1);
 }
-
-
-            
-            
             
                 
                 
