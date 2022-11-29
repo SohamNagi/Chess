@@ -61,6 +61,8 @@ void Game::start(){
       } else {
         result = 1;
       }
+    } else if (command == "print"){
+      notifyObservers();
     }
   }
 }

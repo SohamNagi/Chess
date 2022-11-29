@@ -34,17 +34,21 @@ void graphicObserver::notify(){
     for(int i = 7; i >= 0; i--){
         for(int j = 7; j >= 0; --j){
             int index = (8*j) + i;
-            char curr = subject->getState(index);
+            char curr = subject->getState(63 - index);
             if(curr != grid[index]){
                 grid[index] = curr;
+
                 if (curr != ' '){
                     std::string s(1, curr);
-                    s += std::to_string(index);
-                    win->drawString(j*50 + 25 + shift, i*50 + 25 + shift, s);
+                    win->drawString(i*50 + 25 + shift, j*50 + 25 + shift, s);
                 }
             }
         }
     }
+    win->fillRectangle(shift, shift, 400, 5, 1);
+    win->fillRectangle(shift, shift, 5, 400, 1);
+    win->fillRectangle(400+shift, shift, 5, 405, 1);
+    win->fillRectangle(shift, 400+shift, 400, 5, 1);
 }
 
 
