@@ -23,6 +23,10 @@
 
 void Pieces::updateMoves() override {}
 
+// Pawn constructor
+Pawn::Pawn(Board* board, bool isWhite, Coord* location, char type;) :
+    board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, moved{ false } {}
+
 void Pawn::updateMoves() override {
     // White Pawns:
     // Check the space immediately above
@@ -60,6 +64,10 @@ void Pawn::updateMoves() override {
         legalmoves.emplace_back(Coord(location.x + 1, location.y - 1));
     }
 }
+
+// Rook constructor
+Rook::Rook(Board* board, bool isWhite, Coord* location, char type;) :
+    board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, moved{ false } {}
 
 void Rook::updateMoves() override {
     // From the Rook to the top of the board
@@ -104,6 +112,10 @@ void Rook::updateMoves() override {
 
 }
 
+// King constructor
+King::King(Board* board, bool isWhite, Coord* location, char type;) :
+    board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, moved{ false } {}
+
 void King::updateMoves() override {
     // Check all surrounding spaces for the King
     for (int i = -1; i <= 1; i++) {
@@ -115,6 +127,10 @@ void King::updateMoves() override {
         }
     }
 }
+
+// Queen constructor
+Queen::Queen(Board* board, bool isWhite, Coord* location, char type;) :
+    board{ board }, isWhite{ isWhite }, location{ location }, type{ type } {}
 
 void Queen::updateMoves() override {
     // Queen x/y sliding:    
@@ -241,6 +257,10 @@ void Queen::updateMoves() override {
     }
 }
 
+// Knight constructor
+Knight::Knight(Board* board, bool isWhite, Coord* location, char type;) :
+    board{ board }, isWhite{ isWhite }, location{ location }, type{ type } {}
+
 void Knight::updateMoves() override {
     // Combining these two arrays gives the 8 possible moves for any knight
     int xChange[8] = {-1, 1, -2, -2, -1, 1, 2, 2};
@@ -254,6 +274,10 @@ void Knight::updateMoves() override {
         }
     }
 }
+
+// Bishop constructor
+Bishop::Bishop(Board* board, bool isWhite, Coord* location, char type;) :
+    board{ board }, isWhite{ isWhite }, location{ location }, type{ type } {}
 
 void Bishop::updateMoves() override {
     // create a helper function for the inner portion of the loop
