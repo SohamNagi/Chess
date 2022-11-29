@@ -1,11 +1,13 @@
 CXX = g++
 CXXFLAGS = -std=c++14 -Wall -MMD -Werror=vla
 EXEC = chess
-OBJECTS = board.h coord.h game.h human.h menu.cc observer.h pieces.h player.h textObserver.h
+OBJECTS = board.o game.o human.o menu.o observer.o graphicObserver.o pieces.o player.o textObserver.o window.o
 DEPENDS = ${OBJECTS:.o=.d}
 
 ${EXEC}: ${OBJECTS}
-	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} -include ${DEPENDS}
+	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} -lX11
+	
+-include ${DEPENDS}
 
 .PHONY: clean
 

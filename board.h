@@ -15,12 +15,12 @@ class Board {
         std::vector<Pieces*> boardState;
         std::vector<Coord> LastMove;
         Coord en_passant;
-        int eval;
 
         int halfMoves;
         int moves;
         bool WhiteCheck;
         bool BlackCheck;
+        int eval;
 
     // Methods for Board:
     public:

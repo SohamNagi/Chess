@@ -83,5 +83,5 @@ void Human::getmove() {
 
     }
 
-    this->move(start, end, this->board->boardState);
+    this->move(start, end, board);
 }

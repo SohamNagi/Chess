@@ -1,4 +1,4 @@
-#include "graphicRender.h"
+#include "graphicObserver.h"
 #include "window.h"
 #include "game.h"
 

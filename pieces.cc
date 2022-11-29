@@ -26,9 +26,18 @@
 Pieces::Pieces(Board* board, bool isWhite, int location, char type, bool isEmpty) :
     board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ isEmpty } {}
 
-// Empty Piece constructor
-emptyPiece::emptyPiece(Board* board, int location) :
-    Pieces{ board, false, location, ' ', true } {}
+// Piece destructor
+Pieces::~Pieces() {}
+
+// emptyPiece constructor
+emptyPiece::emptyPiece(Board* board, bool isWhite, int location, char type) :
+    Pieces{ board, isWhite, location, type, true } {}
+
+// emptyPiece updatemoves
+void emptyPiece::updateMoves() {}
+
+// emptyPiece destructor
+emptyPiece::~emptyPiece() {}
 
 // Pawn constructor
 Pawn::Pawn(Board* board, bool isWhite, int location, char type) :
@@ -74,6 +83,9 @@ void Pawn::updateMoves() {
         legalmoves.emplace_back((y - 1) * 8 + (x + 1));
     }
 }
+
+// Pawn destructor
+Pawn::~Pawn() {}
 
 // Rook constructor
 Rook::Rook(Board* board, bool isWhite, int location, char type) :
@@ -125,6 +137,9 @@ void Rook::updateMoves() {
 
 }
 
+// Rook destructor
+Rook::~Rook() {}
+
 // King constructor
 King::King(Board* board, bool isWhite, int location, char type) :
     Pieces{ board, isWhite, location, type, false }, moved{ false } {}
@@ -136,13 +151,16 @@ void King::updateMoves()  {
     // Check all surrounding spaces for the King
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j--) {
-            if (!(i == 0 && j == 0) && board->boardState[(y + j) * 8 + (x + i)]->isEmpty ||
-                !board->boardState[(y + j) * 8 + (x + i)]->isWhite) {
+            if (!(i == 0 && j == 0) && (board->boardState[(y + j) * 8 + (x + i)]->isEmpty ||
+                !board->boardState[(y + j) * 8 + (x + i)]->isWhite)) {
                     legalmoves.emplace_back((y + j) * 8 + (x + i));
                 }
         }
     }
 }
+
+// King destructor
+King::~King() {}
 
 // Queen constructor
 Queen::Queen(Board* board, bool isWhite, int location, char type) :
@@ -276,6 +294,9 @@ void Queen::updateMoves() {
     }
 }
 
+// Queen destructor
+Queen::~Queen() {}
+
 // Knight constructor
 Knight::Knight(Board* board, bool isWhite, int location, char type) :
     Pieces{ board, isWhite, location, type, false } {}
@@ -296,6 +317,9 @@ void Knight::updateMoves() {
         }
     }
 }
+
+// Knight destructor
+Knight::~Knight() {}
 
 // Bishop constructor
 Bishop::Bishop(Board* board, bool isWhite, int location, char type) :
@@ -387,3 +411,6 @@ void Bishop::updateMoves() {
         if (doubleBreak) break;
     }
 }
+
+// Bishop destructor
+Bishop::~Bishop() {}
