@@ -1,6 +1,7 @@
 #include "game.h"
 #include "human.h"
 #include <string>
+#include <iostream>
 #include "textObserver.h"
 
 Game::Game(std::string fen, std::string white, std::string black):
@@ -40,3 +41,22 @@ void Game::detach(Observer *o) {
   }
 }
 
+void Game::start(){
+  std::string command;
+  while(std::cin >> command){
+    if (command == "move"){
+      if (boardstate->moves % 2 == 0){
+        whitePlayer->getmove();
+      } else {
+        blackPlayer->getmove();
+      }
+      notifyObservers();
+    } else if (command == "resign"){
+      if (boardstate->moves % 2 == 0){
+        result = -1;
+      } else {
+        result = 1;
+      }
+    }
+  }
+}

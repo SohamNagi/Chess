@@ -14,7 +14,6 @@ class Player {
         Player(bool isWhite, Board* board);
 
         void resign();
-        void offerDraw();
         bool move(int start, int end, Board* board);
         virtual void getmove() = 0;
         void castle(Rook* rook);

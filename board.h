@@ -17,8 +17,6 @@ class Board{
         Coord en_passant;
         int eval;
 
-    private:
-
         int halfMoves;
         int moves;
         bool WhiteCheck;
