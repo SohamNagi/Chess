@@ -34,14 +34,3 @@ bool player::move(int start, int end, Board* board) {
     return true;
 
 }
-
-void player::getmove() {
-    char input;
-    int start;
-    int end;
-
-    std::cin >> input;
-
-    if (input )
-
-}
