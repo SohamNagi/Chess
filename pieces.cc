@@ -21,8 +21,6 @@
 
 // temporarily make text render function where you can select a square and see its legal moves (as + symbols)
 
-void Pieces::updateMoves() override {}
-
 // Pawn constructor
 Pawn::Pawn(Board* board, bool isWhite, Coord* location, char type;) :
     board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, moved{ false } {}
