@@ -16,7 +16,8 @@ class Player {
     public:
         void resign();
         void offerDraw();
-        bool move(Coord start, Coord end);
+        bool move(Coord start, Coord end, Pieces** board);
+        void getmove();
         void castle(Rook* rook);
         void promote(char c);
 };
