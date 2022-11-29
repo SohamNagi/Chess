@@ -1,5 +1,5 @@
-#ifndef BOARD.H
-#define BOARD.H
+#ifndef BOARD
+#define BOARD
 
 #include <vector>
 #include <string>

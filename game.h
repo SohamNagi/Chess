@@ -1,9 +1,10 @@
-#ifndef GAME.H
-#define GAME.H
+#ifndef GAME
+#define GAME
 
 #include <vector>
 #include <string>
 #include "board.h"
+#include "observer.h"
 
 class Player;
 
@@ -15,6 +16,7 @@ class Game {
         Player* whitePlayer;
         Player* blackPlayer;
         int result;
+        std::vector<Observer*> observers;
     
     public:
         Board* boardstate;
@@ -25,7 +27,9 @@ class Game {
         void makeMoves();
         void start();
         int getResult();
-
+        void attach(Observer *o);
+        void detach(Observer *o);
+        void notifyObservers();
 };
 
 #endif
