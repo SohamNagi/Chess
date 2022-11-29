@@ -7,10 +7,11 @@ class Board;
 class Coord;
 
 class Pieces {
-        virtual void updateMoves() =0;
+        virtual void updateMoves() = 0;
         Board* board;
         bool isWhite;
         Coord* location;
+        char type;
         std::vector <Coord*> legalmoves;
 };
 

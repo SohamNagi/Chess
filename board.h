@@ -7,7 +7,7 @@
 
 class Pieces;
 
-class BoardState{
+class Board{
 
     // Fields for Board
     public:
