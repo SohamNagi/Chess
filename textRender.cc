@@ -3,55 +3,71 @@
 #include <vector>
 using namespace std;
 
-char** fenToBoard(string input){
+string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR ";
+
+vector<char> fenToBoard(string input){
     int row = 7;
     int col = 0;
     int i = 0;
-    char** board = new char*[8];
-    for (int h = 0; h < 8; h++){
-        board[h] = new char[8];
-        for (int w = 0; w < 8; w++){
-            board[h][w] = ' ';
-        }
+    vector<char> board(64);
+    for(int a = 0; a < 64; a++){
+        board[a] = ' ';
     }
     while (input[i] != ' ') {
         char curr = input[i];
         if (curr == '/'){
             row--;
+            col = 0;
         } else if (isdigit(curr)) {
             col += curr;
         } else {
-            board[row][col] = curr;
+            board[(8*row) + col] = curr;
             col++;
         }
         i++;
     }
-    char** out = board;
-    return out;
+    return board;
 }
 
-void printBoard(char** Board){
-    cout << "A B C D E F G H";
-    for(int i = 0; i < 8; i ++){
-        cout << i+1 << " ";
+void printBoard(vector<char> board){
+    cout << " +-----------------+" << endl;
+    for(int i = 7; i >= 0; i--){
+        cout << i+1 << "| ";
         for(int j = 0; j < 8; j++){
-            char curr = Board[i][j];
+            char curr = board[(8*i)+j];
             if (curr == ' '){
                 if ((i+j) % 2 == 0){
-                    cout << " ";
+                    if(j < 7){
+                cout << "  ";
                 } else {
-                    cout << "_";
+                    cout << "  |";;
+                }
+                    
+                } else {
+                    if(j < 7){
+                cout << "- ";
+                } else {
+                    cout << "- |";
+                }
+                    
+                    
                 }
             } else {
-                cout << curr;
+                if(j < 7){
+                cout << curr << " ";
+                } else {
+                    cout << curr << " |";
+                }
             }
         }
         cout << endl;
     }
+    cout << " +-----------------+" << endl;
+    cout << "   A B C D E F G H" << endl;
 }
 
 int main(int argc, const char** argv) {
-    string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-    char** board = fenToBoard(fen);
+    string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR ";
+
     printBoard(fenToBoard(fen));
 }
