@@ -1,5 +1,5 @@
-#ifndef PIECES
-#define PIECES
+#ifndef __PIECES_H__
+#define __PIECES_H__
 
 #include <vector>
 

@@ -1,7 +1,7 @@
-#include "observer.h"
+#ifndef __TEXTOBSERVER_H__
+#define __TEXTOBSERVER_H__
 
-#ifndef __TEXTOB__
-#define __TEXTOB__
+#include "observer.h"
 
 class Game;
 

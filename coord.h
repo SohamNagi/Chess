@@ -1,5 +1,5 @@
-#ifndef COORD
-#define COORD
+#ifndef __COORD_H__
+#define __COORD_H__
 
 struct Coord {
     int x;
