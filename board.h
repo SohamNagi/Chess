@@ -12,7 +12,7 @@ class Board{
     // Fields for Board
     public:
 
-        std::vector<Pieces> boardState;
+        std::vector<Pieces*> boardState;
         std::vector<Coord> LastMove;
         Coord en_passant;
         int eval;

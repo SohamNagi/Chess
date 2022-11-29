@@ -1,9 +1,14 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "game.h"
+#include "textObserver.h"
+#include "pieces.h"
 using namespace std;
 
-string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR ";
+textObserver::textObserver(Game* sub):
+    subject{sub}
+{};
 
 vector<char> fenToBoard(string input){
     int row = 7;
@@ -29,12 +34,14 @@ vector<char> fenToBoard(string input){
     return board;
 }
 
-void printBoard(vector<char> board){
+
+void textObserver::notify(){
     cout << " +-----------------+" << endl;
     for(int i = 7; i >= 0; i--){
         cout << i+1 << "| ";
         for(int j = 0; j < 8; j++){
-            char curr = board[(8*i)+j];
+            Pieces* piece = subject->boardstate->boardState[(8*i)+j];
+            char curr = piece->type;
             if (curr == ' '){
                 if ((i+j) % 2 == 0){
                     if(j < 7){
@@ -49,8 +56,7 @@ void printBoard(vector<char> board){
                 } else {
                     cout << "- |";
                 }
-                    
-                    
+    
                 }
             } else {
                 if(j < 7){
@@ -66,8 +72,3 @@ void printBoard(vector<char> board){
     cout << "   A B C D E F G H" << endl;
 }
 
-int main(int argc, const char** argv) {
-    string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR ";
-
-    printBoard(fenToBoard(fen));
-}
