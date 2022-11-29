@@ -1,5 +1,5 @@
-#ifndef PLAYER.H
-#define PLAYER.H
+#ifndef PLAYER
+#define PLAYER
 
 #include "coord.h"
 #include "board.h"

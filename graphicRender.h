@@ -1,13 +1,20 @@
-#include "view.h"
-#include "window.h"
+#ifndef __GFXOB__
+#define __GFXOB__
 
-class graphicObserver : public Viewer{
+#include "observer.h"
+#include "window.h"
+#include <vector>
+class Game;
+
+class graphicObserver : public Observer{
     Xwindow* win;
-    Studio* subject;
+    Game* subject;
     std::vector<int> grid;
     public:
         int charColor(char c);
-        graphicObserver(int t, int b, int l, int r, Studio* sub);
+        graphicObserver(int t, int b, int l, int r, Game* sub);
         void notify() override;
         virtual ~graphicObserver();
 };
+
+#endif

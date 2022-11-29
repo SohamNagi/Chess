@@ -5,9 +5,7 @@ OBJECTS = board.h coord.h game.h human.h menu.cc observer.h pieces.h player.h te
 DEPENDS = ${OBJECTS:.o=.d}
 
 ${EXEC}: ${OBJECTS}
-	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} -lX11
-
--include ${DEPENDS}
+	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} -include ${DEPENDS}
 
 .PHONY: clean
 

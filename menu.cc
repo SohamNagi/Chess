@@ -3,7 +3,7 @@
 using namespace std;
 
 string setup(){
-    return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+    return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 }
 
 int main(int argc, char const *argv[])
@@ -22,12 +22,12 @@ int main(int argc, char const *argv[])
         } else if (command == "game"){
             string white;
             string black;
-            Game round = new Game(board, white, black);
-            round.start();
-            int result = round.result();
-            if (result = -1){
+            Game* round = new Game(board, white, black);
+            round->start();
+            int score = round->getResult();
+            if (score == -1){
                 ++black_wins;
-            } else if (result = 0){
+            } else if (score == 0){
                 ++draw;
             } else {
                 ++white_wins;

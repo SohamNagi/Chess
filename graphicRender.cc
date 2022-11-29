@@ -1,7 +1,7 @@
-#include "graphicObserver.h"
+#include "graphicRender.h"
 #include "window.h"
 
-graphicObserver::graphicObserver(int t, int b, int l, int r, Studio* sub):
+graphicObserver::graphicObserver(int t, int b, int l, int r, Game* sub):
     top{t}, bottom{b}, left{l}, right{r}, rows{(b-t)+1}, cols{(r-l)+1}, win{new Xwindow(cols*10,rows*10)}, subject{sub}
 {
     grid.assign(((cols*bottom) + right + 1), 0);

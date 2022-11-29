@@ -1,5 +1,8 @@
 #include "observer.h"
 
+#ifndef __TEXTOB__
+#define __TEXTOB__
+
 class Game;
 
 class textObserver : public Observer{
@@ -9,3 +12,5 @@ class textObserver : public Observer{
         void notify() override;
         ~textObserver() = default;
 };
+
+#endif
