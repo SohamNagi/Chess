@@ -5,7 +5,7 @@
 #include <string>
 #include "coord.h"
 
-class Pieces;
+#include "pieces.h"
 
 class Board{
 
