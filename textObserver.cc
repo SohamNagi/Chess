@@ -42,7 +42,7 @@ void textObserver::notify(){
         for(int j = 0; j < 8; j++){
             char curr = subject->board->boardState.at((8*i)+j)->type;
             if (curr == ' '){
-                if ((i+j) % 2 == 0){
+                if ((i+j) % 2 != 0){
                     if(j < 7){
                 cout << "  ";
                 } else {

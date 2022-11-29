@@ -6,7 +6,7 @@ graphicObserver::graphicObserver(Game* sub):
     win{new Xwindow(500,500)}, subject{sub}
 {
     std::string header = "CS246 - C++ Chess";
-    win->drawString(200, 25, header);
+    win->drawString(200, 35, header);
     grid.assign(64, ' ');
     int shift = 50;
     for(int i = 7; i >= 0; i--){
@@ -31,14 +31,15 @@ graphicObserver::~graphicObserver(){
 
 void graphicObserver::notify(){
     int shift = 50;
-    for(int i = 0; i < 8; i++){
+    for(int i = 7; i >= 0; i--){
         for(int j = 7; j >= 0; --j){
-            int index = (8*i) + j;
+            int index = (8*j) + i;
             char curr = subject->getState(index);
             if(curr != grid[index]){
                 grid[index] = curr;
                 if (curr != ' '){
                     std::string s(1, curr);
+                    s += std::to_string(index);
                     win->drawString(j*50 + 25 + shift, i*50 + 25 + shift, s);
                 }
             }
