@@ -19,8 +19,10 @@ class Game {
         BoardState* boardstate;
 
     // Methods for Game:
+        Game(string board, string white, string black);
         void undo();
         void makeMoves();
+        void start();
 
 
 };
