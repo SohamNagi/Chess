@@ -39,7 +39,3 @@ Board::Board(std::string input):
         i++;
     }
 }
-
-std::string BoardState::FEN(){
-    
-};
