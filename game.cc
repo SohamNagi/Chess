@@ -5,7 +5,7 @@
 #include "textObserver.h"
 
 Game::Game(std::string fen, std::string white, std::string black):
-    boardstate{new Board(fen)}
+    boardstate{new Board(fen)}, result{11}
 {
     attach(new textObserver(this));
 

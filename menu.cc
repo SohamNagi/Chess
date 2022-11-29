@@ -2,9 +2,9 @@
 #include <iostream>
 using namespace std;
 
-string setup(){
-    return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-}
+// string board_setup(){
+//     return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+// }
 
 int main(int argc, char const *argv[])
 {
@@ -19,7 +19,7 @@ int main(int argc, char const *argv[])
         string board = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
         if (command == "setup"){
-            string board = setup();
+            // string board = board_setup();
         } else if (command == "game"){
             string white;
             string black;

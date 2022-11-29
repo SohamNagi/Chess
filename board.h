@@ -3,18 +3,16 @@
 
 #include <vector>
 #include <string>
-#include "coord.h"
 
-#include "pieces.h"
+class Pieces;
 
 class Board {
 
     // Fields for Board
     public:
-
         std::vector<Pieces*> boardState;
-        std::vector<Coord> LastMove;
-        Coord en_passant;
+        //std::vector<Coord> LastMove;
+        //Coord en_passant;
         int eval;
 
         int halfMoves;

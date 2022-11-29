@@ -2,9 +2,7 @@
 #define __PIECES_H__
 
 #include <vector>
-
-class Board;
-class Coord;
+#include "board.h"
 
 class Pieces {
     public:

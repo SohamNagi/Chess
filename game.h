@@ -21,11 +21,9 @@ class Game {
     
     public:
         Board* boardstate;
-
-    // Methods for Game:
         Game(std::string fen, std::string white, std::string black);
-        void undo();
-        void makeMoves();
+       // void undo();
+        // void makeMoves();
         void start();
         int getResult();
         void attach(Observer *o);
