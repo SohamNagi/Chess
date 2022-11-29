@@ -34,7 +34,7 @@ void graphicObserver::notify(){
     int shift = 50;
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
-            int index = (8*(7-j)) + (7-i); // Printing direction is not same as board so we offset
+            int index = (8*(7-j)) + (i); // Printing direction is not same as board so we offset
             char curr = subject->getState(index); // Fetch Current Char
             if(curr != grid[index]){ // Optimization - Store board and only print if changed
                 if ((j+i) % 2 != 0){
