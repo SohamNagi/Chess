@@ -26,8 +26,8 @@ int main(int argc, char const *argv[])
     string command;
     
     while(cin >> command){
-        //string board = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-        string board = "8/4b3/4P3/1k4P1/8/ppK5/8/4R3 b - - 1 45";
+        string board = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        // string board = "8/4b3/4P3/1k4P1/8/ppK5/8/4R3 b - - 1 45";
 
         if (command == "setup"){
             // string board = board_setup();
