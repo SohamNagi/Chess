@@ -21,9 +21,13 @@
 
 // temporarily make text render function where you can select a square and see its legal moves (as + symbols)
 
+// Empty Piece constructor
+emptyPiece::emptyPiece(Board* board, Coord* location) :
+    board{ board }, isWhite{ false }, location{ location }, type{ 'e' }, isEmpty{ true } {}
+
 // Pawn constructor
 Pawn::Pawn(Board* board, bool isWhite, Coord* location, char type;) :
-    board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, moved{ false } {}
+    board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ false }, moved{ false } {}
 
 void Pawn::updateMoves() override {
     // White Pawns:
@@ -65,7 +69,7 @@ void Pawn::updateMoves() override {
 
 // Rook constructor
 Rook::Rook(Board* board, bool isWhite, Coord* location, char type;) :
-    board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, moved{ false } {}
+    board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ false }, moved{ false } {}
 
 void Rook::updateMoves() override {
     // From the Rook to the top of the board
@@ -112,7 +116,7 @@ void Rook::updateMoves() override {
 
 // King constructor
 King::King(Board* board, bool isWhite, Coord* location, char type;) :
-    board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, moved{ false } {}
+    board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ false }, moved{ false } {}
 
 void King::updateMoves() override {
     // Check all surrounding spaces for the King
@@ -128,7 +132,7 @@ void King::updateMoves() override {
 
 // Queen constructor
 Queen::Queen(Board* board, bool isWhite, Coord* location, char type;) :
-    board{ board }, isWhite{ isWhite }, location{ location }, type{ type } {}
+    board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ false } {}
 
 void Queen::updateMoves() override {
     // Queen x/y sliding:    
@@ -257,7 +261,7 @@ void Queen::updateMoves() override {
 
 // Knight constructor
 Knight::Knight(Board* board, bool isWhite, Coord* location, char type;) :
-    board{ board }, isWhite{ isWhite }, location{ location }, type{ type } {}
+    board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ false } {}
 
 void Knight::updateMoves() override {
     // Combining these two arrays gives the 8 possible moves for any knight
@@ -275,7 +279,7 @@ void Knight::updateMoves() override {
 
 // Bishop constructor
 Bishop::Bishop(Board* board, bool isWhite, Coord* location, char type;) :
-    board{ board }, isWhite{ isWhite }, location{ location }, type{ type } {}
+    board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ false } {}
 
 void Bishop::updateMoves() override {
     // create a helper function for the inner portion of the loop
