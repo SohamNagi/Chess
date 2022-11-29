@@ -3,14 +3,15 @@
 #include <string>
 #include <iostream>
 #include "textObserver.h"
+#include "graphicObserver.h"
 #include "pieces.h"
 
 
 Game::Game(std::string fen, std::string white, std::string black):
     board{new Board(fen)}, result{11}
 {
-    std::cout << "test 3" << std::endl;
     attach(new textObserver(this));
+    attach(new graphicObserver(this));
 
     if(white == "human"){
         whitePlayer = new Human(true, board);

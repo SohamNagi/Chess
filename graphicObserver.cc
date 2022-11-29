@@ -5,16 +5,24 @@
 graphicObserver::graphicObserver(Game* sub):
     win{new Xwindow(500,500)}, subject{sub}
 {
+    std::string header = "CS246 - C++ Chess";
+    win->drawString(200, 25, header);
     grid.assign(64, ' ');
-    for(int i = 0; i < 8; i++){
+    int shift = 50;
+    for(int i = 7; i >= 0; i--){
+        win->drawString(25, i*50 + 25 + shift, std::to_string(8-i));
         for(int j = 0; j < 8; j++){
-            if (j % 2 == 0){
-                win->fillRectangle((j*10), (i*10), 10, 10, 1);
-            } else {
-                win->fillRectangle((j*10), (i*10), 10, 10, 0);
+            if ((j+i) % 2 != 0){
+                win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, 4);
             }
         }
     }
+    win->fillRectangle(shift, shift, 400, 5, 1);
+    win->fillRectangle(shift, shift, 5, 400, 1);
+    win->fillRectangle(400+shift, shift, 5, 405, 1);
+    win->fillRectangle(shift, 400+shift, 400, 5, 1);
+    std::string rows = "A       B       C        D       E        F       G       H";
+    win->drawString(25 + shift, 400 + 25 + shift, rows);
 };
 
 graphicObserver::~graphicObserver(){
@@ -22,22 +30,25 @@ graphicObserver::~graphicObserver(){
 }
 
 void graphicObserver::notify(){
-    for (int i = 0; i <= 7; ++i) {
-        for (int j = 0; j <= 7; ++j) {
+    int shift = 50;
+    for(int i = 0; i < 8; i++){
+        for(int j = 7; j >= 0; --j){
             int index = (8*i) + j;
             char curr = subject->getState(index);
             if(curr != grid[index]){
                 grid[index] = curr;
-                if(j%2 == 0){
-                    win->fillRectangle(j,i,10,10,1);
-                } else {
-                    win->fillRectangle(j,i,10,10,0);
-                }
                 if (curr != ' '){
                     std::string s(1, curr);
-                    win->drawString(i*10, j*10, s);
+                    win->drawString(j*50 + 25 + shift, i*50 + 25 + shift, s);
                 }
             }
         }
     }
 }
+
+
+            
+            
+            
+                
+                

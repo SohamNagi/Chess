@@ -8,7 +8,17 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    
+    cout << "+-----------------------------------------------------+" << endl;
+    cout << "|   _____                  _____ _                    |" << endl;
+    cout << "|  / ____|    _     _     / ____| |                   |" << endl;
+    cout << "| | |       _| |_ _| |_  | |    | |__   ___  ___ ___  |" << endl;
+    cout << "| | |      |_   _|_   _| | |    | '_ \\ / _ \\/ __/ __| |" << endl;
+    cout << "| | |____    |_|   |_|   | |____| | | |  __/\\__ \\__ \\ |" << endl;
+    cout << "|  \\_____|                \\_____|_| |_|\\___||___/___/ |" << endl;
+    cout << "+-----------------------------------------------------+ " << endl; 
+    cout << "|    BY ABDULLAH SHAHID, ARIQ ISHFARTY & SOHAM NAGI   |" << endl;
+    cout << "+-----------------------------------------------------+" << endl;
+
     int black_wins = 0;
     int white_wins = 0;
     int draw = 0;
@@ -22,10 +32,11 @@ int main(int argc, char const *argv[])
             // string board = board_setup();
         } else if (command == "game"){
             string white;
+            cin >> white;
             string black;
-            std::cout << "test 1" << std::endl;
+            cin >> black;
             Game* round = new Game(board, white, black);
-            std::cout << "test 2" << std::endl;
+            round->notifyObservers();
             round->start();
             int score = round->getResult();
             if (score == -1){
