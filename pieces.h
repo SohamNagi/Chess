@@ -18,6 +18,12 @@ class Pieces {
         virtual void updateMoves() = 0;
 };
 
+class emptyPiece: public Pieces {
+    public:
+        virtual void updateMoves() override;
+        emptyPiece(Board* board, int location);
+};
+
 class Pawn : public Pieces {
     public:
         bool moved;
@@ -55,12 +61,6 @@ class Bishop: public Pieces {
     public:
         virtual void updateMoves() override;
         Bishop(Board* board, bool isWhite, int location, char type);
-};
-
-class emptyPiece: public Pieces {
-    public:
-        virtual void updateMoves() override;
-        emptyPiece(Board* board, int location);
 };
 
 #endif
