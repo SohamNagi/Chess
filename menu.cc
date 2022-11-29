@@ -23,7 +23,9 @@ int main(int argc, char const *argv[])
         } else if (command == "game"){
             string white;
             string black;
+            std::cout << "test 1" << std::endl;
             Game* round = new Game(board, white, black);
+            std::cout << "test 2" << std::endl;
             round->start();
             int score = round->getResult();
             if (score == -1){

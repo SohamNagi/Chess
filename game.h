@@ -16,11 +16,11 @@ class Game {
         std::vector<std::string> history;
         Player* whitePlayer;
         Player* blackPlayer;
-        int result;
         std::vector<Observer*> observers;
     
     public:
-        Board* boardstate;
+        Board* board;
+        int result;
         Game(std::string fen, std::string white, std::string black);
        // void undo();
         // void makeMoves();

@@ -3,18 +3,21 @@
 #include <string>
 #include <iostream>
 #include "textObserver.h"
+#include "pieces.h"
+
 
 Game::Game(std::string fen, std::string white, std::string black):
-    boardstate{new Board(fen)}, result{11}
+    board{new Board(fen)}, result{11}
 {
+    std::cout << "test 3" << std::endl;
     attach(new textObserver(this));
 
     if(white == "human"){
-        whitePlayer = new Human(true, boardstate);
+        whitePlayer = new Human(true, board);
     }
 
     if (black == "human"){
-        blackPlayer = new Human(false, boardstate);
+        blackPlayer = new Human(false, board);
     }
 }
 
@@ -45,14 +48,14 @@ void Game::start(){
   std::string command;
   while(std::cin >> command){
     if (command == "move"){
-      if (boardstate->moves % 2 == 0){
+      if (board->moves % 2 == 0){
         whitePlayer->getmove();
       } else {
         blackPlayer->getmove();
       }
       notifyObservers();
     } else if (command == "resign"){
-      if (boardstate->moves % 2 == 0){
+      if (board->moves % 2 == 0){
         result = -1;
       } else {
         result = 1;
@@ -62,5 +65,5 @@ void Game::start(){
 }
 
 char Game::getState(int index){
-  return boardstate->boardState[index]->type;
+  return board->boardState[index]->type;
 };
