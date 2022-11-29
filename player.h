@@ -8,20 +8,14 @@ class Rook;
 
 class Player {
 
-    // Fields for Player
-
-    private:
+    public:
         bool isWhite;
         Board* board;
-
-    // Methods for Player
-    public:
-
         Player(bool isWhite, Board* board);
 
         void resign();
         void offerDraw();
-        bool move(Coord start, Coord end, Pieces** board);
+        bool move(int start, int end, Board* board);
         virtual void getmove() = 0;
         void castle(Rook* rook);
         void promote(char c);

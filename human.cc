@@ -1,11 +1,16 @@
 #include "human.h"
+#include <iostream>
 
 using namespace std;
+
+Human::Human(bool isWhite, Board* board):
+    Player{isWhite, board}
+{};
 
 void Human::getmove() {
 
     char input_c;
-    int input_n
+    int input_n;
     int start;
     int end;
 
@@ -78,5 +83,5 @@ void Human::getmove() {
 
     }
 
-    this->move(start, end, this->board);
+    this->move(start, end, this->board->boardState);
 }

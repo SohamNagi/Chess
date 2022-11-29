@@ -4,7 +4,9 @@
 #include "player.h"
 
 class Human: public Player {
-    void getmove();
+    public:
+        void getmove();
+        Human(bool isWhite, Board* board);
 };
 
 
