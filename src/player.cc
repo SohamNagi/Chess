@@ -39,7 +39,8 @@ bool Player::move(int start, int end, Board* board) {
 
 
 
-    if (board->whiteTurn != this->isWhite) {
+    if (board->whiteTurn != board->boardState[start]->isWhite) {
+        cout << board->whiteTurn << isWhite << start << endl;
         cerr << "Moving opponent's piece! Try again" << endl;
         return false;
     }

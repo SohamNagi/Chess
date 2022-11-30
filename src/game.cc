@@ -62,6 +62,7 @@ void Game::start(){
       for (auto i: board->boardState) {
         i->updateMoves();
       }
+      board->whiteTurn = !board->whiteTurn;
     } else if (command == "resign"){
       if (board->moves % 2 == 0){
         result = -1;

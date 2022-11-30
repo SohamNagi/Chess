@@ -110,7 +110,7 @@ string board_setup(){
     auto win = new Xwindow{500,500};
     string command;
     string output;
-    int empty;
+    int empty = 0;
     string turn = "w";
     vector<char> grid;
     grid.resize(64,' ');
@@ -169,6 +169,7 @@ string board_setup(){
         }
     }
     delete win;
+    cout << output;
     return output;
 }
 
