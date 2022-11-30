@@ -14,7 +14,7 @@ graphicObserver::graphicObserver(Game* sub):
         win->drawString(25, i*50 + 25 + shift, std::to_string(8-i));
         for(int j = 0; j < 8; j++){
             if ((j+i) % 2 != 0){
-                win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, 4);
+                win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, 4); // Print Black Square
             }
         }
     }

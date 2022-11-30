@@ -70,7 +70,7 @@ void gfx_printer(Xwindow* win, vector<char> grid){
         win->drawString(25, i*50 + 25 + shift, std::to_string(8-i));
         for(int j = 0; j < 8; j++){
             if ((j+i) % 2 != 0){
-                win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, 4);
+                win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, 4); // Print Black Square
             }
         }
     }
@@ -88,7 +88,7 @@ void gfx_printer(Xwindow* win, vector<char> grid){
             char curr = grid.at(index); // Fetch Current Char
             if(curr != opti[index]){ // Optimization - Store board and only print if changed
                 if ((b+a) % 2 != 0){
-                    win->fillRectangle((a*50) + shift, (b*50) + shift, 50, 50, 4); // Print Black Square
+                    win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, 4); // Print Black Square
                 } else {
                     win->fillRectangle((a*50) + shift, (b*50) + shift, 50, 50, 0);
                 }
@@ -159,10 +159,17 @@ string board_setup(){
                 output += grid[(8*i) + j];
             }
         }
-        output += "/";
+        if(empty != 0){
+            auto s = std::to_string(empty);
+            output += s;
+            empty = 0;
+        }
+        if(i != 0){
+            output += "/";
+        }
     }
     delete win;
-    return output + " " + turn + " ---- - 0 1";
+    return output;
 }
 
 int main(int argc, char const *argv[])
@@ -183,11 +190,11 @@ int main(int argc, char const *argv[])
     int draw = 0;
 
     string command;
+    string board = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     
     while(cin >> command){
-         string board = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
         if (command == "setup"){
-            string board = board_setup();
+            board = board_setup();
         } else if (command == "game"){
             string white;
             cin >> white;
