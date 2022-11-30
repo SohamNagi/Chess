@@ -9,32 +9,27 @@ Player::Player(bool isWhite, Board* board): isWhite(isWhite), board{board} {};
 
 
 bool Player::move(int start, int end, Board* board) {
-
     // Checks if the square (represented as an index to the
     //    boardState) contains and empty.
     
     if (board->boardState[start]->isEmpty) {
         return false;
     }
-
     // Iterators for finding the end move in the selected pieces
     //  legal moves.
 
-    auto iter_start = board->boardState[start]->legalmoves.begin();
-    auto iter_end = board->boardState[start]->legalmoves.end();
+    Pieces* piece = board->boardState[start];
 
-    auto result = std::find(iter_start, iter_end, end);
-
-    if (result == iter_end) {
+    if (std::find(piece->legalmoves.begin(), piece->legalmoves.end(), end) == piece->legalmoves.end()) {
         return false;
     }
-
     // Changes the location in the selected pieces
     //  and swaps the contents stored in the start
     //  index and end index.
 
-    board->boardState[start]->location = *iter_end;
-    std::iter_swap(iter_start, result);
+    board->boardState[start]->location = end;
+    board->boardState[end]->location = start;
+    std::iter_swap(board->boardState.begin() + start, board->boardState.begin() + end);
     return true;
 
 }

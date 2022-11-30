@@ -151,9 +151,10 @@ void King::updateMoves()  {
 
     // Check all surrounding spaces for the King
     for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j--) {
-            if (!(i == 0 && j == 0) && (board->boardState[(y + j) * 8 + (x + i)]->isEmpty ||
-                !board->boardState[(y + j) * 8 + (x + i)]->isWhite)) {
+        for (int j = -1; j <= 1; j++) {
+            int possible = (y + j) * 8 + (x + i);
+            if (0 <= possible && possible < 64 && !(i == 0 && j == 0) && (board->boardState[possible]->isEmpty ||
+                !board->boardState[possible]->isWhite)) {
                     legalmoves.emplace_back((y + j) * 8 + (x + i));
                 }
         }
@@ -170,10 +171,9 @@ Queen::Queen(Board* board, bool isWhite, int location, char type) :
 void Queen::updateMoves() {
     int x = location % 8;
     int y = (location-(location % 8)) / 8;
-
     // Queen x/y sliding:    
     // From the Queen to the top of the board
-    for (int i = y + 1; i < 7; i++) {
+    for (int i = y + 1; i >= 0 && i < 7; i++) {
         if (board->boardState[i * 8 + x]->isEmpty) {
             legalmoves.emplace_back(i * 8 + x);
         } else if (board->boardState[i * 8 + x]->isWhite != isWhite) {
@@ -181,9 +181,8 @@ void Queen::updateMoves() {
             break;
         } else break;
     }
-    
     // From the Queen to the bottom of the board
-    for (int i = y + 1; i > 0; i--) {
+    for (int i = y + 1; i >= 0 && i < 7; i--) {
         if (board->boardState[i * 8 + x]->isEmpty) {
             legalmoves.emplace_back(i * 8 + x);
         } else if (board->boardState[i * 8 + x]->isWhite != isWhite) {
@@ -191,9 +190,8 @@ void Queen::updateMoves() {
             break;
         } else break;
     }
-
     // From the Queen to the right of the board
-    for (int i = x + 1; i > 7; i++) {
+    for (int i = x + 1; i >= 0 && i < 7; i++) {
         if (board->boardState[y * 8 + i]->isEmpty) {
             legalmoves.emplace_back(y * 8 + i);
         } else if (board->boardState[y * 8 + i]->isWhite != isWhite) {
@@ -201,9 +199,8 @@ void Queen::updateMoves() {
             break;
         } else break;
     }
-
     // From the Queen to the left of the board
-    for (int i = x + 1; i > 0; i--) {
+    for (int i = x + 1; i >= 0 && i < 7; i--) {
         if (board->boardState[y * 8 + i]->isEmpty) {
             legalmoves.emplace_back(y * 8 + i);
         } else if (board->boardState[y * 8 + i]->isWhite != isWhite) {
@@ -211,7 +208,6 @@ void Queen::updateMoves() {
             break;
         } else break;
     }
-
 
     // Queen diagonal sliding
     bool doubleBreak = false;
@@ -235,7 +231,6 @@ void Queen::updateMoves() {
     }
 
     doubleBreak = false;
-
     // Checking the down/right diagonal
     for (int i = x + 1; i < 8; i++) {
         for (int j = y - 1; j >= 0; j--) {
@@ -305,16 +300,16 @@ Knight::Knight(Board* board, bool isWhite, int location, char type) :
 void Knight::updateMoves() {
     int x = location % 8;
     int y = (location-(location % 8)) / 8;
-    
     // Combining these two arrays gives the 8 possible moves for any knight
     int xChange[8] = {-1, 1, -2, -2, -1, 1, 2, 2};
     int yChange[8] = {-2, -2, -1, 1, 2, 2, -1, 1};
 
     // Looping through all 8 positions and checking if they are empty or capturable
     for (int i = 0; i < 8; i++) {
-        if (board->boardState[(y + yChange[i]) * 8 + x + xChange[i]]->isEmpty ||
-            board->boardState[(y + yChange[i]) * 8 + x + xChange[i]]->isWhite != isWhite) {
-                legalmoves.emplace_back((y + yChange[i]) * 8 + x + xChange[i]);
+        int possible = (y + yChange[i]) * 8 + x + xChange[i];
+        if (0 <= possible && possible < 64 && (board->boardState[possible]->isEmpty ||
+            board->boardState[possible]->isWhite != isWhite)) {
+                legalmoves.emplace_back(possible);
         }
     }
 }

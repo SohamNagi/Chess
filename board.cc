@@ -19,7 +19,7 @@ Board::Board(std::string input):
         } else if (isdigit(curr)) {
             int skip = curr - '0';
             for(int g = 0; g < skip; g++){
-                boardState[index+g] = new emptyPiece(this, false, index, ' ');
+                boardState[index+g] = new emptyPiece(this, false, index + g, ' ');
                 col++;
             }
             if(col == 7){
