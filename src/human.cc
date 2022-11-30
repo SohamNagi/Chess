@@ -83,6 +83,7 @@ void Human::getmove() {
 
 
         if (this->move(start, end, this->board)) {
+            board->whiteTurn = !board->whiteTurn;
             break;
         } 
     }
