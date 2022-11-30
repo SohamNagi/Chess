@@ -82,9 +82,10 @@ void Human::getmove() {
         }
 
 
-        break;
-
+        if (this->move(start, end, this->board)) {
+            break;
+        } 
     }
 
-    this->move(start, end, this->board);
+    ;
 }

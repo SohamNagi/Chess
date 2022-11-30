@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iostream>
 
+using namespace std;
 
 Player::Player(bool isWhite, Board* board): isWhite(isWhite), board{board} {};
 
@@ -13,8 +14,20 @@ bool Player::move(int start, int end, Board* board) {
     //    boardState) contains and empty.
     
     if (board->boardState[start]->isEmpty) {
+        cerr << "Moving blank piece! Try again" << endl;
         return false;
     }
+
+    if (board->boardState[start]->isWhite != this->isWhite) {
+        cerr << "Moving opponent's piece! Try again" << endl;
+        return false;
+    }
+
+    // Add moving your piece to a square with an existing pieces of the same colour
+    // EXCEPT for castling
+
+
+
     // Iterators for finding the end move in the selected pieces
     //  legal moves.
 
@@ -32,6 +45,7 @@ bool Player::move(int start, int end, Board* board) {
 
 
     if (start == end || std::find(piece->legalmoves.begin(), piece->legalmoves.end(), end) == piece->legalmoves.end()) {
+        cerr << "Move is not legal!. Try again." << endl;
         return false;
     }
 
