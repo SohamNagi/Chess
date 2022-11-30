@@ -19,6 +19,7 @@ class Board {
         bool WhiteCheck;
         bool BlackCheck;
         int eval;
+        bool whiteTurn;
 
     // Methods for Board:
     public:
