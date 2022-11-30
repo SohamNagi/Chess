@@ -1,5 +1,6 @@
 #include "pieces.h"
 #include "coord.h"
+#include <iostream>
 
 
 // Still need to implement:
@@ -24,7 +25,7 @@
 
 // Piece constructor
 Pieces::Pieces(Board* board, bool isWhite, int location, char type, bool isEmpty) :
-    board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ isEmpty } {}
+    board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ isEmpty }, legalmoves{ } {}
 
 // Piece destructor
 Pieces::~Pieces() {}
@@ -304,7 +305,7 @@ Knight::Knight(Board* board, bool isWhite, int location, char type) :
 void Knight::updateMoves() {
     int x = location % 8;
     int y = (location-(location % 8)) / 8;
-
+    
     // Combining these two arrays gives the 8 possible moves for any knight
     int xChange[8] = {-1, 1, -2, -2, -1, 1, 2, 2};
     int yChange[8] = {-2, -2, -1, 1, 2, 2, -1, 1};

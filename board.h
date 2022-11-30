@@ -25,11 +25,11 @@ class Board {
         void attachPiece();
         void detachPiece();
         Board(std::string fen);
+        void notifyStateChange();
 
     private:
 
         std::string FEN();
-        void notifyStateChange(); // updates eval?
 };
 
 #endif
