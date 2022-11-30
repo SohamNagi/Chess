@@ -1,19 +1,36 @@
 #include "game.h"
 #include <iostream>
+
 using namespace std;
 
 string board_setup(){
     string command;
     string output;
-    vector<char> grid(64);
+    int empty;
+    string turn = "w";
+    vector<char> grid;
+    grid.resize(64,' ');
     
     while(cin >> command){
-        if(command = "+"){
-
+        if(command == "+"){
+            char piece; std::cin >> piece;
+            char ccol; std::cin >> ccol;
+            int row; std::cin >> row;
+            int col = col - 17;
+            grid[(8*row)+col] = piece;
         } else if (command == "-"){
-
+            char piece; std::cin >> piece;
+            char ccol; std::cin >> ccol;
+            int row; std::cin >> row;
+            int col = col - 17;
+            grid[(8*row)+col] = ' ';
         } else if (command == "="){
-
+            string color; std::cin >> color;
+            if (color == "white"){
+                turn = "w";
+            } else if (color == "black"){
+                turn = "b";
+            }
         } else if (command == "fen"){
             std::cin >> output;
             return output;
@@ -21,7 +38,24 @@ string board_setup(){
             break;
         }
     }
-    return output;
+
+    for(int i = 7; i >= 0; i--){
+        for(int j = 0; j < 8; j++){
+            if(grid[(8*i) + j] == ' '){
+                empty++;
+            } else {
+                if(empty > 0){
+                    auto s = std::to_string(empty);
+                    output += s;
+                    empty = 0;
+                }
+                output += grid[(8*i) + j];
+            }
+        }
+        output += "/";
+    }
+
+    return output + " " + turn + " ---- - 0 1";
 }
 
 int main(int argc, char const *argv[])
@@ -45,8 +79,6 @@ int main(int argc, char const *argv[])
     
     while(cin >> command){
          string board = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-        //string board = "8/4b3/4P3/1k4P1/8/ppK5/8/4R3 b - - 1 45";
-
         if (command == "setup"){
             string board = board_setup();
         } else if (command == "game"){
