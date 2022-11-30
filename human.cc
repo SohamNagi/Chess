@@ -95,6 +95,6 @@ void Human::getmove() {
         break;
 
     }
-    cout << "start: " << start << " end: " << end << endl;
-    this->move(start, end, board);
+
+    this->move(start, end, this->board);
 }
