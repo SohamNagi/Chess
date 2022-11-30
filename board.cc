@@ -57,3 +57,10 @@ Board::Board(std::string input):
         i++;
     }
 }
+
+void Board::notifyStateChange() {
+    for (auto i : boardState) {
+        i->updateMoves();
+    }
+}
+
