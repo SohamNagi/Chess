@@ -88,7 +88,7 @@ void gfx_printer(Xwindow* win, vector<char> grid){
             char curr = grid.at(index); // Fetch Current Char
             if(curr != opti[index]){ // Optimization - Store board and only print if changed
                 if ((b+a) % 2 != 0){
-                    win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, 4); // Print Black Square
+                    win->fillRectangle((a*50) + shift, (b*50) + shift, 50, 50, 4); // Print Black Square
                 } else {
                     win->fillRectangle((a*50) + shift, (b*50) + shift, 50, 50, 0);
                 }
