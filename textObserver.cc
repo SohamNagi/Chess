@@ -10,31 +10,6 @@ textObserver::textObserver(Game* sub):
     subject{sub}
 {};
 
-vector<char> fenToBoard(string input){
-    int row = 7;
-    int col = 0;
-    int i = 0;
-    vector<char> board(64);
-    for(int a = 0; a < 64; a++){
-        board[a] = ' ';
-    }
-    while (input[i] != ' ') {
-        char curr = input[i];
-        if (curr == '/'){
-            row--;
-            col = 0;
-        } else if (isdigit(curr)) {
-            col += curr;
-        } else {
-            board[(8*row) + col] = curr;
-            col++;
-        }
-        i++;
-    }
-    return board;
-}
-
-
 void textObserver::notify(){
     cout << " +-----------------+" << endl;
     for(int i = 7; i >= 0; i--){

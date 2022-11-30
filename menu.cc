@@ -2,9 +2,27 @@
 #include <iostream>
 using namespace std;
 
-// string board_setup(){
-//     return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-// }
+string board_setup(){
+    string command;
+    string output;
+    vector<char> grid(64);
+    
+    while(cin >> command){
+        if(command = "+"){
+
+        } else if (command == "-"){
+
+        } else if (command == "="){
+
+        } else if (command == "fen"){
+            std::cin >> output;
+            return output;
+        } else if (command == "done"){
+            break;
+        }
+    }
+    return output;
+}
 
 int main(int argc, char const *argv[])
 {
@@ -30,7 +48,7 @@ int main(int argc, char const *argv[])
         //string board = "8/4b3/4P3/1k4P1/8/ppK5/8/4R3 b - - 1 45";
 
         if (command == "setup"){
-            // string board = board_setup();
+            string board = board_setup();
         } else if (command == "game"){
             string white;
             cin >> white;
