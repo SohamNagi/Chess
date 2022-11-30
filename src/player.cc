@@ -19,10 +19,26 @@ bool Player::move(int start, int end, Board* board) {
     //  legal moves.
 
     Pieces* piece = board->boardState[start];
+    
 
-    if (std::find(piece->legalmoves.begin(), piece->legalmoves.end(), end) == piece->legalmoves.end()) {
+    std::cout << "Legal moves prior to making the move. Count: " << piece->legalmoves.size() << std::endl;
+    for (auto i: piece->legalmoves) {
+        int x = i % 8;
+        int y = (i-(i % 8)) / 8;
+        char row = x + 'a';
+        std::cout << row << y + 1 << ' ';
+    }
+    std::cout << ' ' << std::endl;
+
+
+    if (start == end || std::find(piece->legalmoves.begin(), piece->legalmoves.end(), end) == piece->legalmoves.end()) {
         return false;
     }
+
+    if (piece->type == 'k' || piece->type == 'K' || piece->type == 'p' || piece->type == 'P' || piece->type == 'r' || piece->type == 'R') {
+        piece->moved = true;
+    }
+
     // Changes the location in the selected pieces
     //  and swaps the contents stored in the start
     //  index and end index.

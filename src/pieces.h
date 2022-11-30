@@ -11,6 +11,7 @@ class Pieces {
         int location;
         char type;
         bool isEmpty;
+        bool moved;
         std::vector <int> legalmoves;
     public:
         Pieces(Board* board, bool isWhite, int location, char type, bool isEmpty);
@@ -34,7 +35,6 @@ class emptyPiece : public Pieces {
 
 class Pawn : public Pieces {
     public:
-        bool moved;
         void updateMoves() override;
         Pawn(Board* board, bool isWhite, int location, char type);
         virtual ~Pawn();
@@ -42,7 +42,6 @@ class Pawn : public Pieces {
 
 class Rook: public Pieces {
     public:
-        bool moved;
         void updateMoves() override;
         Rook(Board* board, bool isWhite, int location, char type);
         virtual ~Rook();
@@ -50,7 +49,6 @@ class Rook: public Pieces {
 
 class King: public Pieces {
     public:
-        bool moved;
         void updateMoves() override;
         King(Board* board, bool isWhite, int location, char type);
         virtual ~King();

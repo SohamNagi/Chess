@@ -182,7 +182,7 @@ int main(int argc, char const *argv[])
     cout << "| | |____    |_|   |_|   | |____| | | |  __/\\__ \\__ \\ |" << endl;
     cout << "|  \\_____|                \\_____|_| |_|\\___||___/___/ |" << endl;
     cout << "+-----------------------------------------------------+ " << endl; 
-    cout << "|    BY ABDULLAH SHAHID, ARIQ ISHFAR   & SOHAM NAGI   |" << endl;
+    cout << "|    BY ABDULLAH SHAHID, ARIQ ISHFAR, & SOHAM NAGI    |" << endl;
     cout << "+-----------------------------------------------------+" << endl;
 
     int black_wins = 0;
