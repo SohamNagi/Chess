@@ -2,6 +2,7 @@
 #include "pieces.h"
 #include "board.h"
 #include <algorithm>
+#include <iostream>
 
 
 Player::Player(bool isWhite, Board* board): isWhite(isWhite), board{board} {};
@@ -11,7 +12,7 @@ bool Player::move(int start, int end, Board* board) {
 
     // Checks if the square (represented as an index to the
     //    boardState) contains and empty.
-
+    
     if (board->boardState[start]->isEmpty) {
         return false;
     }

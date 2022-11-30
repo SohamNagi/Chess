@@ -4,6 +4,7 @@
 #include <iostream>
 #include "textObserver.h"
 #include "graphicObserver.h"
+#include "board.h"
 #include "pieces.h"
 
 
