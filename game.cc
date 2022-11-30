@@ -48,10 +48,6 @@ void Game::detach(Observer *o) {
 
 void Game::start(){
   std::string command;
-  for (auto i: board->boardState) {
-    std::cout << i->type << i->location << std::endl;
-    i->updateMoves();
-  }
   while(std::cin >> command){
     if (command == "move"){
       if (board->moves % 2 == 0){

@@ -18,7 +18,6 @@ void Human::getmove() {
     while(true) {
 
         // Reading starting position
-        cout << "column i: " << endl;
         cin >> input_c;
 
         if(cin.fail()) {
@@ -27,17 +26,13 @@ void Human::getmove() {
         }
 
         if (('a' <= input_c) && (input_c <= 'h')) {
-            cout << " -- " << (input_c - 'a') << endl;
-            start = (input_c - 'a');
-            cout << " -- " << start << endl;        
+            start = (input_c - 'a');     
  
         } else {
             cerr << "Invalid starting column. Try again." << endl;
             continue;
         }
 
-        cout << "input c: " << input_c  << " start: " << start << endl;
-        cout << "row i: " << endl;
         cin >> input_n;
 
         if(cin.fail()) {
@@ -52,11 +47,9 @@ void Human::getmove() {
             cerr << "Invalid starting row. Try again." << endl;
             continue;
         }
-        cout << "input n: " << input_n  << " start: " << start << endl;
 
         // Reading end position
 
-        cout << "column f: " << endl;
         cin >> input_c;
 
         if(cin.fail()) {
@@ -72,9 +65,7 @@ void Human::getmove() {
             continue;
         }
 
-        cout << "input c: " << input_n  << " end: " << end << endl;
 
-        cout << "row f: " << endl;
         cin >> input_n;
 
         if(cin.fail()) {
@@ -90,11 +81,10 @@ void Human::getmove() {
             continue;
         }
 
-        cout << "input n: " << input_n  << " end: " << end << endl;
 
         break;
 
     }
 
-    this->move(start, end, this->board);
+    this->move(start, end, board);
 }
