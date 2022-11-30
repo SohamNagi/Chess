@@ -18,12 +18,33 @@ bool Player::move(int start, int end, Board* board) {
         return false;
     }
 
+    // Debug
+
+    cout << "Turn: ";
+    if (this->isWhite) {
+        cout << "White" << endl;
+    } else {
+        cout << "Black" << endl;
+    }
+
+    cout << "Piece: ";
+    if (board->boardState[start]->isWhite) {
+        cout << "White" << endl;
+    } else {
+        cout << "Black" << endl;
+    }
+
+    // end debug
+
+
+
+
     if (board->boardState[start]->isWhite != this->isWhite) {
         cerr << "Moving opponent's piece! Try again" << endl;
         return false;
     }
 
-    // Add moving your piece to a square with an existing pieces of the same colour
+    // Add exception moving your piece to a square with an existing pieces of the same colour
     // EXCEPT for castling
 
 
