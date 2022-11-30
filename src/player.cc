@@ -21,7 +21,7 @@ bool Player::move(int start, int end, Board* board) {
     // Debug
 
     cout << "Turn: ";
-    if (this->isWhite) {
+    if (board->whiteTurn) {
         cout << "White" << endl;
     } else {
         cout << "Black" << endl;
@@ -39,7 +39,7 @@ bool Player::move(int start, int end, Board* board) {
 
 
 
-    if (board->boardState[start]->isWhite != this->isWhite) {
+    if (board->whiteTurn != this->isWhite) {
         cerr << "Moving opponent's piece! Try again" << endl;
         return false;
     }
