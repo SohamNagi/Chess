@@ -7,6 +7,7 @@
 using namespace std;
 
 Player::Player(bool isWhite, Board* board): isWhite(isWhite), board{board} {};
+Player::~Player() {}
 
 
 bool Player::move(int start, int end, Board* board) {

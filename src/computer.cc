@@ -1,5 +1,8 @@
 #include "computer.h"
 
+Computer::Computer(bool isWhite, Board* board): isWhite(isWhite), board{board} {};
+Computer::~Computer() {}
+
 BestMove::BestMove(int start, int end): start{start}, end{end} {};
 
 // COMPUTER SHOULD CHANGE TURN AFTER MOVING board->whiteTurn = !board->whiteTurn;

@@ -12,6 +12,7 @@ class Player {
         bool isWhite;
         Board* board;
         Player(bool isWhite, Board* board);
+        virtual ~Player() = 0;
 
         void resign();
         bool move(int start, int end, Board* board);

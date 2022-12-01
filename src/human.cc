@@ -8,6 +8,8 @@ Human::Human(bool isWhite, Board* board):
     Player{isWhite, board}
 {};
 
+Human::~Human() {};
+
 void Human::getmove() {
 
     char input_c;

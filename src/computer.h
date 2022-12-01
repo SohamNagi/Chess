@@ -12,8 +12,12 @@ struct BestMove {
 
 class Computer: public Player {
     public:
+        bool isWhite;
+        Board* board;
         Computer(bool isWhite, Board* board);
+        virtual ~Computer() {};
         void getmove();
+        void promote(int piece);
         virtual BestMove evaluate() = 0;
 
 
