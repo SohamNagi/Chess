@@ -15,8 +15,7 @@ bool Player::move(int start, int end, Board* board) {
     //    boardState) contains and empty.
     
     if (board->boardState[start]->isEmpty) {
-        cerr << "Moving blank piece! Try again" << endl;
-        throw "Invalid";
+        throw std::invalid_argument("Moving blank piece! Try again");
     }
 
     //if (start == end) {
@@ -26,9 +25,7 @@ bool Player::move(int start, int end, Board* board) {
 
 
     if (board->whiteTurn != board->boardState[start]->isWhite) {
-        cout << board->whiteTurn << isWhite << start << endl;
-        cerr << "Moving opponent's piece! Try again" << endl;
-        return "Invalid";
+        throw std::invalid_argument("Moving opponent's piece! Try again");
     }
 
     // Add exception moving your piece to a square with an existing pieces of the same colour
@@ -42,19 +39,18 @@ bool Player::move(int start, int end, Board* board) {
     Pieces* piece = board->boardState[start];
     
 
-    std::cout << "Legal moves prior to making the move. Count: " << piece->legalmoves.size() << std::endl;
+    std::cout << "Legal moves prior to making the move: [";
     for (auto i: piece->legalmoves) {
         int x = i % 8;
         int y = (i-(i % 8)) / 8;
         char row = x + 'a';
-        std::cout << row << y + 1 << ' ';
+        std::cout << row << y + 1 << ", ";
     }
-    std::cout << ' ' << std::endl;
+    std::cout << ']' << std::endl;
 
 
     if (start == end || std::find(piece->legalmoves.begin(), piece->legalmoves.end(), end) == piece->legalmoves.end()) {
-        cerr << "Move is not legal!. Try again." << endl;
-        throw "Invalid";
+        throw std::invalid_argument("Move is not legal! Try again.");
     }
 
     if (piece->type == 'k' || piece->type == 'K' || piece->type == 'p' || piece->type == 'P' || piece->type == 'r' || piece->type == 'R') {

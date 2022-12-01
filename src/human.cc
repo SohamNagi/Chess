@@ -68,7 +68,6 @@ void Human::getmove() {
             throw "Entry";
         }
 
-
         cin >> input_n;
 
         if(cin.fail()) {
@@ -84,11 +83,9 @@ void Human::getmove() {
             throw "Entry";
         }
 
-        try {
-            (this->move(start, end, this->board));
-        } catch (std::string error) {
-            throw error;
-        }
+        move(start, end, board);
+
+        break;
 
     }
 }

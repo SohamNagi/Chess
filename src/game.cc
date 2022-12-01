@@ -53,15 +53,25 @@ void Game::start(){
   }
   while(std::cin >> command){
     if (command == "move"){
-      if (board->moves % 2 == 0){
-        whitePlayer->getmove();
-      } else {
-        blackPlayer->getmove();
+      bool skip = false;
+      try {
+        if (board->moves % 2 == 0){
+          whitePlayer->getmove();
+        } else {
+          blackPlayer->getmove();
+        }
+      } catch (std::invalid_argument& e) {
+        std::cout << "" << e.what() << std::endl;
+        skip = true;
       }
+      if (skip) continue;
+      skip = false;
+      std::cout << "no" << std::endl;
       notifyObservers();
       for (auto i: board->boardState) {
         i->updateMoves();
       }
+      board->whiteTurn = !board->whiteTurn;
     } else if (command == "resign"){
       if (board->whiteTurn){
         result = -1;
