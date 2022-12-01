@@ -16,34 +16,19 @@ bool Player::move(int start, int end, Board* board) {
     
     if (board->boardState[start]->isEmpty) {
         cerr << "Moving blank piece! Try again" << endl;
-        return false;
+        throw "Invalid";
     }
 
-    // Debug
-
-    cout << "Turn: ";
-    if (board->whiteTurn) {
-        cout << "White" << endl;
-    } else {
-        cout << "Black" << endl;
-    }
-
-    cout << "Piece: ";
-    if (board->boardState[start]->isWhite) {
-        cout << "White" << endl;
-    } else {
-        cout << "Black" << endl;
-    }
-
-    // end debug
-
+    //if (start == end) {
+    //    cerr << "Start and end positions cannot be the same! Try again!" << endl;
+    // }
 
 
 
     if (board->whiteTurn != board->boardState[start]->isWhite) {
         cout << board->whiteTurn << isWhite << start << endl;
         cerr << "Moving opponent's piece! Try again" << endl;
-        return false;
+        return "Invalid";
     }
 
     // Add exception moving your piece to a square with an existing pieces of the same colour
@@ -69,7 +54,7 @@ bool Player::move(int start, int end, Board* board) {
 
     if (start == end || std::find(piece->legalmoves.begin(), piece->legalmoves.end(), end) == piece->legalmoves.end()) {
         cerr << "Move is not legal!. Try again." << endl;
-        return false;
+        throw "Invalid";
     }
 
     if (piece->type == 'k' || piece->type == 'K' || piece->type == 'p' || piece->type == 'P' || piece->type == 'r' || piece->type == 'R') {

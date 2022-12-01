@@ -25,7 +25,7 @@ void Human::getmove() {
 
         if(cin.fail()) {
             cerr << "Unable to read starting column. Try again." << endl;
-            continue;
+            throw "Entry";
         }
 
         if (('a' <= input_c) && (input_c <= 'h')) {
@@ -33,14 +33,14 @@ void Human::getmove() {
  
         } else {
             cerr << "Invalid starting column. Try again." << endl;
-            continue;
+            throw "Entry";
         }
 
         cin >> input_n;
 
         if(cin.fail()) {
             cerr << "Unable to read starting row. Try again." << endl;
-            continue;
+            throw "Entry";
         }
 
         if ((1 <= input_n) && (input_n <= 8)) {
@@ -48,7 +48,7 @@ void Human::getmove() {
  
         } else {
             cerr << "Invalid starting row. Try again." << endl;
-            continue;
+            throw "Entry";
         }
 
         // Reading end position
@@ -57,7 +57,7 @@ void Human::getmove() {
 
         if(cin.fail()) {
             cerr << "Unable to read ending column. Try again." << endl;
-            continue;
+            throw "Entry";
         }
 
         if (('a' <= input_c) && (input_c <= 'h')) {
@@ -65,7 +65,7 @@ void Human::getmove() {
  
         } else {
             cerr << "Invalid ending column. Try again." << endl;
-            continue;
+            throw "Entry";
         }
 
 
@@ -73,7 +73,7 @@ void Human::getmove() {
 
         if(cin.fail()) {
             cerr << "Unable to read ending row. Try again." << endl;
-            continue;
+            throw "Entry";
         }
 
         if ((1 <= input_n) && (input_n <= 8)) {
@@ -81,17 +81,16 @@ void Human::getmove() {
  
         } else {
             cerr << "Invalid starting row. Try again." << endl;
-            continue;
+            throw "Entry";
         }
 
+        try {
+            (this->move(start, end, this->board));
+        } catch (std::string error) {
+            throw error;
+        }
 
-        if (this->move(start, end, this->board)) {
-            board->whiteTurn = !board->whiteTurn;
-            break;
-        } 
     }
-
-    ;
 }
 
 void Human::promote(int piece) {

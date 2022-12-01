@@ -212,6 +212,7 @@ int main(int argc, char const *argv[])
             } else {
                 ++white_wins;
             }
+            delete round;
         } else if (command == "quit"){
             break;
         }

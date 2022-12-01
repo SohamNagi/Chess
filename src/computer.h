@@ -7,7 +7,10 @@ struct BestMove {
     int start;
     int end;
 
+    bool no_moves;
+
     BestMove(int start, int end);
+    BestMove(bool no_moves);
 };
 
 class Computer: public Player {

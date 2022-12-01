@@ -64,3 +64,8 @@ void Board::notifyStateChange() {
     }
 }
 
+Board::~Board(){
+    for(auto i: boardState){
+        delete i;
+    }
+}

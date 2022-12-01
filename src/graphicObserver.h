@@ -9,7 +9,7 @@ class Game;
 class graphicObserver : public Observer{
     Xwindow* win;
     Game* subject;
-    std::vector<int> grid;
+    std::vector<char> grid;
     public:
         int charColor(char c);
         graphicObserver(Game* sub);
