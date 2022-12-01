@@ -13,10 +13,8 @@ textObserver::textObserver(Game* sub):
 
 std::string getPieceSym(char name){
     if (name == 'k'){
-        
         return "♔";
     } else if (name == 'q'){
-        
         return "♕";
     } else if (name == 'r'){
         return "♖";
