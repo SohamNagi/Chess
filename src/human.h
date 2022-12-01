@@ -8,7 +8,7 @@ class Human: public Player {
         void getmove();
         void promote(int piece);
         Human(bool isWhite, Board* board);
-        virtual ~Human() {};
+        virtual ~Human();
 };
 
 

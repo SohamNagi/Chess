@@ -22,10 +22,6 @@ graphicObserver::graphicObserver(Game* sub):
         win->drawString((i*50) + 10 + shift, 490, s);
         file++;
     }
-    win->fillRectangle(shift, shift, 400, 5, 1);
-    win->fillRectangle(shift, shift, 5, 400, 1);
-    win->fillRectangle(400+shift, shift, 5, 405, 1);
-    win->fillRectangle(shift, 400+shift, 400, 5, 1);
 };
 
 graphicObserver::~graphicObserver(){
