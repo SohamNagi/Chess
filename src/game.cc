@@ -12,7 +12,7 @@ Game::Game(std::string fen, std::string white, std::string black):
     board{new Board(fen)}, result{11}
 {
     attach(new textObserver(this));
-    //attach(new graphicObserver(this));
+    attach(new graphicObserver(this));
 
     if(white == "human"){
         whitePlayer = new Human(true, board);
@@ -63,15 +63,24 @@ void Game::start(){
         i->updateMoves();
       }
     } else if (command == "resign"){
-      if (board->moves % 2 == 0){
+      if (board->whiteTurn){
         result = -1;
       } else {
         result = 1;
       }
+      //DELETE OBSERVERS AND PIECES BOARD
+      delete board;
+      for (auto i: observers){
+        delete i;
+      }
+      delete whitePlayer;
+      delete blackPlayer;
+      break;
     } else if (command == "print"){
       notifyObservers();
     }
   }
+  return;
 }
 
 char Game::getState(int index){
