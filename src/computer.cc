@@ -3,6 +3,9 @@
 #include "pieces.h"
 #include <cstdlib>
 
+Computer::Computer(bool isWhite, Board* board): isWhite(isWhite), board{board} {};
+Computer::~Computer() {}
+
 BestMove::BestMove(int start, int end): start{start}, end{end}, no_moves{false} {};
 BestMove::BestMove(bool no_moves): start{0}, end{0}, no_moves{no_moves} {};
 
