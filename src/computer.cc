@@ -8,6 +8,8 @@ void Computer::getmove() {
     this->move(move.start, move.end, this->board);
 }
 
+void Computer::promote() {}
+
 Level1::Level1(bool isWhite, Board* board): Computer(isWhite, board) {};
 
 Level2::Level2(bool isWhite, Board* board): Computer(isWhite, board) {};

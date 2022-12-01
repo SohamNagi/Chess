@@ -6,6 +6,7 @@
 class Human: public Player {
     public:
         void getmove();
+        void promote(int piece);
         Human(bool isWhite, Board* board);
 };
 
