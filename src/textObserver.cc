@@ -10,6 +10,38 @@ textObserver::textObserver(Game* sub):
     subject{sub}
 {};
 
+
+std::string getPieceSym(char name){
+    if (name == 'k'){
+        
+        return "♔";
+    } else if (name == 'q'){
+        
+        return "♕";
+    } else if (name == 'r'){
+        return "♖";
+    } else if (name == 'b'){
+        return "♗";
+    } else if (name == 'n'){
+        return "♘";
+    } else if (name == 'p') {
+        return "♙";
+    } else if (name == 'K'){
+        return "♚";
+    } else if (name == 'Q'){
+        return "♛";
+    } else if (name == 'R'){
+        return "♜";
+    } else if (name == 'B'){
+        return "♝";
+    } else if (name == 'N'){
+        return "♞";
+    } else {
+        return "♟︎";
+    }
+}
+
+
 void textObserver::notify(){
     cout << " +-----------------+" << endl;
     for(int i = 7; i >= 0; i--){
@@ -34,9 +66,9 @@ void textObserver::notify(){
                 }
             } else {
                 if(j < 7){
-                cout << curr << " ";
+                cout << getPieceSym(curr) << " ";
                 } else {
-                    cout << curr << " |";
+                    cout << getPieceSym(curr) << " |";
                 }
             }
         }
