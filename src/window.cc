@@ -72,13 +72,22 @@ void Xwindow::fillRectangle(int x, int y, int width, int height, int colour) {
   XSetForeground(d, gc, colours[Black]);
 }
 
-void Xwindow::drawString(int x, int y, string msg) {
+void Xwindow::drawStringBold(int x, int y, string msg) {
   char **missing_charset_list_return;
   int missing_charset_count_return;
   char *def_string_return;
   std::string fontname = "-*-*-demibold-r-*-*-34-240-100-100-*-203-*-*";
+  XFontSet setB = XCreateFontSet(d, fontname.c_str(), &missing_charset_list_return, &missing_charset_count_return, &def_string_return);
+  Xutf8DrawString(d,w,setB,DefaultGC(d, s), x, y, msg.c_str(), msg.length());
+  XFreeFontSet(d, setB);
+}
+
+void Xwindow::drawString(int x, int y, string msg) {
+  char **missing_charset_list_return;
+  int missing_charset_count_return;
+  char *def_string_return;
+  std::string fontname = "-*-*-*-r-*-*-25-*-100-100-*-203-*-*";
   XFontSet set = XCreateFontSet(d, fontname.c_str(), &missing_charset_list_return, &missing_charset_count_return, &def_string_return);
   Xutf8DrawString(d,w,set,DefaultGC(d, s), x, y, msg.c_str(), msg.length());
   XFreeFontSet(d, set);
 }
-

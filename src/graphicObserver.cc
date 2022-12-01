@@ -6,20 +6,19 @@
 graphicObserver::graphicObserver(Game* sub):
     win{new Xwindow(500,500)}, subject{sub}
 {
-    std::string header = "CS246 - C++ Chess";
-    win->drawString(90, 35, header);
+    win->drawStringBold(90, 35, "CS246 - C++ Chess");
     grid.assign(64, ' ');
     int shift = 50;
     char file = 'A';
     for(int i = 0; i < 8; i++){
-        win->drawString(20, i*50 + 35 + shift, std::to_string(8-i));
+        win->drawStringBold(20, i*50 + 35 + shift, std::to_string(8-i));
         for(int j = 0; j < 8; j++){
             if ((j+i) % 2 != 0){
                 win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, 4); // Print Black Square
             }
         }
         std::string s(1,file);
-        win->drawString((i*50) + 10 + shift, 490, s);
+        win->drawStringBold((i*50) + 10 + shift, 490, s);
         file++;
     }
 };
