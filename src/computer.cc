@@ -13,12 +13,8 @@ void Computer::getmove() {
 }
 
 // Level1 function
-Level1::Level1(bool isWhite, Board* board): Computer(isWhite, board) {
-
-
 Level1::Level1(bool isWhite, Board* board): Computer(isWhite, board) {};
 
-};
 
 BestMove Level1::evaluate() {
     std::vector<BestMove> moves;
