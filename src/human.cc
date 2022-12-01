@@ -1,4 +1,5 @@
 #include "human.h"
+#include "pieces.h"
 #include <iostream>
 
 using namespace std;
@@ -89,4 +90,36 @@ void Human::getmove() {
     }
 
     ;
+}
+
+void Human::promote(int piece) {
+    int x = piece % 8;
+    int y = (piece-(piece % 8)) / 8;
+    char row = x + 'a';
+    bool isWhite = board->boardState[piece]->isWhite;
+
+    delete board->boardState[piece];
+    char newPiece;
+    while (true) {
+        
+        std::cout << "Promote pawn at " << row << y + 1 << ". Enter desired promotion (q/n/b/r):" << endl;
+        cin >> newPiece;
+        if (newPiece == 'q') {
+            board->boardState[piece] = new Queen(board, isWhite, piece, 'Q');
+        }
+        else if (newPiece == 'n') {
+            board->boardState[piece] = new Knight(board, isWhite, piece, 'N');
+        }
+        else if (newPiece == 'b') {
+            board->boardState[piece] = new Bishop(board, isWhite, piece, 'B');
+        }
+        else if (newPiece == 'r') {
+            board->boardState[piece] = new Rook(board, isWhite, piece, 'R');
+        }
+        else {
+            std::cout << "Invalid type. Try again" << endl;
+            continue;
+        }
+        break;
+    }
 }

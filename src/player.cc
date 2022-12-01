@@ -83,9 +83,13 @@ bool Player::move(int start, int end, Board* board) {
     board->boardState[end]->location = start;
     std::iter_swap(board->boardState.begin() + start, board->boardState.begin() + end);
 
+    if ((end < 64 && end > 55 && board->boardState[end]->type == 'P') || (end < 8 && end >= 0 && board->boardState[end]->type == 'p')) {
+        promote(end);
+    }
+
     if (!board->boardState[start]->isEmpty) {
         delete board->boardState[start];
-        board->boardState[start]= new emptyPiece(board, false, start, ' ');
+        board->boardState[start] = new emptyPiece(board, false, start, ' ');
     }
 
     return true;
