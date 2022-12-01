@@ -27,7 +27,7 @@ class Board {
         void detachPiece();
         Board(std::string fen);
         void notifyStateChange();
-
+        ~Board();
     private:
 
         std::string FEN();
