@@ -13,13 +13,11 @@ Board::Board(std::string input):
     while (input[i] != ' ') {
         char curr = input[i];
         int index = (8*row) + col;
-
         if (input[i+2] == 'w') {
             whiteTurn = true;
         } else if (input[i+2] == 'b') {
             whiteTurn = false;
         }
-
 
         if (curr == '/'){
             row--;
