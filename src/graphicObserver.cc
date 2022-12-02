@@ -65,17 +65,17 @@ void graphicObserver::square_highlight(int index){
     int shift = 50;
     int x = index % 8;
     int y = (index-(index % 8)) /8;
-    win->BlankRectangle((x*50)+50,450-(y*50),50,50);
+    win->BlankRectangle((x*50)+shift,400-(y*50),50,50);
 }
 
 void graphicObserver::square_unhighlight(int index){
     int shift = 50;
     int x = index % 8;
-    int y = (index-(index % 8)) /8;
-    if (index % 2 == 0){
-        win->BlankRectangle((x*50)+50,450-(y*50),50,50,0);
+    int y = (index-(index % 8)) / 8;
+    if ((x+y) % 2 != 0){
+        win->BlankRectangle((x*50)+shift,400-(y*50),50,50,0);
     } else {
-        win->BlankRectangle((x*50)+50,450-(y*50),50,50,4);
+        win->BlankRectangle((x*50)+shift,400-(y*50),50,50,4);
     }
 }
 

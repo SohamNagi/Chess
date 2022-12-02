@@ -88,11 +88,11 @@ void Human::getmove() {
             throw std::invalid_argument("Invalid ending row. Try again.");
         }
 
-        move(start, end, board);
-
         for (auto i: piece->legalmoves) {
             gfx->square_unhighlight(i);
         }
+
+        move(start, end, board);
 
         break;
 
