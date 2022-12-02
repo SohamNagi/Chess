@@ -133,6 +133,7 @@ int main(int argc, char const *argv[])
                 ++white_wins;
             }
             delete round;
+            board = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
         } else if (command == "quit"){
             break;
         }
