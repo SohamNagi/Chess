@@ -50,4 +50,39 @@ BestMove Level1::evaluate() {
     }
 }
 
-//
+// Level 2 functions
+
+Level2::Level2(bool isWhite, Board* board): Computer(isWhite,board) {};
+
+BestMove Level2::evaluate() {
+    std::vector<BestMove> preferred; // Captures and checks go here
+    std::vector<BestMove> moves;
+
+    for (int i = 0; i < 64; ++i) { 
+        Pieces* curr = this->board->boardState.at(i);
+
+        if (curr->type == ' ' || curr->isWhite == this->isWhite) {
+            continue;
+        }
+
+        for (auto j = curr->legalmoves.begin(); j < curr->legalmoves.end(); ++j) {
+            
+            if (this->board->boardState.at(*j)->isWhite != this->isWhite) // Capture {
+                preferred.emplace_back(BestMove(i, *j));
+            else {
+                moves.emplace_back(BestMove(i, *j));
+            }
+            }
+            
+        }
+
+    if (preferred.size() != 0) {
+        int index = std::rand() % preferred.size();
+        return preferred[index];
+    } else if (moves.size() != 0) {
+        int index = std::rand() % moves.size();
+        return moves[index];
+    } else {
+        return BestMove(true);
+    }
+}

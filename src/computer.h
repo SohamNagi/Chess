@@ -31,4 +31,10 @@ class Level1: public Computer {
         BestMove evaluate();
 };
 
+class Level2: public Computer {
+    public:
+        Level2(bool isWhite, Board* board);
+        BestMove evaluate();
+};
+
 #endif
