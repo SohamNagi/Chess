@@ -13,16 +13,17 @@ Game::Game(std::string fen, std::string white, std::string black):
     board{new Board(fen)}, result{11}
 {
     attach(new textObserver(this));
-    attach(new graphicObserver(this));
+    graphicObserver* gfx = new graphicObserver(this);
+    attach(gfx);
 
     if (white == "human"){
-      whitePlayer = new Human(true, board);
+      whitePlayer = new Human(true, board, gfx);
     } else if (white == "1") {
       whitePlayer = new Level1(true, board);
     }
 
     if (black == "human"){
-      blackPlayer = new Human(false, board);
+      blackPlayer = new Human(false, board,gfx);
     } else if (black == "1") {
       blackPlayer = new Level1(false, board);
     }
@@ -61,7 +62,7 @@ void Game::start(){
     if (command == "move"){
       bool skip = false;
       try {
-        if (board->moves % 2 == 0){
+        if (board->whiteTurn){
           whitePlayer->getmove();
         } else {
           blackPlayer->getmove();

@@ -74,7 +74,9 @@
         "ctime": "cpp",
         "ios": "cpp",
         "locale": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "__node_handle": "cpp",
+        "__tree": "cpp"
     },
     "files.exclude": {
         "src/**/*.d": true,

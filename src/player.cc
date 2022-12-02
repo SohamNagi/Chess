@@ -14,14 +14,14 @@ bool Player::move(int start, int end, Board* board) {
 
     Pieces* piece = board->boardState[start];
 
-    std::cout << "Legal moves prior to making the move: [";
-    for (auto i: piece->legalmoves) {
-        int x = i % 8;
-        int y = (i-(i % 8)) / 8;
-        char row = x + 'a';
-        std::cout << row << y + 1 << ", ";
-    }
-    std::cout << ']' << std::endl;
+    // std::cout << "Legal moves prior to making the move: [";
+    // for (auto i: piece->legalmoves) {
+    //     int x = i % 8;
+    //     int y = (i-(i % 8)) / 8;
+    //     char row = x + 'a';
+    //     std::cout << row << y + 1 << ", ";
+    // }
+    // std::cout << ']' << std::endl;
 
     // Checks if the square (represented as an index to the
     //    boardState) contains and empty.

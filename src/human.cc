@@ -4,8 +4,8 @@
 
 using namespace std;
 
-Human::Human(bool isWhite, Board* board):
-    Player{isWhite, board}
+Human::Human(bool isWhite, Board* board, graphicObserver* obs):
+    Player{isWhite, board}, gfx{obs}
 {};
 
 Human::~Human() {};
@@ -47,6 +47,19 @@ void Human::getmove() {
             throw std::invalid_argument("Invalid ending row. Try again.");
         }
 
+        Pieces* piece = board->boardState[start];
+
+        std::cout << "Legal moves prior to making the move: [";
+        for (auto i: piece->legalmoves) {
+            int x = i % 8;
+            int y = (i-(i % 8)) / 8;
+            char row = x + 'a';
+            std::cout << row << y + 1 << ", ";
+            gfx->square_highlight(i);
+        }
+        std::cout << ']' << std::endl;
+
+
         // Reading end position
 
         cin >> input_c;
@@ -76,6 +89,10 @@ void Human::getmove() {
         }
 
         move(start, end, board);
+
+        for (auto i: piece->legalmoves) {
+            gfx->square_unhighlight(i);
+        }
 
         break;
 
