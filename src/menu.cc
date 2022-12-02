@@ -1,117 +1,37 @@
 #include "game.h"
 #include <iostream>
 #include "window.h"
+#include "renderUtil.h"
 
 using namespace std;
 
-int mapFiles(char file){
-    if(file == 'a'){
-        return 0;
-    } else if(file == 'b'){
-        return 1;
-    } else if(file == 'c'){
-        return 2;
-    } else if (file == 'd'){
-        return 3;
-    } else if (file == 'e'){
-        return 4;
-    } else if (file == 'f'){
-        return 5;
-    } else if (file == 'g'){
-        return 6;
-    } else {
-        return 7;
-    }
-}
-
-void printer(vector<char> grid){
-    cout << " +-----------------+" << endl;
-    for(int i = 7; i >= 0; i--){
-        cout << i+1 << "| ";
-        for(int j = 0; j < 8; j++){
-            char curr = grid.at((8*i)+j);
-            if (curr == ' '){
-                if ((i+j) % 2 != 0){
-                    if(j < 7){
-                cout << "  ";
-                } else {
-                    cout << "  |";;
-                }
-                    
-                } else {
-                    if(j < 7){
-                cout << "- ";
-                } else {
-                    cout << "- |";
-                }
-    
-                }
-            } else {
-                if(j < 7){
-                cout << curr << " ";
-                } else {
-                    cout << curr << " |";
-                }
-            }
-        }
-        cout << endl;
-    }
-    cout << " +-----------------+" << endl;
-    cout << "   A B C D E F G H" << endl;
-}
-
-void gfx_printer(Xwindow* win, vector<char> grid){
-    std::string header = "CS246 - C++ Chess";
-    win->drawString(200, 35, header);
+string board_setup(){
+    auto win = new Xwindow{500,500};
+    win->drawStringBold(90, 35, "CS246 - C++ Chess");
     vector<char> opti;
     opti.assign(64, ' ');
+    char file = 'A';
     int shift = 50;
     for(int i = 0; i < 8; i++){
-        win->drawString(25, i*50 + 25 + shift, std::to_string(8-i));
+        win->drawStringBold(20, i*50 + 35 + shift, std::to_string(8-i));
         for(int j = 0; j < 8; j++){
             if ((j+i) % 2 != 0){
                 win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, 4); // Print Black Square
             }
         }
+        std::string s(1,file);
+        win->drawStringBold((i*50) + 10 + shift, 490, s);
+        file++;
     }
     win->fillRectangle(shift, shift, 400, 5, 1);
     win->fillRectangle(shift, shift, 5, 400, 1);
     win->fillRectangle(400+shift, shift, 5, 405, 1);
     win->fillRectangle(shift, 400+shift, 400, 5, 1);
-    std::string rows = "A       B       C        D       E        F       G       H";
-    win->drawString(25 + shift, 400 + 25 + shift, rows);
 
-
-    for(int a = 0; a < 8; a++){
-        for(int b = 0; b < 8; b++){
-            int index = (8*(7-b)) + a; // Printing direction is not same as board so we offset
-            char curr = grid.at(index); // Fetch Current Char
-            if(curr != opti[index]){ // Optimization - Store board and only print if changed
-                if ((b+a) % 2 != 0){
-                    win->fillRectangle((a*50) + shift, (b*50) + shift, 50, 50, 4); // Print Black Square
-                } else {
-                    win->fillRectangle((a*50) + shift, (b*50) + shift, 50, 50, 0);
-                }
-                opti[index] = curr; // Reset Value in Optimization index
-                std::string s(1, curr);
-                win->drawString(a*50 + 25 + shift, b*50 + 25 + shift, s); // Print Piece Name
-            }
-        }
-    }
-    // Print Board Borders
-    win->fillRectangle(shift, shift, 400, 5, 1);
-    win->fillRectangle(shift, shift, 5, 400, 1);
-    win->fillRectangle(400+shift, shift, 5, 405, 1);
-    win->fillRectangle(shift, 400+shift, 400, 5, 1);
-
-}
-
-string board_setup(){
-    auto win = new Xwindow{500,500};
     string command;
     string output;
     int empty = 0;
-    string turn = "w";
+    string turn = " w";
     vector<char> grid;
     grid.resize(64,' ');
 
@@ -121,21 +41,21 @@ string board_setup(){
             char file; std::cin >> file;
             int row; std::cin >> row;
             grid[(8*(row-1))+mapFiles(file)] = piece;
-            printer(grid);
-            gfx_printer(win,grid);
+            txt_printer(grid);
+            gfx_printer(win,grid, &opti);
         } else if (command == "-"){
             char piece; std::cin >> piece;
             char file; std::cin >> file;
             int row; std::cin >> row;
             grid[(8*(row-1))+mapFiles(file)] = ' ';
-            printer(grid);
-            gfx_printer(win,grid);
+            txt_printer(grid);
+            gfx_printer(win,grid,&opti);
         } else if (command == "="){
             string color; std::cin >> color;
             if (color == "white"){
-                turn = "w";
+                turn = " w";
             } else if (color == "black"){
-                turn = "b";
+                turn = " b";
             }
         } else if (command == "fen"){
             std::cin >> output;
@@ -169,7 +89,7 @@ string board_setup(){
         }
     }
     delete win;
-    cout << output;
+    output += turn;
     return output;
 }
 
@@ -197,7 +117,6 @@ int main(int argc, char const *argv[])
     cout << "\"game\" to start a round of chess. " << endl;
     cout << "\"setup\" to enter setup mode. " << endl;
     cout << "\"quit\" to end the program and see results. " << endl;
-
 
     while(cin >> command){
         if (command == "setup"){
@@ -232,6 +151,7 @@ int main(int argc, char const *argv[])
                 cout << "Invalid command for black! Try again." << endl;
             }
 
+
             Game* round = new Game(board, white, black);
             round->notifyObservers();
             round->start();
@@ -244,10 +164,11 @@ int main(int argc, char const *argv[])
                 ++white_wins;
             }
             delete round;
+            board = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
         } else if (command == "quit"){
             break;
         } else {
-            cout << "Invalid command!" << endl;
+            cout << "Invalid command! Try again!" << endl;
         }
     }
     cout << "Final Score:" << endl;
