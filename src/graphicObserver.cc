@@ -103,12 +103,18 @@ void graphicObserver::notify(){
     win->fillRectangle(shift, shift, 5, 400, 1);
     win->fillRectangle(400+shift, shift, 5, 405, 1);
     win->fillRectangle(shift, 400+shift, 400, 5, 1);
-    // while(1){
-    //     int status = 1;
-    //     win->getMouseData(status);
-    //     if(status == -1){break;}
-    // }
+    // Mouse testing
+    //while(1){int status = 1;win->getMouseData(status);if(status == -1){break;}}
 }
-            
-                
-                
+
+
+// std::string getSqaureFromMouse(int mouse_x, int mouse_y){
+//     int rounded_x = (mouse_x/50)*50;
+//     int rounded_y = (mouse_y/50)*50;
+//     char file = (rounded_x - 50)/50 + 'A'; 
+//     int rank = 8 - ((rounded_y - 50)/50);
+//     std::string output;
+//     output+= file;
+//     output += std::to_string(rank);
+// }
+

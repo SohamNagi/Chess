@@ -117,7 +117,11 @@ void Xwindow::drawSym(int x, int y, string msg) {
   mouseLocation Xwindow::getMouseData(int& status) {
     XEvent event;
     if (XCheckMaskEvent(d, ButtonPress, &event)) {
-        std::cout << "Clicked at " << event.xbutton.x << ", " << event.xbutton.y << std::endl;
+    char file = (((event.xbutton.x/50)*50) - 50)/50 + 'A'; 
+    int rank = 8 - ((((event.xbutton.y/50)*50) - 50)/50);
+
+    std::cout << file << rank << std::endl;
+
         if (event.xbutton.x < 50 || event.xbutton.x > 450 || event.xbutton.y < 50 || event.xbutton.y > 450){
             status = -1;
         }
