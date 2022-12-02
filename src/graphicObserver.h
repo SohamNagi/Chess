@@ -16,6 +16,8 @@ class graphicObserver : public Observer{
         void notify() override;
         Xwindow* getWin() override;
         virtual ~graphicObserver();
+        void square_highlight(int index);
+        void square_unhighlight(int index);
         std::string mac_parse(char input);
 };
 

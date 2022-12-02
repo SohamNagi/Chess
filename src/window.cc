@@ -74,7 +74,7 @@ void Xwindow::fillRectangle(int x, int y, int width, int height, int colour) {
 }
 
 void Xwindow::BlankRectangle(int x, int y, int width, int height, int colour) {
-  XSetForeground(d, gc, colours[Red]);
+  XSetForeground(d, gc, colours[colour]);
   int thickness = 3;
   XFillRectangle(d, w, gc, x, y, width, thickness);
   XFillRectangle(d, w, gc, x, y+height-thickness, width, thickness);
@@ -114,10 +114,13 @@ void Xwindow::drawSym(int x, int y, string msg) {
 }
 
  // Mouse Tracking
-  mouseLocation Xwindow::getMouseData() {
+  mouseLocation Xwindow::getMouseData(int& status) {
     XEvent event;
     if (XCheckMaskEvent(d, ButtonPress, &event)) {
-        //printf(“Clicked at %d,%d\n”, event.xbutton.x, event.xbutton.y);
+        std::cout << "Clicked at " << event.xbutton.x << ", " << event.xbutton.y << std::endl;
+        if (event.xbutton.x < 50 || event.xbutton.x > 450 || event.xbutton.y < 50 || event.xbutton.y > 450){
+            status = -1;
+        }
         return mouseLocation{event.xbutton.x, event.xbutton.y, true};
     } else {
         return mouseLocation{-1, -1, false};

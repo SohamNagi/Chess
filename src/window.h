@@ -38,7 +38,7 @@ class Xwindow {
   void drawSym(int x, int y, std::string msg);
 
   // Mouse Tracking
-  mouseLocation getMouseData();
+  mouseLocation getMouseData(int& status);
 };
 
 #endif

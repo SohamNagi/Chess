@@ -61,6 +61,24 @@ Xwindow* graphicObserver::getWin(){
     return win;
 };
 
+void graphicObserver::square_highlight(int index){
+    int shift = 50;
+    int x = index % 8;
+    int y = (index-(index % 8)) /8;
+    win->BlankRectangle((x*50)+50,450-(y*50),50,50);
+}
+
+void graphicObserver::square_unhighlight(int index){
+    int shift = 50;
+    int x = index % 8;
+    int y = (index-(index % 8)) /8;
+    if (index % 2 == 0){
+        win->BlankRectangle((x*50)+50,450-(y*50),50,50,0);
+    } else {
+        win->BlankRectangle((x*50)+50,450-(y*50),50,50,4);
+    }
+}
+
 void graphicObserver::notify(){
     int shift = 50;
     for(int i = 0; i < 8; i++){
@@ -85,6 +103,11 @@ void graphicObserver::notify(){
     win->fillRectangle(shift, shift, 5, 400, 1);
     win->fillRectangle(400+shift, shift, 5, 405, 1);
     win->fillRectangle(shift, 400+shift, 400, 5, 1);
+    // while(1){
+    //     int status = 1;
+    //     win->getMouseData(status);
+    //     if(status == -1){break;}
+    // }
 }
             
                 
