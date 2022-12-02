@@ -193,14 +193,45 @@ int main(int argc, char const *argv[])
     string command;
     string board = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     
+    cout << "Welcome to chess++! Type " << endl;
+    cout << "\"game\" to start a round of chess. " << endl;
+    cout << "\"setup\" to enter setup mode. " << endl;
+    cout << "\"quit\" to end the program and see results. " << endl;
+
+
     while(cin >> command){
         if (command == "setup"){
             board = board_setup();
         } else if (command == "game"){
             string white;
-            cin >> white;
             string black;
-            cin >> black;
+
+            cout << "Select if white is to be a human player or a computer player from levels 1 to 4."  << endl;
+            cout << "(human/1/2/3/4):" << endl;
+
+            while(true) {
+                cin >> white;
+
+                if (cin.fail() || white == "human" || white == "1" || white == "2" || white == "3" || white == "4" ) {
+                    break;
+                }
+                
+                cout << "Invalid command for white! Try again." << endl;
+            }
+
+            cout << "Select if black is to be a human player or a computer player from levels 1 to 4."  << endl;
+            cout << "(human/1/2/3/4):" << endl;
+
+            while(true) {
+                cin >> black;
+
+                if (cin.fail() || white == "human" || white == "1" || white == "2" || white == "3" || white == "4" ) {
+                    break;
+                }
+                
+                cout << "Invalid command for black! Try again." << endl;
+            }
+
             Game* round = new Game(board, white, black);
             round->notifyObservers();
             round->start();
@@ -215,6 +246,8 @@ int main(int argc, char const *argv[])
             delete round;
         } else if (command == "quit"){
             break;
+        } else {
+            cout << "Invalid command!" << endl;
         }
     }
     cout << "Final Score:" << endl;

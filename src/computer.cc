@@ -1,10 +1,11 @@
 #include "computer.h"
+#include "player.h"
 #include <vector>
 #include "pieces.h"
 #include <cstdlib>
 
-Computer::Computer(bool isWhite, Board* board): isWhite(isWhite), board{board} {};
-Computer::~Computer() {}
+Computer::Computer(bool isWhite, Board* board): Player(isWhite, board) {};
+void Computer::promote(int piece) {}; // Implement
 
 BestMove::BestMove(int start, int end): start{start}, end{end}, no_moves{false} {};
 BestMove::BestMove(bool no_moves): start{0}, end{0}, no_moves{no_moves} {};
@@ -12,7 +13,13 @@ BestMove::BestMove(bool no_moves): start{0}, end{0}, no_moves{no_moves} {};
 // COMPUTER SHOULD CHANGE TURN AFTER MOVING board->whiteTurn = !board->whiteTurn;
 void Computer::getmove() {
     BestMove move = this->evaluate();
-    this->move(move.start, move.end, this->board);
+
+    if (move.no_moves) {
+        this->move(move.start, move.end, this->board);
+        this->board->whiteTurn = !(this->board->whiteTurn);
+    } 
+
+    // Add code for checkmate and stalemate
 }
 
 // Level1 function
@@ -22,14 +29,15 @@ Level1::Level1(bool isWhite, Board* board): Computer(isWhite, board) {};
 BestMove Level1::evaluate() {
     std::vector<BestMove> moves;
 
-    auto start = this->board->boardState.begin();
-    auto end = this->board->boardState.end();
+    for (int i = 0; i < 64; ++i) { 
+        Pieces* curr = this->board->boardState.at(i);
 
-    for (auto i = start; i < end; ++i) {
-        if ((*i)->isWhite = this->isWhite) {
-            for (auto j = (*i)->legalmoves.begin(); j < (*i)->legalmoves.end(); ++j ) {
-               moves.emplace_back(BestMove((*i)->location, (*j)));
-            }
+        if (curr->type == ' ' || curr->isWhite == this->isWhite) {
+            continue;
+        }
+
+        for (auto j = curr->legalmoves.begin(); j < curr->legalmoves.end(); ++j) {
+            moves.emplace_back(BestMove(i, *j));
         }
     }
 
@@ -43,8 +51,3 @@ BestMove Level1::evaluate() {
 }
 
 //
-Level2::Level2(bool isWhite, Board* board): Computer(isWhite, board) {};
-
-Level3::Level3(bool isWhite, Board* board): Computer(isWhite, board) {};
-
-Level4::Level4(bool isWhite, Board* board): Computer(isWhite, board) {};
