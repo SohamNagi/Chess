@@ -4,13 +4,13 @@
 
 // Setup boards may be in check// Setup needs to assign proper turn from fen
 Board::Board(std::string input):
-    halfMoves{0},moves{1},WhiteCheck{false}, BlackCheck{false}, eval{0}, whiteTurn{true}
+    halfMoves{0},moves{1},WhiteCheck{false}, BlackCheck{false}, eval{0}
 {
     int row = 7;
     int col = 0;
     int i = 0;
     boardState.resize(64);
-    while (input[i] != ' ') {
+    while (input[i] != 'w' || input[i] != 'w') {
         char curr = input[i];
         int index = (8*row) + col;
         if (curr == '/'){
@@ -26,6 +26,10 @@ Board::Board(std::string input):
                 --row;
                 col = 0;
             }
+        } else if (curr == 'w') {
+            whiteTurn = true;
+        } else if (curr == 'b') {
+            whiteTurn = false;
         } else {
             if(curr == 'k'){
                 boardState[index] = new King(this, false, index, 'k');
