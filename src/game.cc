@@ -6,6 +6,7 @@
 #include "graphicObserver.h"
 #include "board.h"
 #include "pieces.h"
+#include "computer.h"
 
 
 Game::Game(std::string fen, std::string white, std::string black):
@@ -14,13 +15,18 @@ Game::Game(std::string fen, std::string white, std::string black):
     attach(new textObserver(this));
     //attach(new graphicObserver(this));
 
-    if(white == "human"){
-        whitePlayer = new Human(true, board);
+    if (white == "human"){
+      whitePlayer = new Human(true, board);
+    } else if (white == "1") {
+      whitePlayer = new Level1(true, board);
     }
 
     if (black == "human"){
-        blackPlayer = new Human(false, board);
+      blackPlayer = new Human(false, board);
+    } else if (black == "1") {
+      blackPlayer = new Level1(false, board);
     }
+
 }
 
 
