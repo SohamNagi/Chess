@@ -1,6 +1,6 @@
 #ifndef __GAME_H__
 #define __GAME_H__
-
+#include "window.h"
 #include <vector>
 #include <string>
 #include "board.h"

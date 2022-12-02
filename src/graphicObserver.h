@@ -14,6 +14,7 @@ class graphicObserver : public Observer{
         int charColor(char c);
         graphicObserver(Game* sub);
         void notify() override;
+        Xwindow* getWin() override;
         virtual ~graphicObserver();
 };
 

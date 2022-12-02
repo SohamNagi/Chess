@@ -11,6 +11,10 @@ textObserver::textObserver(Game* sub):
     subject{sub}
 {};
 
+Xwindow* textObserver::getWin(){
+    return nullptr;
+};
+
 void textObserver::notify(){
     cout << " +-----------------+" << endl;
     for(int i = 7; i >= 0; i--){

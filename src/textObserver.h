@@ -4,6 +4,7 @@
 #include "observer.h"
 
 class Game;
+class Xwindow;
 
 class textObserver : public Observer{
     Game* subject;
@@ -11,6 +12,7 @@ class textObserver : public Observer{
         textObserver(Game* sub);
         void notify() override;
         ~textObserver() = default;
+        Xwindow* getWin() override;
 };
 
 #endif

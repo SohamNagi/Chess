@@ -27,6 +27,10 @@ graphicObserver::~graphicObserver(){
     delete win;
 }
 
+Xwindow* graphicObserver::getWin(){
+    return win;
+};
+
 void graphicObserver::notify(){
     int shift = 50;
     for(int i = 0; i < 8; i++){
