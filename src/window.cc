@@ -25,8 +25,9 @@ Xwindow::Xwindow(int width, int height) {
   s = DefaultScreen(d);
   w = XCreateSimpleWindow(d, RootWindow(d, s), 10, 10, width, height, 1,
                           BlackPixel(d, s), WhitePixel(d, s));
-  XSelectInput(d, w, ExposureMask | KeyPressMask);
   XMapRaised(d, w);
+  XSetStandardProperties(d, w, "CS246 - Chess++", "CS246 - Chess++", None, NULL, 0, NULL);
+  XSelectInput(d, w, ExposureMask | ButtonPressMask | KeyPressMask);
 
   Pixmap pix = XCreatePixmap(d,w,width,
         height,DefaultDepth(d,DefaultScreen(d)));

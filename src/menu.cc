@@ -35,6 +35,13 @@ string board_setup(){
     vector<char> grid;
     grid.resize(64,' ');
 
+    cout << "You are in setup mode, here are your commands:" << endl;
+    cout << "\"+ piece square\" to place a piece. " << endl;
+    cout << "\"- square\" to remove a piece " << endl;
+    cout << "\"= color\" to set turn " << endl;
+    cout << "\"fen fen_string\" to build a board from a fen string" << endl;
+    cout << "\"done\" to return to main menu and start a game. " << endl;
+
     while(cin >> command){
         if(command == "+"){
             char piece; std::cin >> piece;
@@ -117,7 +124,8 @@ int main(int argc, char const *argv[])
     string command;
     string board = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     
-    cout << "Welcome to chess++! Type " << endl;
+    cout << "Welcome to chess++!" << endl;
+    cout << "You are in the main menu, here are your commands:" << endl;
     cout << "\"game\" to start a round of chess. " << endl;
     cout << "\"setup\" to enter setup mode. " << endl;
     cout << "\"quit\" to end the program and see results. " << endl;
@@ -126,6 +134,10 @@ int main(int argc, char const *argv[])
         if (command == "setup"){
             board = board_setup();
         } else if (command == "game"){
+            cout << board << endl;
+            if(board == "8/8/8/8/8/8/8/8 w"){
+                board = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+            }
             string white;
             string black;
 
