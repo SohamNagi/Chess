@@ -25,6 +25,7 @@ class Xwindow {
 
   // Draws a rectangle
   void fillRectangle(int x, int y, int width, int height, int colour=Black);
+  void BlankRectangle(int x, int y, int width, int height, int colour=Red);
 
   // Draws a string
   void drawString(int x, int y, std::string msg);

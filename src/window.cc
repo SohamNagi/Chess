@@ -80,6 +80,12 @@ void Xwindow::fillRectangle(int x, int y, int width, int height, int colour) {
   XSetForeground(d, gc, colours[Black]);
 }
 
+void Xwindow::BlankRectangle(int x, int y, int width, int height, int colour) {
+  XSetForeground(d, gc, colours[colour]);
+  XDrawRectangle(d,w,gc,x,y,width,height);
+  XSetForeground(d, gc, colours[Black]);
+}
+
 void Xwindow::drawStringBold(int x, int y, string msg) {
   char **missing_charset_list_return;
   int missing_charset_count_return;
