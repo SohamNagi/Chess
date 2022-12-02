@@ -81,8 +81,12 @@ void Xwindow::fillRectangle(int x, int y, int width, int height, int colour) {
 }
 
 void Xwindow::BlankRectangle(int x, int y, int width, int height, int colour) {
-  XSetForeground(d, gc, colours[colour]);
-  XDrawRectangle(d,w,gc,x,y,width,height);
+  XSetForeground(d, gc, colours[Red]);
+  int thickness = 3;
+  XFillRectangle(d, w, gc, x, y, width, thickness);
+  XFillRectangle(d, w, gc, x, y+height-thickness, width, thickness);
+  XFillRectangle(d, w, gc, x+width-thickness, y, thickness, height);
+  XFillRectangle(d, w, gc, x, y, thickness, height);
   XSetForeground(d, gc, colours[Black]);
 }
 
