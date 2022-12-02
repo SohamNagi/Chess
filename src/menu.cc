@@ -1,90 +1,9 @@
 #include "game.h"
 #include <iostream>
 #include "window.h"
+#include "renderUtil.h"
 
 using namespace std;
-
-int mapFiles(char file){
-    if(file == 'a'){
-        return 0;
-    } else if(file == 'b'){
-        return 1;
-    } else if(file == 'c'){
-        return 2;
-    } else if (file == 'd'){
-        return 3;
-    } else if (file == 'e'){
-        return 4;
-    } else if (file == 'f'){
-        return 5;
-    } else if (file == 'g'){
-        return 6;
-    } else {
-        return 7;
-    }
-}
-
-void printer(vector<char> grid){
-    cout << " +-----------------+" << endl;
-    for(int i = 7; i >= 0; i--){
-        cout << i+1 << "| ";
-        for(int j = 0; j < 8; j++){
-            char curr = grid.at((8*i)+j);
-            if (curr == ' '){
-                if ((i+j) % 2 != 0){
-                    if(j < 7){
-                cout << "  ";
-                } else {
-                    cout << "  |";;
-                }
-                    
-                } else {
-                    if(j < 7){
-                cout << "- ";
-                } else {
-                    cout << "- |";
-                }
-    
-                }
-            } else {
-                if(j < 7){
-                cout << curr << " ";
-                } else {
-                    cout << curr << " |";
-                }
-            }
-        }
-        cout << endl;
-    }
-    cout << " +-----------------+" << endl;
-    cout << "   A B C D E F G H" << endl;
-}
-
-void gfx_printer(Xwindow* win, vector<char> grid, vector<char>* opti){
-    int shift = 50;
-    for(int a = 0; a < 8; a++){
-        for(int b = 0; b < 8; b++){
-            int index = (8*(7-b)) + a; // Printing direction is not same as board so we offset
-            char curr = grid.at(index); // Fetch Current Char
-            if(curr != opti->at(index)){ // Optimization - Store board and only print if changed
-                if ((b+a) % 2 != 0){
-                    win->fillRectangle((a*50) + shift, (b*50) + shift, 50, 50, 4); // Print Black Square
-                } else {
-                    win->fillRectangle((a*50) + shift, (b*50) + shift, 50, 50, 0);
-                }
-                opti->at(index) = curr; // Reset Value in Optimization index
-                std::string s(1, curr);
-                win->drawString(a*50 + 15 + shift, b*50 + 35 + shift, s); // Print Piece Name
-            }
-        }
-    }
-    // Print Board Borders
-    win->fillRectangle(shift, shift, 400, 5, 1);
-    win->fillRectangle(shift, shift, 5, 400, 1);
-    win->fillRectangle(400+shift, shift, 5, 405, 1);
-    win->fillRectangle(shift, 400+shift, 400, 5, 1);
-
-}
 
 string board_setup(){
     auto win = new Xwindow{500,500};
@@ -122,14 +41,14 @@ string board_setup(){
             char file; std::cin >> file;
             int row; std::cin >> row;
             grid[(8*(row-1))+mapFiles(file)] = piece;
-            printer(grid);
+            txt_printer(grid);
             gfx_printer(win,grid, &opti);
         } else if (command == "-"){
             char piece; std::cin >> piece;
             char file; std::cin >> file;
             int row; std::cin >> row;
             grid[(8*(row-1))+mapFiles(file)] = ' ';
-            printer(grid);
+            txt_printer(grid);
             gfx_printer(win,grid,&opti);
         } else if (command == "="){
             string color; std::cin >> color;
