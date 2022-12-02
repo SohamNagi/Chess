@@ -8,6 +8,13 @@
 
 using namespace std;
 
+struct mouseLocation {
+    int x;
+    int y;
+    bool pressed;
+};
+
+
 Xwindow::Xwindow(int width, int height) {
 
   d = XOpenDisplay(NULL);
@@ -91,3 +98,16 @@ void Xwindow::drawString(int x, int y, string msg) {
   Xutf8DrawString(d,w,set,DefaultGC(d, s), x, y, msg.c_str(), msg.length());
   XFreeFontSet(d, set);
 }
+
+ // Mouse Tracking
+  mouseLocation Xwindow::getMouseData() {
+    XEvent event;
+    if (XCheckMaskEvent(d, ButtonPress, &event)) {
+        //printf(“Clicked at %d,%d\n”, event.xbutton.x, event.xbutton.y);
+        return mouseLocation{event.xbutton.x, event.xbutton.y, true};
+    } else {
+        return mouseLocation{-1, -1, false};
+    }
+}
+
+

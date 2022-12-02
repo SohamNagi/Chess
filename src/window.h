@@ -5,6 +5,8 @@
 #include <iostream>
 #include <string>
 
+struct mouseLocation;
+
 class Xwindow {
   Display *d;
   Window w;
@@ -27,6 +29,9 @@ class Xwindow {
   // Draws a string
   void drawString(int x, int y, std::string msg);
   void drawStringBold(int x, int y, std::string msg);
+
+  // Mouse Tracking
+  mouseLocation Xwindow::getMouseData();
 };
 
 #endif
