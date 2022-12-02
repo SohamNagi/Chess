@@ -103,6 +103,16 @@ void Xwindow::drawString(int x, int y, string msg) {
   XFreeFontSet(d, set);
 }
 
+void Xwindow::drawSym(int x, int y, string msg) {
+  char **missing_charset_list_return;
+  int missing_charset_count_return;
+  char *def_string_return;
+  std::string fontname = "-*-chess-*-*-*-120-0-0-0-*-*-*-*-*";
+  XFontSet setC = XCreateFontSet(d, fontname.c_str(), &missing_charset_list_return, &missing_charset_count_return, &def_string_return);
+  Xutf8DrawString(d,w,setC,DefaultGC(d, s), x, y, msg.c_str(), msg.length());
+  XFreeFontSet(d, setC);
+}
+
  // Mouse Tracking
   mouseLocation Xwindow::getMouseData() {
     XEvent event;

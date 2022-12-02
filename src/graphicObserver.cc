@@ -2,6 +2,35 @@
 #include "window.h"
 #include "game.h"
 
+std::string mac_parse(char input){
+    if(input == 'K'){
+                return "k";
+            } else if (input == 'Q'){
+                return "q";
+            } else if (input == 'P'){
+                return "p";
+            } else if (input == 'N'){
+                return "h";
+            } else if (input == 'R'){
+                return "r";
+            } else if (input == 'B'){
+                return "b";
+            } else if (input == 'k'){
+                return "l";
+            } else if (input == 'q'){
+                return "w";
+            } else if (input == 'p'){
+                return "o";
+            } else if (input == 'n'){
+                return "j";
+            } else if (input == 'r'){
+                return "t";
+            } else if (input == 'b'){
+                return "n";
+            }
+}
+
+
 // Constructs Board and Window
 graphicObserver::graphicObserver(Game* sub):
     win{new Xwindow(500,500)}, subject{sub}
@@ -46,6 +75,7 @@ void graphicObserver::notify(){
                 grid[index] = curr; // Reset Value in Optimization index
                 std::string s(1, curr);
                 win->drawString(i*50 + 15 + shift, j*50 + 35 + shift, s); // Print Piece Name
+                // win->drawSym(i*50 + 15 + shift, j*50 + 35 + shift, mac_parse(curr)); // Print Piece Name
             }
         }
     }

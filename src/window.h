@@ -35,6 +35,7 @@ class Xwindow {
   // Draws a string
   void drawString(int x, int y, std::string msg);
   void drawStringBold(int x, int y, std::string msg);
+  void drawSym(int x, int y, std::string msg);
 
   // Mouse Tracking
   mouseLocation getMouseData();
