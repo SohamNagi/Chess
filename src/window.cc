@@ -8,13 +8,6 @@
 
 using namespace std;
 
-struct mouseLocation {
-    int x;
-    int y;
-    bool pressed;
-};
-
-
 Xwindow::Xwindow(int width, int height) {
 
   d = XOpenDisplay(NULL);

@@ -5,7 +5,12 @@
 #include <iostream>
 #include <string>
 
-struct mouseLocation;
+struct mouseLocation {
+    int x;
+    int y;
+    bool pressed;
+};
+
 
 class Xwindow {
   Display *d;
