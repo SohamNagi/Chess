@@ -28,6 +28,7 @@ std::string mac_parse(char input){
             } else if (input == 'b'){
                 return "n";
             }
+            return "x";
 }
 
 
