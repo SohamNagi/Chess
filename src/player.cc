@@ -53,22 +53,53 @@ bool Player::move(int start, int end, Board* board) {
         throw std::invalid_argument("Move is not legal! Try again.");
     }
 
-    if (piece->type == 'k' || piece->type == 'K' || piece->type == 'p' || piece->type == 'P' || piece->type == 'r' || piece->type == 'R') {
-        piece->moved = true;
+    // Update moved field
+    piece->moved = true;
+
+    // Castling
+    if (piece->type == 'K' && end == 6) {
+        std::iter_swap(board->boardState.begin() + start, board->boardState.begin() + end);
+        std::iter_swap(board->boardState.begin() + 7, board->boardState.begin() + 5);
+        board->boardState[end]->location = end;
+        board->boardState[5]->location = 5;
+        return true;
     }
+    else if (piece->type == 'K' && end == 2) {
+        std::iter_swap(board->boardState.begin() + start, board->boardState.begin() + end);
+        std::iter_swap(board->boardState.begin() + 0, board->boardState.begin() + 3);
+        board->boardState[end]->location = end;
+        board->boardState[3]->location = 3;
+        return true;
+    }
+    else if (piece->type == 'k' && end == 62) {
+        std::iter_swap(board->boardState.begin() + start, board->boardState.begin() + end);
+        std::iter_swap(board->boardState.begin() + 63, board->boardState.begin() + 61);
+        board->boardState[end]->location = end;
+        board->boardState[61]->location = 61;
+        return true;
+    }
+    else if (piece->type == 'k' && end == 58) {
+        std::iter_swap(board->boardState.begin() + start, board->boardState.begin() + end);
+        std::iter_swap(board->boardState.begin() + 56, board->boardState.begin() + 59);
+        board->boardState[end]->location = end;
+        board->boardState[59]->location = 59;
+        return true;
+    }
+
 
     // Changes the location in the selected pieces
     //  and swaps the contents stored in the start
     //  index and end index.
-
     board->boardState[start]->location = end;
     board->boardState[end]->location = start;
     std::iter_swap(board->boardState.begin() + start, board->boardState.begin() + end);
 
+    // Pawn promotion
     if ((end < 64 && end > 55 && board->boardState[end]->type == 'P') || (end < 8 && end >= 0 && board->boardState[end]->type == 'p')) {
         promote(end);
     }
 
+    // If pawn moves 2 spaces, update pawn field
     if (board->boardState[end]->type == 'P' && end - start == 16) {
         //implement casting later
         board->boardState[end]->twoStep = board->halfMoves;
@@ -78,11 +109,13 @@ bool Player::move(int start, int end, Board* board) {
         board->boardState[end]->twoStep = board->halfMoves;
     }
 
+    // Capturing
     if (!board->boardState[start]->isEmpty) {
         delete board->boardState[start];
         board->boardState[start] = new emptyPiece(board, false, start, ' ');
     }
     
+    // En Passant
     else if (board->boardState[end]->type == 'p' && (start - end == 9 || start - end == 7)) {
         int killAt = (start - end == 9) ? start-1 : start+1;
         delete board->boardState[killAt];

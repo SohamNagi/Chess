@@ -2,6 +2,8 @@
 #include <iostream>
 
 
+// make extra moves like castle and en passant and 2step pawn work in setup
+
 // black extra legal moves ++ isempty/opp etc
 
 // Still need to implement:
@@ -186,6 +188,25 @@ void King::updateMoves()  {
                 }
         }
     }
+
+    // Castling
+    if (isWhite && !moved && board->boardState[5]->isEmpty && board->boardState[6]->isEmpty && 
+        board->boardState[7]->type == 'R' && !board->boardState[7]->moved) {
+            legalmoves.emplace_back(6);
+    }
+    if (isWhite && !moved && board->boardState[3]->isEmpty && board->boardState[2]->isEmpty && 
+        board->boardState[1]->isEmpty && board->boardState[0]->type == 'R' && !board->boardState[0]->moved) {
+            legalmoves.emplace_back(1);
+    }
+    if (!isWhite && !moved && board->boardState[61]->isEmpty && board->boardState[62]->isEmpty && 
+        board->boardState[63]->type == 'r' && !board->boardState[63]->moved) {
+            legalmoves.emplace_back(62);
+    }
+    if (!isWhite && !moved && board->boardState[59]->isEmpty && board->boardState[58]->isEmpty && 
+        board->boardState[57]->isEmpty && board->boardState[56]->type == 'r' && !board->boardState[56]->moved) {
+            legalmoves.emplace_back(58);
+    }
+
 }
 
 // King destructor
