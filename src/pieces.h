@@ -12,6 +12,7 @@ class Pieces {
         char type;
         bool isEmpty;
         bool moved;
+        int twoStep;
         std::vector <int> legalmoves;
     public:
         Pieces(Board* board, bool isWhite, int location, char type, bool isEmpty);

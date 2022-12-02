@@ -2,9 +2,10 @@
 #include <iostream>
 
 
+// black extra legal moves ++ isempty/opp etc
+
 // Still need to implement:
 // - Remove moves that result in checks
-// - Pawn promotions
 // - En Passant
 // - Castling
 // - Remove all moves that don't fix a current check
@@ -20,11 +21,12 @@
 // all 64 locations and iterate through those coords' legalmoves vector. Could instead copy over the entire vector,
 // so instead we have 2 vectors (black and white attack coords) that consist of 0-16 vectors each, optimizing the program
 
-// temporarily make text render function where you can select a square and see its legal moves (as + symbols)
+// refactor to reduce x and y, and use location instead
 
 // Piece constructor
 Pieces::Pieces(Board* board, bool isWhite, int location, char type, bool isEmpty) :
-    board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ isEmpty }, moved{ false }, legalmoves{ } {}
+    board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ isEmpty },
+    moved{ false }, twoStep{ -2 }, legalmoves{ } {}
 
 // Piece destructor
 Pieces::~Pieces() {}
@@ -70,6 +72,16 @@ void Pawn::updateMoves() {
     if (isWhite && y + 1 <= 7 && x + 1 <= 7 && isEnemy(this, (y + 1) * 8 + (x + 1))) {
         legalmoves.emplace_back((y + 1) * 8 + (x + 1));
     }
+    // Check En Passant left
+    if (isWhite && x > 0 && board->boardState[y*8 + x - 1]->type == 'p' && 
+        board->boardState[y*8 + x - 1]->twoStep - board->halfMoves == -1) {
+        legalmoves.emplace_back((y + 1) * 8 + (x - 1));
+    }
+    // Check En Passant right
+    if (isWhite && x < 7 && board->boardState[y*8 + x + 1]->type == 'p' && 
+        board->boardState[y*8 + x + 1]->twoStep - board->halfMoves == -1) {
+        legalmoves.emplace_back((y + 1) * 8 + (x + 1));
+    }
 
     // Black Pawns:
     // Check the space immediately below
@@ -88,6 +100,17 @@ void Pawn::updateMoves() {
     if (!isWhite && y - 1 >= 0 && x + 1 <= 7 && isEnemy(this, (y - 1) * 8 + (x + 1))) {
         legalmoves.emplace_back((y - 1) * 8 + (x + 1));
     }
+    // Check En Passant left
+    if (!isWhite && x > 0 && board->boardState[y*8 + x - 1]->type == 'P' && 
+        board->boardState[y*8 + x - 1]->twoStep - board->halfMoves == -1) {
+        legalmoves.emplace_back((y - 1) * 8 + (x - 1));
+    }
+    // Check En Passant right
+    if (!isWhite && x < 7 && board->boardState[y*8 + x + 1]->type == 'P' && 
+        board->boardState[y*8 + x + 1]->twoStep - board->halfMoves == -1) {
+        legalmoves.emplace_back((y - 1) * 8 + (x + 1));
+    }
+
 }
 
 // Pawn destructor
@@ -158,7 +181,7 @@ void King::updateMoves()  {
         for (int j = -1; j <= 1; j++) {
             int possible = (y + j) * 8 + (x + i);
             if (0 <= possible && possible < 64 && !(i == 0 && j == 0) && (board->boardState[possible]->isEmpty ||
-                !board->boardState[possible]->isWhite)) {
+                board->boardState[possible]->isWhite != isWhite)) {
                     legalmoves.emplace_back((y + j) * 8 + (x + i));
                 }
         }
