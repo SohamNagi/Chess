@@ -29,8 +29,8 @@ Level1::Level1(bool isWhite, Board* board): Computer(isWhite, board) {};
 BestMove Level1::evaluate() {
     std::vector<BestMove> moves;
 
-    for (int i = 0; i < 64; ++i) {
-        Pieces* curr  = this->board->boardState.at(i);
+    for (int i = 0; i < 64; ++i) { 
+        Pieces* curr = this->board->boardState.at(i);
 
         if (curr->type == ' ' || curr->isWhite == this->isWhite) {
             continue;
