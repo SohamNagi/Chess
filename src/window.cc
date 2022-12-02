@@ -8,13 +8,6 @@
 
 using namespace std;
 
-struct mouseLocation {
-    int x;
-    int y;
-    bool pressed;
-};
-
-
 Xwindow::Xwindow(int width, int height) {
 
   d = XOpenDisplay(NULL);
@@ -77,6 +70,16 @@ Xwindow::~Xwindow() {
 void Xwindow::fillRectangle(int x, int y, int width, int height, int colour) {
   XSetForeground(d, gc, colours[colour]);
   XFillRectangle(d, w, gc, x, y, width, height);
+  XSetForeground(d, gc, colours[Black]);
+}
+
+void Xwindow::BlankRectangle(int x, int y, int width, int height, int colour) {
+  XSetForeground(d, gc, colours[Red]);
+  int thickness = 3;
+  XFillRectangle(d, w, gc, x, y, width, thickness);
+  XFillRectangle(d, w, gc, x, y+height-thickness, width, thickness);
+  XFillRectangle(d, w, gc, x+width-thickness, y, thickness, height);
+  XFillRectangle(d, w, gc, x, y, thickness, height);
   XSetForeground(d, gc, colours[Black]);
 }
 
