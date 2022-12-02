@@ -59,7 +59,11 @@ string board_setup(){
             }
         } else if (command == "fen"){
             std::cin >> output;
+            std::cin >> turn;
             delete win;
+            output += " ";
+            output += turn;
+            std::cout << output << endl;
             return output;
         } else if (command == "done"){
             break;
