@@ -11,6 +11,18 @@ Player::~Player() {}
 
 
 bool Player::move(int start, int end, Board* board) {
+
+    Pieces* piece = board->boardState[start];
+
+    std::cout << "Legal moves prior to making the move: [";
+    for (auto i: piece->legalmoves) {
+        int x = i % 8;
+        int y = (i-(i % 8)) / 8;
+        char row = x + 'a';
+        std::cout << row << y + 1 << ", ";
+    }
+    std::cout << ']' << std::endl;
+
     // Checks if the square (represented as an index to the
     //    boardState) contains and empty.
     
@@ -36,18 +48,6 @@ bool Player::move(int start, int end, Board* board) {
     // Iterators for finding the end move in the selected pieces
     //  legal moves.
 
-    Pieces* piece = board->boardState[start];
-    
-
-    std::cout << "Legal moves prior to making the move: [";
-    for (auto i: piece->legalmoves) {
-        int x = i % 8;
-        int y = (i-(i % 8)) / 8;
-        char row = x + 'a';
-        std::cout << row << y + 1 << ", ";
-    }
-    std::cout << ']' << std::endl;
-
 
     if (start == end || std::find(piece->legalmoves.begin(), piece->legalmoves.end(), end) == piece->legalmoves.end()) {
         throw std::invalid_argument("Move is not legal! Try again.");
@@ -69,9 +69,29 @@ bool Player::move(int start, int end, Board* board) {
         promote(end);
     }
 
+    if (board->boardState[end]->type == 'P' && end - start == 16) {
+        //implement casting later
+        board->boardState[end]->twoStep = board->halfMoves;
+    }
+    if (board->boardState[end]->type == 'p' && start - end == 16) {
+        //implement casting later
+        board->boardState[end]->twoStep = board->halfMoves;
+    }
+
     if (!board->boardState[start]->isEmpty) {
         delete board->boardState[start];
         board->boardState[start] = new emptyPiece(board, false, start, ' ');
+    }
+    
+    else if (board->boardState[end]->type == 'p' && (start - end == 9 || start - end == 7)) {
+        int killAt = (start - end == 9) ? start-1 : start+1;
+        delete board->boardState[killAt];
+        board->boardState[killAt] = new emptyPiece(board, false, killAt, ' ');
+    }
+    else if (board->boardState[end]->type == 'P' && (end - start == 7 || end - start == 9)) {
+        int killAt = (end - start == 7) ? start-1 : start+1;
+        delete board->boardState[killAt];
+        board->boardState[killAt] = new emptyPiece(board, false, killAt, ' ');
     }
 
     return true;

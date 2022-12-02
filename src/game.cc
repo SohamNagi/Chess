@@ -26,6 +26,7 @@ Game::Game(std::string fen, std::string white, std::string black):
     } else if (black == "1") {
       blackPlayer = new Level1(false, board);
     }
+
 }
 
 
@@ -71,12 +72,13 @@ void Game::start(){
       }
       if (skip) continue;
       skip = false;
-      std::cout << "no" << std::endl;
+      board->halfMoves += 1;
+      board->whiteTurn = !board->whiteTurn;
+      if (board->whiteTurn) board->moves += 1;
       notifyObservers();
       for (auto i: board->boardState) {
         i->updateMoves();
       }
-      board->whiteTurn = !board->whiteTurn;
     } else if (command == "resign"){
       if (board->whiteTurn){
         result = -1;

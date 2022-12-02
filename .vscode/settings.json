@@ -55,6 +55,8 @@
         "ratio": "cpp",
         "map": "cpp",
         "set": "cpp",
-        "mutex": "cpp"
+        "mutex": "cpp",
+        "list": "cpp",
+        "valarray": "cpp"
     }
 }
