@@ -10,9 +10,17 @@ Board::Board(std::string input):
     int col = 0;
     int i = 0;
     boardState.resize(64);
-    while (input[i] != 'w' || input[i] != 'w') {
+    while (input[i] != ' ') {
         char curr = input[i];
         int index = (8*row) + col;
+
+        if (input[i+2] == 'w') {
+            whiteTurn = true;
+        } else if (input[i+2] == 'b') {
+            whiteTurn = false;
+        }
+
+
         if (curr == '/'){
             row--;
             col = 0;
@@ -26,10 +34,6 @@ Board::Board(std::string input):
                 --row;
                 col = 0;
             }
-        } else if (curr == 'w') {
-            whiteTurn = true;
-        } else if (curr == 'b') {
-            whiteTurn = false;
         } else {
             if(curr == 'k'){
                 boardState[index] = new King(this, false, index, 'k');
