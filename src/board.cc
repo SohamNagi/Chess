@@ -29,10 +29,6 @@ Board::Board(std::string input):
                 boardState[index+g] = new emptyPiece(this, false, index + g, ' ');
                 col++;
             }
-            if(col == 7){
-                --row;
-                col = 0;
-            }
         } else {
             if(curr == 'k'){
                 boardState[index] = new King(this, false, index, 'k');
