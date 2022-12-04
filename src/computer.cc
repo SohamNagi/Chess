@@ -88,3 +88,70 @@ BestMove Level2::evaluate(Board *test) {
         return BestMove(true);
     }
 }
+
+// Level 3 functions
+
+Level3::Level3(bool isWhite, Board* board): Computer(isWhite,board) {};
+
+BestMove Level3::evaluate(Board *test) {
+    std::vector<BestMove> preferred; // Captures, avoiding captures and checks go here
+    std::vector<BestMove> moves;
+    bool attacked_square[64];
+
+    // Initializing loop
+    for (int i = 0; i < 64; ++i) {
+        attacked_square[i] = false;
+    }
+
+    Pieces* curr;
+
+    // Loop for getting squares attacked by opponent player
+    for (int i = 0; i < 64; ++i) {
+        curr = test->boardState.at(i);
+
+        if (curr->isWhite != test->whiteTurn) {
+            auto start = curr->legalmoves.begin();
+            auto end = curr->legalmoves.end();
+            
+            for (auto i = start; i < end; ++i) {
+                attacked_square[*i] = true;
+            }
+        }
+    }
+
+    // Loop for getting moves of own player
+    for (int i = 0; i < 64; ++i) { 
+        curr = test->boardState.at(i);
+
+        if (curr->type == ' ' || curr->isWhite != test->whiteTurn){
+            continue;
+        }
+
+        auto start = curr->legalmoves.begin();
+        auto end = curr->legalmoves.end();
+
+        for (auto j = start; j < end; ++j) {
+            
+            if (test->boardState.at(*j)->isWhite != this->isWhite) { // Capture {
+                preferred.emplace_back(BestMove(i, *j));
+            } else if (!(attacked_square[*j])) {
+                preferred.emplace_back(BestMove(i, *j));
+            } else {
+                moves.emplace_back(BestMove(i, *j));
+            }
+            }
+            
+        }
+
+    if (preferred.size() != 0) {
+        std::srand(time(0));
+        int index = std::rand() % preferred.size();
+        return preferred[index];
+    } else if (moves.size() != 0) {
+        std::srand(time(0));
+        int index = std::rand() % moves.size();
+        return moves[index];
+    } else {
+        return BestMove(true);
+    }
+}
