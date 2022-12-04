@@ -35,7 +35,12 @@ int main(int argc, char const *argv[])
         if (command == "setup"){
             delete start_board;
             start_board = board_setup(nullptr, " w", 1);
+            cout << "You are in the main menu, here are your commands:" << endl;
+            cout << "\"game\" to start a round of chess. " << endl;
+            cout << "\"setup\" to enter setup mode. " << endl;
+            cout << "\"quit\" to end the program and see results. " << endl;
         } else if (command == "game"){
+            system("clear");
             if(start_board == nullptr){
                 start_board = new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
             }
@@ -55,6 +60,7 @@ int main(int argc, char const *argv[])
                 cout << "Invalid command for white! Try again." << endl;
             }
 
+            system("clear");
             cout << "Select if black is to be a human player or a computer player from levels 1 to 4."  << endl;
             cout << "(human/1/2/3/4):" << endl;
 
@@ -67,8 +73,7 @@ int main(int argc, char const *argv[])
                 
                 cout << "Invalid command for black! Try again." << endl;
             }
-
-
+            system("clear");
             Game* round = new Game(start_board, white, black);
             round->notifyObservers();
             round->start();

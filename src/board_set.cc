@@ -39,7 +39,7 @@ Board* board_setup(vector<char>* start, string set_turn, int status){
         grid = *start;
     }
     Board* final_board = nullptr;
-
+    system("clear");
     cout << "You are in setup mode, here are your commands:" << endl;
     cout << "\"+ piece square\" to place a piece. " << endl;
     cout << "\"- square\" to remove a piece " << endl;
@@ -65,8 +65,10 @@ Board* board_setup(vector<char>* start, string set_turn, int status){
         } else if (command == "="){
             string color; std::cin >> color;
             if (color == "white"){
+                std::cout << "Set turn to white!" << std::endl;
                 turn = " w";
             } else if (color == "black"){
+                std::cout << "Set turn to black!" << std::endl;
                 turn = " b";
             }
         } else if (command == "fen"){
@@ -76,8 +78,10 @@ Board* board_setup(vector<char>* start, string set_turn, int status){
             output += " ";
             output += turn;
             std::cout << output << endl;
+            system("clear");
             return new Board(output);
         } else if (command == "done"){
+            system("clear");
             break;
         }
     }
@@ -105,6 +109,9 @@ Board* board_setup(vector<char>* start, string set_turn, int status){
         }
     }
     //delete win;
+    if(output == "8/8/8/8/8/8/8/8"){
+        return new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    }
     output += turn;
     final_board = new Board(output);
     if(!final_board->isValid()){
