@@ -55,7 +55,7 @@ void Human::getmove() {
             int y = (i-(i % 8)) / 8;
             char row = x + 'a';
             std::cout << row << y + 1 << ", ";
-            gfx->square_highlight(i);
+            //gfx->square_highlight(i);
         }
         std::cout << ']' << std::endl;
 
@@ -89,7 +89,7 @@ void Human::getmove() {
         }
 
         for (auto i: piece->legalmoves) {
-            gfx->square_unhighlight(i);
+            //gfx->square_unhighlight(i);
         }
 
         move(start, end, board);

@@ -14,7 +14,7 @@ Game::Game(std::string fen, std::string white, std::string black):
 {
     attach(new textObserver(this));
     graphicObserver* gfx = new graphicObserver(this);
-    attach(gfx);
+    //attach(gfx);
 
     if (white == "human"){
       whitePlayer = new Human(true, board, gfx);
