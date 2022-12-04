@@ -20,12 +20,16 @@ Game::Game(Board* brd, std::string white, std::string black):
       whitePlayer = new Human(true, brd, gfx);
     } else if (white == "1") {
       whitePlayer = new Level1(true, brd);
+    } else if (white == "2") {
+      whitePlayer = new Level2(true, brd);
     }
 
     if (black == "human"){
       blackPlayer = new Human(false, brd,gfx);
     } else if (black == "1") {
       blackPlayer = new Level1(false, brd);
+    } else if (black == "2") {
+      blackPlayer = new Level2(false, brd);
     }
 
 }

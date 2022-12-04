@@ -43,8 +43,8 @@ BestMove Level1::evaluate(Board* test) {
     if (moves.size() == 0) {
         return BestMove(true);
     } else {
-        int index = std::rand() % moves.size();
         std::srand(time(0));
+        int index = std::rand() % moves.size();
         return moves[index];
 
     }
@@ -54,20 +54,20 @@ BestMove Level1::evaluate(Board* test) {
 
 Level2::Level2(bool isWhite, Board* board): Computer(isWhite,board) {};
 
-BestMove Level2::evaluate() {
+BestMove Level2::evaluate(Board *test) {
     std::vector<BestMove> preferred; // Captures and checks go here
     std::vector<BestMove> moves;
 
     for (int i = 0; i < 64; ++i) { 
-        Pieces* curr = this->board->boardState.at(i);
+        Pieces* curr = test->boardState.at(i);
 
-        if (curr->type == ' ' || curr->isWhite == this->isWhite) {
+        if (curr->type == ' ' || curr->isWhite != test->whiteTurn) {
             continue;
         }
 
         for (auto j = curr->legalmoves.begin(); j < curr->legalmoves.end(); ++j) {
             
-            if (this->board->boardState.at(*j)->isWhite != this->isWhite) // Capture {
+            if (test->boardState.at(*j)->isWhite != this->isWhite) // Capture {
                 preferred.emplace_back(BestMove(i, *j));
             else {
                 moves.emplace_back(BestMove(i, *j));
@@ -77,9 +77,11 @@ BestMove Level2::evaluate() {
         }
 
     if (preferred.size() != 0) {
+        std::srand(time(0));
         int index = std::rand() % preferred.size();
         return preferred[index];
     } else if (moves.size() != 0) {
+        std::srand(time(0));
         int index = std::rand() % moves.size();
         return moves[index];
     } else {
