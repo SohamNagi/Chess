@@ -103,6 +103,7 @@ void Xwindow::drawString(int x, int y, string msg) {
   XFreeFontSet(d, set);
 }
 
+// DRAWS PIECES ON SOHAM"S MAC
 void Xwindow::drawSym(int x, int y, string msg) {
   char **missing_charset_list_return;
   int missing_charset_count_return;
