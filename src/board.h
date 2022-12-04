@@ -25,6 +25,7 @@ class Board {
     public:
         void attachPiece();
         void detachPiece();
+        int boardInCheck();
         Board(std::string fen);
         void notifyStateChange();
         ~Board();

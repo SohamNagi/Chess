@@ -75,3 +75,33 @@ Board::~Board(){
         delete i;
     }
 }
+
+// Checks if the board has an active check, returns 1 if white is in check, -1 if black is in check, and 0 if no checks
+int Board::boardInCheck(){
+    for (auto i: boardState) {
+        i->updateMoves();
+    }
+    std::vector<int> blackMoves;
+    std::vector<int> whiteMoves;
+    int whiteKingPosition = -1;
+    int blackKingPosition = -1;
+    for(auto i: boardState){
+        if (i->type == 'K' || i->type == 'k') {
+            (i->type == 'K') ? whiteKingPosition = i->location : blackKingPosition = i->location;
+            continue;
+        } 
+        if (!i->isEmpty) {
+            for (auto move: i->legalmoves) {
+                (i->isWhite) ? whiteMoves.emplace_back(move) : blackMoves.emplace_back(move);
+            }
+        }
+    }
+
+    if(std::find(whiteMoves.begin(), whiteMoves.end(), blackKingPosition) != whiteMoves.end()) {
+        return -1;
+    }
+    else if (std::find(blackMoves.begin(), blackMoves.end(), whiteKingPosition) != blackMoves.end()) {
+        return 1;
+    }
+    return 0;
+}
