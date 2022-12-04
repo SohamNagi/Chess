@@ -17,15 +17,15 @@ Game::Game(Board* brd, std::string white, std::string black):
     //attach(gfx);
 
     if (white == "human"){
-      whitePlayer = new Human(true, board, gfx);
+      whitePlayer = new Human(true, brd, gfx);
     } else if (white == "1") {
-      whitePlayer = new Level1(true, board);
+      whitePlayer = new Level1(true, brd);
     }
 
     if (black == "human"){
-      blackPlayer = new Human(false, board,gfx);
+      blackPlayer = new Human(false, brd,gfx);
     } else if (black == "1") {
-      blackPlayer = new Level1(false, board);
+      blackPlayer = new Level1(false, brd);
     }
 
 }
@@ -63,9 +63,9 @@ void Game::start(){
       bool skip = false;
       try {
         if (board->whiteTurn){
-          whitePlayer->getmove();
+          whitePlayer->getmove(board);
         } else {
-          blackPlayer->getmove();
+          blackPlayer->getmove(board);
         }
       } catch (std::invalid_argument& e) {
         std::cout << "" << e.what() << std::endl;

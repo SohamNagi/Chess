@@ -16,7 +16,7 @@ class Player {
 
         void resign();
         bool move(int start, int end, Board* board);
-        virtual void getmove() = 0;
+        virtual void getmove(Board* test = nullptr) = 0;
         virtual void promote(int piece) = 0;
         void castle(Rook* rook);
 };

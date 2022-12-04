@@ -11,12 +11,11 @@ BestMove::BestMove(int start, int end): start{start}, end{end}, no_moves{false} 
 BestMove::BestMove(bool no_moves): start{0}, end{0}, no_moves{no_moves} {};
 
 // COMPUTER SHOULD CHANGE TURN AFTER MOVING board->whiteTurn = !board->whiteTurn;
-void Computer::getmove() {
-    BestMove move = this->evaluate();
+void Computer::getmove(Board* test) {
+    BestMove move = this->evaluate(test);
 
-    if (move.no_moves) {
-        this->move(move.start, move.end, this->board);
-        this->board->whiteTurn = !(this->board->whiteTurn);
+    if (!(move.no_moves)) {
+        this->move(move.start, move.end, test);
     } 
 
     // Add code for checkmate and stalemate
@@ -26,13 +25,13 @@ void Computer::getmove() {
 Level1::Level1(bool isWhite, Board* board): Computer(isWhite, board) {};
 
 
-BestMove Level1::evaluate() {
+BestMove Level1::evaluate(Board* test) {
     std::vector<BestMove> moves;
 
     for (int i = 0; i < 64; ++i) { 
-        Pieces* curr = this->board->boardState.at(i);
+        Pieces* curr = test->boardState.at(i);
 
-        if (curr->type == ' ' || curr->isWhite == this->isWhite) {
+        if (curr->type == ' ' || curr->isWhite != test->whiteTurn) {
             continue;
         }
 
@@ -45,6 +44,7 @@ BestMove Level1::evaluate() {
         return BestMove(true);
     } else {
         int index = std::rand() % moves.size();
+        std::srand(time(0));
         return moves[index];
 
     }
