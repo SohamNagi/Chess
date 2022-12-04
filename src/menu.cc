@@ -2,7 +2,6 @@
 #include <iostream>
 #include "board_set.h"
 #include "window.h"
-
 using namespace std;
 
 int main(int argc, char const *argv[])

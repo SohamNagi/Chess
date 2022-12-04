@@ -3,6 +3,8 @@
 #include "renderUtil.h"
 #include <vector>
 #include "board.h"
+#include "pieces.h"
+
 
 using namespace std;
 
@@ -120,5 +122,9 @@ Board* board_setup(vector<char>* start, string set_turn, int status){
         final_board = board_setup(&grid, turn, -1);
     }
 
+    for(auto i: final_board->boardState){
+        i->moved = true;
+    }
+    
     return final_board;
 }
