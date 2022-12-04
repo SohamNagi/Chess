@@ -9,8 +9,8 @@
 #include "computer.h"
 
 
-Game::Game(std::string fen, std::string white, std::string black):
-    board{new Board(fen)}, result{11}
+Game::Game(Board* brd, std::string white, std::string black):
+    board{brd}, result{11}
 {
     attach(new textObserver(this));
     graphicObserver* gfx = new graphicObserver(this);

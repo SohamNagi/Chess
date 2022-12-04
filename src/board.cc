@@ -106,3 +106,59 @@ int Board::boardInCheck(){
     }
     return 0;
 }
+
+
+
+bool Board::isValid(){
+    int whiteKing = 0;
+    int blackKing = 0;
+    int whitePawns = 0;
+    int blackPawns = 0;
+    int pieceCount = 0;
+
+    for(auto piece: boardState){
+        if(piece->type == 'k'){
+            blackKing++;
+        } else if(piece->type == 'K'){
+            whiteKing++;
+        } else if(piece->type == 'p'){
+            blackPawns++;
+        } else if(piece->type == 'P'){
+            whitePawns++;
+        }
+        if(!piece->isEmpty){
+            pieceCount++;
+        }
+    }
+
+    if(whiteKing != 1 || blackKing != 1 || whitePawns > 8 || blackPawns > 8){
+        std::cout << "Wrong Piece Count 1" << std::endl;
+        return false;
+    }
+
+    if(pieceCount < 3){
+        std::cout << "Wrong Piece Count 2" << std::endl;
+        return false;
+    }
+
+    if (this->boardInCheck() != 0){
+        std::cout << "Board in check" << std::endl;
+        return false;
+    }
+
+    for(int i = 0; i < 8; i++){
+        if(boardState[i]->type == 'P'){
+            std::cout << "Wrong White Pawn" << std::endl;
+            return false;
+        }
+    }
+
+    for (int j = 56; j < 63; j++){
+        if(boardState[j]->type == 'p'){
+            std::cout << "Wrong Black Pawn" << std::endl;
+            return false;
+        }
+    }
+
+    return true;
+}

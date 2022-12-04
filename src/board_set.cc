@@ -2,10 +2,11 @@
 #include <string>
 #include "renderUtil.h"
 #include <vector>
+#include "board.h"
 
 using namespace std;
 
-string board_setup(){
+Board* board_setup(vector<char>* start, string set_turn, int status){
     // auto win = new Xwindow{500,500};
     // win->drawStringBold(90, 35, "CS246 - C++ Chess");
     vector<char> opti;
@@ -31,9 +32,13 @@ string board_setup(){
     string command;
     string output;
     int empty = 0;
-    string turn = " w";
+    string turn = set_turn;
     vector<char> grid;
     grid.resize(64,' ');
+    if(status == -1){
+        grid = *start;
+    }
+    Board* final_board = nullptr;
 
     cout << "You are in setup mode, here are your commands:" << endl;
     cout << "\"+ piece square\" to place a piece. " << endl;
@@ -71,7 +76,7 @@ string board_setup(){
             output += " ";
             output += turn;
             std::cout << output << endl;
-            return output;
+            return new Board(output);
         } else if (command == "done"){
             break;
         }
@@ -101,5 +106,12 @@ string board_setup(){
     }
     //delete win;
     output += turn;
-    return output;
+    final_board = new Board(output);
+    if(!final_board->isValid()){
+        delete final_board;
+        std::cout << "Your board is invalid, please fix it!" << std::endl;
+        final_board = board_setup(&grid, turn, -1);
+    }
+
+    return final_board;
 }

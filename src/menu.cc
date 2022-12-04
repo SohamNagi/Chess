@@ -23,7 +23,7 @@ int main(int argc, char const *argv[])
     int draw = 0;
 
     string command;
-    string board = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    Board* start_board = new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
     
     cout << "Welcome to chess++!" << endl;
     cout << "You are in the main menu, here are your commands:" << endl;
@@ -33,11 +33,11 @@ int main(int argc, char const *argv[])
 
     while(cin >> command){
         if (command == "setup"){
-            board = board_setup();
+            delete start_board;
+            start_board = board_setup(nullptr, " w", 1);
         } else if (command == "game"){
-            cout << board << endl;
-            if(board == "8/8/8/8/8/8/8/8 w"){
-                board = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+            if(start_board == nullptr){
+                start_board = new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
             }
             string white;
             string black;
@@ -69,7 +69,7 @@ int main(int argc, char const *argv[])
             }
 
 
-            Game* round = new Game(board, white, black);
+            Game* round = new Game(start_board, white, black);
             round->notifyObservers();
             round->start();
             int score = round->getResult();
@@ -81,7 +81,8 @@ int main(int argc, char const *argv[])
                 ++white_wins;
             }
             delete round;
-            board = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+            delete start_board;
+            start_board = new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         } else if (command == "quit"){
             break;
         } else {

@@ -27,6 +27,7 @@ class Board {
         void detachPiece();
         int boardInCheck();
         Board(std::string fen);
+        bool isValid();
         void notifyStateChange();
         ~Board();
     private:
