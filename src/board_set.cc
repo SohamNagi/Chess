@@ -81,7 +81,17 @@ Board* board_setup(vector<char>* start, string set_turn, int status){
             output += turn;
             std::cout << output << endl;
             system("clear");
-            return new Board(output);
+            final_board = new Board(output);
+            std::cout << final_board->boardInCheck() << std::endl;
+            if(!final_board->isValid()){
+                delete final_board;
+                std::cout << "Your board is invalid, please fix it!" << std::endl;
+                final_board = board_setup(&grid, turn, -1);
+            }
+            for(auto i: final_board->boardState){
+                i->moved = true;
+            }
+            return final_board;
         } else if (command == "done"){
             system("clear");
             break;
