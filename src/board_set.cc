@@ -6,27 +6,27 @@
 using namespace std;
 
 string board_setup(){
-    auto win = new Xwindow{500,500};
-    win->drawStringBold(90, 35, "CS246 - C++ Chess");
+    // auto win = new Xwindow{500,500};
+    // win->drawStringBold(90, 35, "CS246 - C++ Chess");
     vector<char> opti;
     opti.assign(64, ' ');
-    char file = 'A';
-    int shift = 50;
-    for(int i = 0; i < 8; i++){
-        win->drawStringBold(20, i*50 + 35 + shift, std::to_string(8-i));
-        for(int j = 0; j < 8; j++){
-            if ((j+i) % 2 != 0){
-                win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, 4); // Print Black Square
-            }
-        }
-        std::string s(1,file);
-        win->drawStringBold((i*50) + 10 + shift, 490, s);
-        file++;
-    }
-    win->fillRectangle(shift, shift, 400, 5, 1);
-    win->fillRectangle(shift, shift, 5, 400, 1);
-    win->fillRectangle(400+shift, shift, 5, 405, 1);
-    win->fillRectangle(shift, 400+shift, 400, 5, 1);
+    //char file = 'A';
+    //int shift = 50;
+    // for(int i = 0; i < 8; i++){
+    //     win->drawStringBold(20, i*50 + 35 + shift, std::to_string(8-i));
+    //     for(int j = 0; j < 8; j++){
+    //         if ((j+i) % 2 != 0){
+    //             win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, 4); // Print Black Square
+    //         }
+    //     }
+    //     std::string s(1,file);
+    //     win->drawStringBold((i*50) + 10 + shift, 490, s);
+    //     file++;
+    // }
+    // win->fillRectangle(shift, shift, 400, 5, 1);
+    // win->fillRectangle(shift, shift, 5, 400, 1);
+    // win->fillRectangle(400+shift, shift, 5, 405, 1);
+    // win->fillRectangle(shift, 400+shift, 400, 5, 1);
 
     string command;
     string output;
@@ -49,14 +49,14 @@ string board_setup(){
             int row; std::cin >> row;
             grid[(8*(row-1))+mapFiles(file)] = piece;
             txt_printer(grid);
-            gfx_printer(win,grid, &opti);
+            //gfx_printer(win,grid, &opti);
         } else if (command == "-"){
             char piece; std::cin >> piece;
             char file; std::cin >> file;
             int row; std::cin >> row;
             grid[(8*(row-1))+mapFiles(file)] = ' ';
             txt_printer(grid);
-            gfx_printer(win,grid,&opti);
+            //gfx_printer(win,grid,&opti);
         } else if (command == "="){
             string color; std::cin >> color;
             if (color == "white"){
@@ -67,7 +67,7 @@ string board_setup(){
         } else if (command == "fen"){
             std::cin >> output;
             std::cin >> turn;
-            delete win;
+            //delete win;
             output += " ";
             output += turn;
             std::cout << output << endl;
@@ -99,7 +99,7 @@ string board_setup(){
             output += "/";
         }
     }
-    delete win;
+    //delete win;
     output += turn;
     return output;
 }

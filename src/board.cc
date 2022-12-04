@@ -1,6 +1,7 @@
 #include "board.h"
 #include "pieces.h"
 #include <iostream>
+#include <algorithm>
 
 // Setup boards may be in check// Setup needs to assign proper turn from fen
 Board::Board(std::string input):
