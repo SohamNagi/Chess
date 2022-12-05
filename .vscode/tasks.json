@@ -2,14 +2,20 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: g++ build active file",
+            "label": "COMPILE",
             "command": "/usr/bin/g++",
             "args": [
                 "-fdiagnostics-color=always",
+                "-std=c++14",
+                "-Wall",
+                "-MMD",
+                "-Werror=vla",
                 "-g",
-                "${file}",
+                "*.o",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "-L/opt/X11/lib",
+                "-lX11"
             ],
             "options": {
                 "cwd": "${fileDirname}"
