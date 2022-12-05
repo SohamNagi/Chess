@@ -21,7 +21,7 @@ class Game {
     public:
         Board* board;
         int result;
-        Game(std::string fen, std::string white, std::string black);
+        Game(Board* brd, std::string white, std::string black);
        // void undo();
         // void makeMoves();
         void start();

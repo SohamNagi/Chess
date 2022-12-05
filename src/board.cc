@@ -1,8 +1,8 @@
 #include "board.h"
 #include "pieces.h"
 #include <iostream>
-#include <vector>
 #include <algorithm>
+#include <vector>
 
 // Setup boards may be in check// Setup needs to assign proper turn from fen
 Board::Board(std::string input):
@@ -29,10 +29,6 @@ Board::Board(std::string input):
             for(int g = 0; g < skip; g++){
                 boardState[index+g] = new emptyPiece(this, false, index + g, ' ');
                 col++;
-            }
-            if(col == 7){
-                --row;
-                col = 0;
             }
         } else {
             if(curr == 'k'){
@@ -101,10 +97,10 @@ int Board::boardInCheck(){
         if (i->type == 'K' || i->type == 'k') {
             (i->type == 'K') ? whiteKingPosition = i->location : blackKingPosition = i->location;
             continue;
-        }
+        } 
         if (!i->isEmpty) {
             for (auto move: i->legalmoves) {
-                    (i->isWhite) ? whiteMoves.emplace_back(move) : blackMoves.emplace_back(move);
+                (i->isWhite) ? whiteMoves.emplace_back(move) : blackMoves.emplace_back(move);
             }
         }
     }
@@ -116,4 +112,60 @@ int Board::boardInCheck(){
         return 1;
     }
     return 0;
+}
+
+
+
+bool Board::isValid(){
+    int whiteKing = 0;
+    int blackKing = 0;
+    int whitePawns = 0;
+    int blackPawns = 0;
+    int pieceCount = 0;
+
+    for(auto piece: boardState){
+        if(piece->type == 'k'){
+            blackKing++;
+        } else if(piece->type == 'K'){
+            whiteKing++;
+        } else if(piece->type == 'p'){
+            blackPawns++;
+        } else if(piece->type == 'P'){
+            whitePawns++;
+        }
+        if(!piece->isEmpty){
+            pieceCount++;
+        }
+    }
+
+    if(whiteKing != 1 || blackKing != 1 || whitePawns > 8 || blackPawns > 8){
+        std::cout << "Wrong Piece Count 1" << std::endl;
+        return false;
+    }
+
+    if(pieceCount < 3){
+        std::cout << "Wrong Piece Count 2" << std::endl;
+        return false;
+    }
+
+    if (this->boardInCheck() != 0){
+        std::cout << "Board in check" << std::endl;
+        return false;
+    }
+
+    for(int i = 0; i < 8; i++){
+        if(boardState[i]->type == 'P'){
+            std::cout << "Wrong White Pawn" << std::endl;
+            return false;
+        }
+    }
+
+    for (int j = 56; j < 63; j++){
+        if(boardState[j]->type == 'p'){
+            std::cout << "Wrong Black Pawn" << std::endl;
+            return false;
+        }
+    }
+
+    return true;
 }

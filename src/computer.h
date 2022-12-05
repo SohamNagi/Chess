@@ -18,9 +18,9 @@ class Computer: public Player {
         bool isWhite;
         Board* board;
         Computer(bool isWhite, Board* board);
-        void getmove();
+        void getmove(Board* test);
         void promote(int piece);
-        virtual BestMove evaluate() = 0;
+        virtual BestMove evaluate(Board* test) = 0;
 
 
 };
@@ -28,13 +28,19 @@ class Computer: public Player {
 class Level1: public Computer {
     public:
         Level1(bool isWhite, Board* board);
-        BestMove evaluate();
+        BestMove evaluate(Board* test);
 };
 
 class Level2: public Computer {
     public:
         Level2(bool isWhite, Board* board);
-        BestMove evaluate();
+        BestMove evaluate(Board* test);
+};
+
+class Level3: public Computer {
+    public:
+        Level3(bool isWhite, Board* board);
+        BestMove evaluate(Board* test);
 };
 
 #endif

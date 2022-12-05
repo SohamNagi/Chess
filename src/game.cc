@@ -9,23 +9,31 @@
 #include "computer.h"
 
 
-Game::Game(std::string fen, std::string white, std::string black):
-    board{new Board(fen)}, result{11}
+Game::Game(Board* brd, std::string white, std::string black):
+    board{brd}, result{11}
 {
     attach(new textObserver(this));
     graphicObserver* gfx = new graphicObserver(this);
-    attach(gfx);
+    //attach(gfx);
 
     if (white == "human"){
-      whitePlayer = new Human(true, board, gfx);
+      whitePlayer = new Human(true, brd, gfx);
     } else if (white == "1") {
-      whitePlayer = new Level1(true, board);
+      whitePlayer = new Level1(true, brd);
+    } else if (white == "2") {
+      whitePlayer = new Level2(true, brd);
+    } else if (white == "3") {
+      whitePlayer = new Level3(true, brd);
     }
 
     if (black == "human"){
-      blackPlayer = new Human(false, board, gfx);
+      blackPlayer = new Human(false, brd,gfx);
     } else if (black == "1") {
-      blackPlayer = new Level1(false, board);
+      blackPlayer = new Level1(false, brd);
+    } else if (black == "2") {
+      blackPlayer = new Level2(false, brd);
+    } else if (black == "3") {
+      blackPlayer = new Level3(false, brd);
     }
 
 }
@@ -61,9 +69,9 @@ void Game::start(){
       bool skip = false;
       try {
         if (board->whiteTurn){
-          whitePlayer->getmove();
+          whitePlayer->getmove(board);
         } else {
-          blackPlayer->getmove();
+          blackPlayer->getmove(board);
         }
       } catch (std::invalid_argument& e) {
         std::cout << "" << e.what() << std::endl;
