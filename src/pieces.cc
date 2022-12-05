@@ -1,10 +1,10 @@
 #include "pieces.h"
 #include <iostream>
+#include <algorithm>
 
 
 // make extra moves like castle and en passant and 2step pawn work in setup
 
-// black extra legal moves ++ isempty/opp etc
 
 // Still need to implement:
 // - Remove moves that result in checks
@@ -24,11 +24,96 @@
 // so instead we have 2 vectors (black and white attack coords) that consist of 0-16 vectors each, optimizing the program
 
 // refactor to reduce x and y, and use location instead
+//cant castle if king is in chec
+
+
+// CASTLING CHECKTEST en passant?
+
+// Helper function to check if a location is an opponent
+bool isEnemy(Pieces* piece, int checkLocation) {
+    return (!piece->board->boardState[checkLocation]->isEmpty && 
+        piece->board->boardState[checkLocation]->isWhite != piece->isWhite);
+}
+
+
+//  !!!!!!!!!!!!!! implement castling constraints and copy constructors and add code to each piece !!!!!!!!!!!!!!
+// check if given move results in on king being in check
+bool resultsInCheck(Pieces* piece, int end) {
+    for (auto i : piece->board->boardState) {
+        if ((i->type == 'k' || i->type == 'K') && i->location == end) return true;
+    }
+    int start = piece->location;
+    // making the move
+    piece->board->boardState[start]->location = end;
+    piece->board->boardState[end]->location = start;
+    std::iter_swap(piece->board->boardState.begin() + start, piece->board->boardState.begin() + end);
+    
+    // copying the important fields
+    bool isWhite = piece->board->boardState[start]->isWhite;
+    char type = piece->board->boardState[start]->type;
+    bool moved = piece->board->boardState[start]->moved;
+    int twoStep = piece->board->boardState[start]->twoStep;
+    if (!piece->board->boardState[start]->isEmpty) {
+        delete piece->board->boardState[start];
+        piece->board->boardState[start] = new emptyPiece(piece->board, false, start, ' ');
+    }
+    // checking if theres a check
+    int checkState = 0;
+    checkState = piece->board->boardInCheck();
+    bool isCheck;
+    if ((piece->isWhite && checkState == 1) || (!piece->isWhite && checkState == -1)) isCheck = true;
+    else isCheck = false;
+
+    // undoing the move made
+    delete piece->board->boardState[start];
+
+    if (type == ' ') {
+        piece->board->boardState[start] = new emptyPiece(piece->board, isWhite, start, ' ');
+    } else if (type == 'p' || type == 'P') {
+        piece->board->boardState[start] = new Pawn(piece->board, isWhite, start, type);
+        piece->moved = moved;
+        piece->twoStep = twoStep;
+    } else if (type == 'r' || type == 'R') {
+        piece->board->boardState[start] = new Rook(piece->board, isWhite, start, type);
+        piece->moved = moved;
+    } else if (type == 'q' || type == 'Q') {
+        piece->board->boardState[start] = new Queen(piece->board, isWhite, start, type);
+    } else if (type == 'n' || type == 'N') {
+        piece->board->boardState[start] = new Knight(piece->board, isWhite, start, type);
+    } else if (type == 'b' || type == 'B') {
+        piece->board->boardState[start] = new Bishop(piece->board, isWhite, start, type);
+    }
+    
+    std::iter_swap(piece->board->boardState.begin() + start, piece->board->boardState.begin() + end);
+    piece->board->boardState[start]->location = start;
+    piece->board->boardState[end]->location = end;
+
+
+    for (auto i: piece->board->boardState) {
+        i->updateMoves(false);
+    }
+
+
+    return isCheck;
+
+}
+
+
+// add to legalmoves
+void addToLegalMoves(bool checkTest, Pieces* piece, int move) {
+    if (checkTest) {
+        if (resultsInCheck(piece, move)) piece->board->illegalmoves[piece->location].emplace_back(move);
+    }
+    if (std::find(piece->legalmoves.begin(), piece->legalmoves.end(), move) == piece->legalmoves.end()) {
+        piece->legalmoves.emplace_back(move);
+    }
+}
+
 
 // Piece constructor
 Pieces::Pieces(Board* board, bool isWhite, int location, char type, bool isEmpty) :
     board{ board }, isWhite{ isWhite }, location{ location }, type{ type }, isEmpty{ isEmpty },
-    moved{ false }, twoStep{ -2 }, legalmoves{ } {}
+    moved{ false }, twoStep{ -2 }, legalmoves{ }, illegalmoves{ } {}
 
 // Piece destructor
 Pieces::~Pieces() {}
@@ -38,7 +123,7 @@ emptyPiece::emptyPiece(Board* board, bool isWhite, int location, char type) :
     Pieces{ board, isWhite, location, type, true } {}
 
 // emptyPiece updatemoves
-void emptyPiece::updateMoves() {}
+void emptyPiece::updateMoves(bool checkTest) {}
 
 // emptyPiece destructor
 emptyPiece::~emptyPiece() {}
@@ -47,72 +132,65 @@ emptyPiece::~emptyPiece() {}
 Pawn::Pawn(Board* board, bool isWhite, int location, char type) :
     Pieces{ board, isWhite, location, type, false } {}
 
-bool isEnemy(Pieces* piece, int checkLocation) {
-    return (!piece->board->boardState[checkLocation]->isEmpty && 
-        piece->board->boardState[checkLocation]->isWhite != piece->isWhite);
-}
-
-void Pawn::updateMoves() {
+void Pawn::updateMoves(bool checkTest) {
     legalmoves.clear();
     int x = location % 8;
     int y = (location-(location % 8)) / 8;
-
     // White Pawns:
     // Check the space immediately above
     if (isWhite && y + 1 <= 7 && board->boardState[(y + 1) * 8 + x]->isEmpty) {
-        legalmoves.emplace_back((y + 1) * 8 + x);
+        addToLegalMoves(checkTest, this, (y + 1) * 8 + x);
     }
     // Check the space 2 above
     if (isWhite && !moved && board->boardState[(y + 1) * 8 + x]->isEmpty && board->boardState[(y + 2) * 8 + x]->isEmpty) {
-        legalmoves.emplace_back((y + 2) * 8 + x);
+        addToLegalMoves(checkTest, this, (y + 2) * 8 + x);
     }
     // Check 1 up and 1 left to see if a capture is available
     if (isWhite && y + 1 <= 7 && x - 1 >= 0 && isEnemy(this, (y + 1) * 8 + (x - 1))) {
-        legalmoves.emplace_back((y + 1) * 8 + (x - 1));
+        addToLegalMoves(checkTest, this, (y + 1) * 8 + (x - 1));
     }
     // Check 1 up and 1 right to see if a capture is available
     if (isWhite && y + 1 <= 7 && x + 1 <= 7 && isEnemy(this, (y + 1) * 8 + (x + 1))) {
-        legalmoves.emplace_back((y + 1) * 8 + (x + 1));
+        addToLegalMoves(checkTest, this, (y + 1) * 8 + (x + 1));
     }
     // Check En Passant left
     if (isWhite && x > 0 && board->boardState[y*8 + x - 1]->type == 'p' && 
         board->boardState[y*8 + x - 1]->twoStep - board->halfMoves == -1) {
-        legalmoves.emplace_back((y + 1) * 8 + (x - 1));
+        addToLegalMoves(checkTest, this, (y + 1) * 8 + (x - 1));
     }
     // Check En Passant right
     if (isWhite && x < 7 && board->boardState[y*8 + x + 1]->type == 'p' && 
         board->boardState[y*8 + x + 1]->twoStep - board->halfMoves == -1) {
-        legalmoves.emplace_back((y + 1) * 8 + (x + 1));
+        addToLegalMoves(checkTest, this, (y + 1) * 8 + (x + 1));
     }
 
     // Black Pawns:
     // Check the space immediately below
     if (!isWhite && y - 1 >= 0 && board->boardState[(y - 1) * 8 + x]->isEmpty) {
-        legalmoves.emplace_back((y - 1) * 8 + x);
+        addToLegalMoves(checkTest, this, (y - 1) * 8 + x);
     }
     // Check the space 2 below
     if (!isWhite && !moved && board->boardState[(y - 1) * 8 + x]->isEmpty && board->boardState[(y - 2) * 8 + x]->isEmpty) {
-        legalmoves.emplace_back((y - 2) * 8 + x);
+        addToLegalMoves(checkTest, this, (y - 2) * 8 + x);
     }
     // Check 1 down and 1 left to see if a capture is available
     if (!isWhite && y - 1 >= 0 && x - 1 >= 0 && isEnemy(this, (y - 1) * 8 + (x - 1))) {
-        legalmoves.emplace_back((y - 1) * 8 + (x - 1));
+        addToLegalMoves(checkTest, this, (y - 1) * 8 + (x - 1));
     }
     // Check 1 down and 1 right to see if a capture is available
     if (!isWhite && y - 1 >= 0 && x + 1 <= 7 && isEnemy(this, (y - 1) * 8 + (x + 1))) {
-        legalmoves.emplace_back((y - 1) * 8 + (x + 1));
+        addToLegalMoves(checkTest, this, (y - 1) * 8 + (x + 1));
     }
     // Check En Passant left
     if (!isWhite && x > 0 && board->boardState[y*8 + x - 1]->type == 'P' && 
         board->boardState[y*8 + x - 1]->twoStep - board->halfMoves == -1) {
-        legalmoves.emplace_back((y - 1) * 8 + (x - 1));
+        addToLegalMoves(checkTest, this, (y - 1) * 8 + (x - 1));
     }
     // Check En Passant right
     if (!isWhite && x < 7 && board->boardState[y*8 + x + 1]->type == 'P' && 
         board->boardState[y*8 + x + 1]->twoStep - board->halfMoves == -1) {
-        legalmoves.emplace_back((y - 1) * 8 + (x + 1));
+        addToLegalMoves(checkTest, this, (y - 1) * 8 + (x + 1));
     }
-
 }
 
 // Pawn destructor
@@ -122,7 +200,7 @@ Pawn::~Pawn() {}
 Rook::Rook(Board* board, bool isWhite, int location, char type) :
     Pieces{ board, isWhite, location, type, false } {}
 
-void Rook::updateMoves() {
+void Rook::updateMoves(bool checkTest) {
     legalmoves.clear();
     int x = location % 8;
     int y = (location-(location % 8)) / 8;
@@ -130,40 +208,39 @@ void Rook::updateMoves() {
     // From the Rook to the top of the board
     for (int i = y + 1; i <= 7; i++) {
         if (board->boardState[i * 8 + x]->isEmpty) {
-            legalmoves.emplace_back(i * 8 + x);
+            addToLegalMoves(checkTest, this, i * 8 + x);
         } else if (board->boardState[i * 8 + x]->isWhite != isWhite) {
-            legalmoves.emplace_back(i * 8 + x);
+            addToLegalMoves(checkTest, this, i * 8 + x);
             break;
         } else break;
     }
     // From the Rook to the bottom of the board
     for (int i = y - 1; i >= 0; i--) {
         if (board->boardState[i * 8 + x]->isEmpty) {
-            legalmoves.emplace_back(i * 8 + x);
+            addToLegalMoves(checkTest, this, i * 8 + x);
         } else if (board->boardState[i * 8 + x]->isWhite != isWhite) {
-            legalmoves.emplace_back(i * 8 + x);
+            addToLegalMoves(checkTest, this, i * 8 + x);
             break;
         } else break;
     }
     // From the Rook to the right of the board
     for (int i = x + 1; i <= 7; i++) {
         if (board->boardState[y * 8 + i]->isEmpty) {
-            legalmoves.emplace_back(y * 8 + i);
+            addToLegalMoves(checkTest, this, y * 8 + i);
         } else if (board->boardState[y * 8 + i]->isWhite != isWhite) {
-            legalmoves.emplace_back(y * 8 + i);
+            addToLegalMoves(checkTest, this, y * 8 + i);
             break;
         } else break;
     }
     // From the Rook to the left of the board
     for (int i = x - 1; i >= 0; i--) {
         if (board->boardState[y * 8 + i]->isEmpty) {
-            legalmoves.emplace_back(y * 8 + i);
+            addToLegalMoves(checkTest, this, y * 8 + i);
         } else if (board->boardState[y * 8 + i]->isWhite != isWhite) {
-            legalmoves.emplace_back(y * 8 + i);
+            addToLegalMoves(checkTest, this, y * 8 + i);
             break;
         } else break;
-    }
-
+    }    
 }
 
 // Rook destructor
@@ -173,7 +250,7 @@ Rook::~Rook() {}
 King::King(Board* board, bool isWhite, int location, char type) :
     Pieces{ board, isWhite, location, type, false } {}
 
-void King::updateMoves()  {
+void King::updateMoves(bool checkTest)  {
     legalmoves.clear();
     int x = location % 8;
     int y = (location-(location % 8)) / 8;
@@ -184,7 +261,7 @@ void King::updateMoves()  {
             int possible = (y + j) * 8 + (x + i);
             if (0 <= possible && possible < 64 && !(i == 0 && j == 0) && (board->boardState[possible]->isEmpty ||
                 board->boardState[possible]->isWhite != isWhite)) {
-                    legalmoves.emplace_back((y + j) * 8 + (x + i));
+                    addToLegalMoves(checkTest, this, (y + j) * 8 + (x + i));
                 }
         }
     }
@@ -196,7 +273,7 @@ void King::updateMoves()  {
     }
     if (isWhite && !moved && board->boardState[3]->isEmpty && board->boardState[2]->isEmpty && 
         board->boardState[1]->isEmpty && board->boardState[0]->type == 'R' && !board->boardState[0]->moved) {
-            legalmoves.emplace_back(1);
+            legalmoves.emplace_back(2);
     }
     if (!isWhite && !moved && board->boardState[61]->isEmpty && board->boardState[62]->isEmpty && 
         board->boardState[63]->type == 'r' && !board->boardState[63]->moved) {
@@ -206,7 +283,6 @@ void King::updateMoves()  {
         board->boardState[57]->isEmpty && board->boardState[56]->type == 'r' && !board->boardState[56]->moved) {
             legalmoves.emplace_back(58);
     }
-
 }
 
 // King destructor
@@ -216,7 +292,7 @@ King::~King() {}
 Queen::Queen(Board* board, bool isWhite, int location, char type) :
     Pieces{ board, isWhite, location, type, false } {}
 
-void Queen::updateMoves() {
+void Queen::updateMoves(bool checkTest) {
     legalmoves.clear();
     int x = location % 8;
     int y = (location-(location % 8)) / 8;
@@ -224,36 +300,36 @@ void Queen::updateMoves() {
     // From the Queen to the top of the board
     for (int i = y + 1; i <= 7; i++) {
         if (board->boardState[i * 8 + x]->isEmpty) {
-            legalmoves.emplace_back(i * 8 + x);
+            addToLegalMoves(checkTest, this, i * 8 + x);
         } else if (board->boardState[i * 8 + x]->isWhite != isWhite) {
-            legalmoves.emplace_back(i * 8 + x);
+            addToLegalMoves(checkTest, this, i * 8 + x);
             break;
         } else break;
     }
     // From the Queen to the bottom of the board
     for (int i = y - 1; i >= 0; i--) {
         if (board->boardState[i * 8 + x]->isEmpty) {
-            legalmoves.emplace_back(i * 8 + x);
+            addToLegalMoves(checkTest, this, i * 8 + x);
         } else if (board->boardState[i * 8 + x]->isWhite != isWhite) {
-            legalmoves.emplace_back(i * 8 + x);
+            addToLegalMoves(checkTest, this, i * 8 + x);
             break;
         } else break;
     }
     // From the Queen to the right of the board
     for (int i = x + 1; i <= 7; i++) {
         if (board->boardState[y * 8 + i]->isEmpty) {
-            legalmoves.emplace_back(y * 8 + i);
+            addToLegalMoves(checkTest, this, y * 8 + i);
         } else if (board->boardState[y * 8 + i]->isWhite != isWhite) {
-            legalmoves.emplace_back(y * 8 + i);
+            addToLegalMoves(checkTest, this, y * 8 + i);
             break;
         } else break;
     }
     // From the Queen to the left of the board
     for (int i = x - 1; i >= 0; i--) {
         if (board->boardState[y * 8 + i]->isEmpty) {
-            legalmoves.emplace_back(y * 8 + i);
+            addToLegalMoves(checkTest, this, y * 8 + i);
         } else if (board->boardState[y * 8 + i]->isWhite != isWhite) {
-            legalmoves.emplace_back(y * 8 + i);
+            addToLegalMoves(checkTest, this, y * 8 + i);
             break;
         } else break;
     }
@@ -265,11 +341,11 @@ void Queen::updateMoves() {
     for (int i = x + 1; i < 8; i++) {
         for (int j = y + 1; j < 8; j++) {
             if (abs(i - x) == abs(j - y)) {
-                if (board->boardState[j * 8 + i]->isWhite == isWhite) {
+                if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite == isWhite) {
                     doubleBreak = true;
                     break;
                 }
-                legalmoves.emplace_back(j * 8 + i);
+                addToLegalMoves(checkTest, this, j * 8 + i);
                 if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite != isWhite) {
                     doubleBreak = true;
                     break;
@@ -284,11 +360,11 @@ void Queen::updateMoves() {
     for (int i = x + 1; i < 8; i++) {
         for (int j = y - 1; j >= 0; j--) {
             if (abs(i - x) == abs(j - y)) {
-                if (board->boardState[j * 8 + i]->isWhite == isWhite) {
+                if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite == isWhite) {
                     doubleBreak = true;
                     break;
                 }
-                legalmoves.emplace_back(j * 8 + i);
+                addToLegalMoves(checkTest, this, j * 8 + i);
                 if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite != isWhite) {
                     doubleBreak = true;
                     break;
@@ -304,11 +380,11 @@ void Queen::updateMoves() {
     for (int i = x - 1; i >= 0; i--) {
         for (int j = y - 1; j >= 0; j--) {
             if (abs(i - x) == abs(j - y)) {
-                if (board->boardState[j * 8 + i]->isWhite == isWhite) {
+                if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite == isWhite) {
                     doubleBreak = true;
                     break;
                 }
-                legalmoves.emplace_back(j * 8 + i);
+                addToLegalMoves(checkTest, this, j * 8 + i);
                 if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite != isWhite) {
                     doubleBreak = true;
                     break;
@@ -324,11 +400,11 @@ void Queen::updateMoves() {
     for (int i = x - 1; i >= 0; i--) {
         for (int j = y + 1; j < 8; j++) {
             if (abs(i - x) == abs(j - y)) {
-                if (board->boardState[j * 8 + i]->isWhite == isWhite) {
+                if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite == isWhite) {
                     doubleBreak = true;
                     break;
                 }
-                legalmoves.emplace_back(j * 8 + i);
+                addToLegalMoves(checkTest, this, j * 8 + i);
                 if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite != isWhite) {
                     doubleBreak = true;
                     break;
@@ -346,7 +422,7 @@ Queen::~Queen() {}
 Knight::Knight(Board* board, bool isWhite, int location, char type) :
     Pieces{ board, isWhite, location, type, false } {}
 
-void Knight::updateMoves() {
+void Knight::updateMoves(bool checkTest) {
     legalmoves.clear();
     int x = location % 8;
     int y = (location-(location % 8)) / 8;
@@ -360,7 +436,7 @@ void Knight::updateMoves() {
         int possible = (y + yChange[i]) * 8 + x + xChange[i];
         if (0 <= possible && possible < 64 && y + yChange[i] < 8 && x + xChange[i] < 8 && y + yChange[i] >= 0 && x + xChange[i] >= 0 &&
             (board->boardState[possible]->isEmpty || board->boardState[possible]->isWhite != isWhite)) {
-                legalmoves.emplace_back(possible);
+                addToLegalMoves(checkTest, this, possible);
         }
     }
 }
@@ -372,7 +448,7 @@ Knight::~Knight() {}
 Bishop::Bishop(Board* board, bool isWhite, int location, char type) :
     Pieces{ board, isWhite, location, type, false } {}
 
-void Bishop::updateMoves() {
+void Bishop::updateMoves(bool checkTest) {
     legalmoves.clear();
     int x = location % 8;
     int y = (location-(location % 8)) / 8;
@@ -385,11 +461,11 @@ void Bishop::updateMoves() {
     for (int i = x + 1; i < 8; i++) {
         for (int j = y + 1; j < 8; j++) {
             if (abs(i - x) == abs(j - y)) {
-                if (board->boardState[j * 8 + i]->isWhite == isWhite) {
+                if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite == isWhite) {
                     doubleBreak = true;
                     break;
                 }
-                legalmoves.emplace_back(j * 8 + i);
+                addToLegalMoves(checkTest, this, j * 8 + i);
                 if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite != isWhite) {
                     doubleBreak = true;
                     break;
@@ -398,18 +474,18 @@ void Bishop::updateMoves() {
         }
         if (doubleBreak) break;
     }
-
-    doubleBreak = false;
-
+    if (checkTest) {
+        doubleBreak = false;
+    }
     // Checking the down/right diagonal
     for (int i = x + 1; i < 8; i++) {
         for (int j = y - 1; j >= 0; j--) {
             if (abs(i - x) == abs(j - y)) {
-                if (board->boardState[j * 8 + i]->isWhite == isWhite) {
+                if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite == isWhite) {
                     doubleBreak = true;
                     break;
                 }
-                legalmoves.emplace_back(j * 8 + i);
+                addToLegalMoves(checkTest, this, j * 8 + i);
                 if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite != isWhite) {
                     doubleBreak = true;
                     break;
@@ -425,11 +501,11 @@ void Bishop::updateMoves() {
     for (int i = x - 1; i >= 0; i--) {
         for (int j = y - 1; j >= 0; j--) {
             if (abs(i - x) == abs(j - y)) {
-                if (board->boardState[j * 8 + i]->isWhite == isWhite) {
+                if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite == isWhite) {
                     doubleBreak = true;
                     break;
                 }
-                legalmoves.emplace_back(j * 8 + i);
+                addToLegalMoves(checkTest, this, j * 8 + i);
                 if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite != isWhite) {
                     doubleBreak = true;
                     break;
@@ -445,11 +521,11 @@ void Bishop::updateMoves() {
     for (int i = x - 1; i >= 0; i--) {
         for (int j = y + 1; j < 8; j++) {
             if (abs(i - x) == abs(j - y)) {
-                if (board->boardState[j * 8 + i]->isWhite == isWhite) {
+                if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite == isWhite) {
                     doubleBreak = true;
                     break;
                 }
-                legalmoves.emplace_back(j * 8 + i);
+                addToLegalMoves(checkTest, this, j * 8 + i);
                 if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite != isWhite) {
                     doubleBreak = true;
                     break;

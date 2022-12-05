@@ -63,9 +63,7 @@ void Game::detach(Observer *o) {
 
 void Game::start(){
   std::string command;
-  for (auto i: board->boardState) {
-    i->updateMoves();
-  }
+  board->notifyStateChange(false);
   while(std::cin >> command){
     if (command == "move"){
       bool skip = false;
@@ -85,9 +83,7 @@ void Game::start(){
       board->whiteTurn = !board->whiteTurn;
       if (board->whiteTurn) board->moves += 1;
       notifyObservers();
-      for (auto i: board->boardState) {
-        i->updateMoves();
-      }
+      board->notifyStateChange(true);
     } else if (command == "resign"){
       if (board->whiteTurn){
         result = -1;

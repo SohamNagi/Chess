@@ -13,6 +13,7 @@ class Board {
         std::vector<Pieces*> boardState;
         //std::vector<Coord> LastMove;
         //Coord en_passant;
+        std::vector<std::vector<int>> illegalmoves;
 
         int halfMoves;
         int moves;
@@ -28,8 +29,9 @@ class Board {
         int boardInCheck();
         Board(std::string fen);
         bool isValid();
-        void notifyStateChange();
+        void notifyStateChange(bool checkTest);
         ~Board();
+        int boardInCheck();
     private:
 
         std::string FEN();

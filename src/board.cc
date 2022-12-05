@@ -2,10 +2,11 @@
 #include "pieces.h"
 #include <iostream>
 #include <algorithm>
+#include <vector>
 
 // Setup boards may be in check// Setup needs to assign proper turn from fen
 Board::Board(std::string input):
-    halfMoves{0},moves{1},WhiteCheck{false}, BlackCheck{false}, eval{0}
+    halfMoves{0},moves{1},WhiteCheck{false}, BlackCheck{false}, eval{0}, illegalmoves{64, std::vector<int> (0)}
 {
     int row = 7;
     int col = 0;
@@ -61,9 +62,19 @@ Board::Board(std::string input):
     }
 }
 
-void Board::notifyStateChange() {
+void Board::notifyStateChange(bool checkTest) {
     for (auto i : boardState) {
-        i->updateMoves();
+        i->updateMoves(checkTest);
+    }
+    if (checkTest){
+        for (auto i : boardState) {
+            for (auto j: illegalmoves[i->location]) {
+                i->legalmoves.erase(std::remove(i->legalmoves.begin(), i->legalmoves.end(), j), i->legalmoves.end());
+            }
+        }
+    }
+    for (auto &i : illegalmoves) {
+        i.clear();
     }
 }
 
@@ -76,7 +87,7 @@ Board::~Board(){
 // Checks if the board has an active check, returns 1 if white is in check, -1 if black is in check, and 0 if no checks
 int Board::boardInCheck(){
     for (auto i: boardState) {
-        i->updateMoves();
+        i->updateMoves(false);
     }
     std::vector<int> blackMoves;
     std::vector<int> whiteMoves;
@@ -94,7 +105,7 @@ int Board::boardInCheck(){
         }
     }
 
-    if(std::find(whiteMoves.begin(), whiteMoves.end(), blackKingPosition) != whiteMoves.end()) {
+    if (std::find(whiteMoves.begin(), whiteMoves.end(), blackKingPosition) != whiteMoves.end()) {
         return -1;
     }
     else if (std::find(blackMoves.begin(), blackMoves.end(), whiteKingPosition) != blackMoves.end()) {
