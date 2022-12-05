@@ -23,7 +23,7 @@ Game::Game(std::string fen, std::string white, std::string black):
     }
 
     if (black == "human"){
-      blackPlayer = new Human(false, board,gfx);
+      blackPlayer = new Human(false, board, gfx);
     } else if (black == "1") {
       blackPlayer = new Level1(false, board);
     }
@@ -55,9 +55,7 @@ void Game::detach(Observer *o) {
 
 void Game::start(){
   std::string command;
-  for (auto i: board->boardState) {
-    i->updateMoves();
-  }
+  board->notifyStateChange(false);
   while(std::cin >> command){
     if (command == "move"){
       bool skip = false;
@@ -77,9 +75,7 @@ void Game::start(){
       board->whiteTurn = !board->whiteTurn;
       if (board->whiteTurn) board->moves += 1;
       notifyObservers();
-      for (auto i: board->boardState) {
-        i->updateMoves();
-      }
+      board->notifyStateChange(true);
     } else if (command == "resign"){
       if (board->whiteTurn){
         result = -1;
