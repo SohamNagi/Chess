@@ -6,7 +6,7 @@
 
 // Setup boards may be in check// Setup needs to assign proper turn from fen
 Board::Board(std::string input):
-    halfMoves{0},moves{1},WhiteCheck{false}, BlackCheck{false}, eval{0}, illegalmoves{64, std::vector<int> (0)}
+    illegalmoves{64, std::vector<int> (0)}, halfMoves{0}, moves{1} , WhiteCheck{false}, BlackCheck{false}, eval{0} 
 {
     int row = 7;
     int col = 0;

@@ -31,7 +31,6 @@ class Board {
         bool isValid();
         void notifyStateChange(bool checkTest);
         ~Board();
-        int boardInCheck();
     private:
 
         std::string FEN();
