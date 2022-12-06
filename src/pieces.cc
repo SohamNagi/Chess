@@ -474,9 +474,7 @@ void Bishop::updateMoves(bool checkTest) {
         }
         if (doubleBreak) break;
     }
-    if (checkTest) {
-        doubleBreak = false;
-    }
+    doubleBreak = false;
     // Checking the down/right diagonal
     for (int i = x + 1; i < 8; i++) {
         for (int j = y - 1; j >= 0; j--) {
