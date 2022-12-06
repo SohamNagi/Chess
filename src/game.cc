@@ -22,9 +22,10 @@ Game::Game(Board* brd, std::string white, std::string black):
       whitePlayer = new Level1(true, brd);
     } else if (white == "2") {
       whitePlayer = new Level2(true, brd);
-    } else if (white == "3") {
-      whitePlayer = new Level3(true, brd);
-    }
+    } 
+    // else if (white == "3") {
+    //   whitePlayer = new Level3(true, brd);
+    // }
 
     if (black == "human"){
       blackPlayer = new Human(false, brd,gfx);
@@ -32,9 +33,10 @@ Game::Game(Board* brd, std::string white, std::string black):
       blackPlayer = new Level1(false, brd);
     } else if (black == "2") {
       blackPlayer = new Level2(false, brd);
-    } else if (black == "3") {
-      blackPlayer = new Level3(false, brd);
-    }
+    } 
+    // else if (black == "3") {
+    //   blackPlayer = new Level3(false, brd);
+    // }
 
 }
 
@@ -68,9 +70,9 @@ void Game::start(){
       bool skip = false;
       try {
         if (board->whiteTurn){
-          whitePlayer->getmove(board);
+          whitePlayer->getmove();
         } else {
-          blackPlayer->getmove(board);
+          blackPlayer->getmove();
         }
       } catch (std::invalid_argument& e) {
         std::cout << "" << e.what() << std::endl;

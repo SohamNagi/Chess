@@ -14,11 +14,11 @@ class Player {
         virtual ~Player() = 0;
 
         void resign();
-        bool move(int start, int end, Board* board);
-        virtual void getmove(Board* test = nullptr) = 0; // Passing a board again is needed
-        virtual void promote(int piece) = 0;             // as for some reason, the computer class
-        void castle(Rook* rook);                         // cannot accessing the board field without 
-};                                                       // without it thinking it is uninitialized
+        void move(int start, int end);
+        virtual void getmove() = 0;
+        virtual void promote(int piece) = 0;
+        void castle(Rook* rook);
+};
 
 
 #endif

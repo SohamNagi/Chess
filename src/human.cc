@@ -10,7 +10,7 @@ Human::Human(bool isWhite, Board* board, graphicObserver* obs):
 
 Human::~Human() {};
 
-void Human::getmove(Board* test) {
+void Human::getmove() {
 
     char input_c;
     int input_n;

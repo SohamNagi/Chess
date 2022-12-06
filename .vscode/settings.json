@@ -76,7 +76,9 @@
         "locale": "cpp",
         "variant": "cpp",
         "__node_handle": "cpp",
-        "__tree": "cpp"
+        "__tree": "cpp",
+        "condition_variable": "cpp",
+        "thread": "cpp"
     },
     "files.exclude": {
         "src/**/*.d": true,
