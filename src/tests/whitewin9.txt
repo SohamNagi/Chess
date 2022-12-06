@@ -1,0 +1,29 @@
+game human human
+move e2e4
+move e7e5
+move b1c3
+move g8f6
+move f1c4
+move f8c5
+move d2d3
+move e8g8
+move c1g5
+move d7d6
+move c3d5
+move d8d7
+move g5f6
+move c7c6
+move f6e7
+move f8e8
+move d5f6
+move g7f6
+move e7f6
+move d6d5
+move e4d5
+move c6d5
+move c4b5
+move d7b5
+move d1g4
+move g8f8
+move g4g7
+quit
