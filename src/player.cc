@@ -10,9 +10,7 @@ Player::Player(bool isWhite, Board* board): isWhite(isWhite), board{board} {};
 Player::~Player() {}
 
 
-bool Player::move(int start, int end, Board* board) {
-
-
+void Player::move(int start, int end) {
     Pieces* piece = board->boardState[start];
 
 
@@ -45,6 +43,7 @@ bool Player::move(int start, int end, Board* board) {
         throw std::invalid_argument("Move is not legal! Try again.");
     }
 
+
     // Update moved field
     // Castling
     if (piece->type == 'K' && end == 6 && !piece->moved) {
@@ -53,7 +52,7 @@ bool Player::move(int start, int end, Board* board) {
         board->boardState[end]->location = end;
         board->boardState[5]->location = 5;
         piece->moved = true;
-        return true;
+        return;
     }
     
     else if (piece->type == 'K' && end == 2 && !piece->moved) {
@@ -62,7 +61,7 @@ bool Player::move(int start, int end, Board* board) {
         board->boardState[end]->location = end;
         board->boardState[3]->location = 3;
         piece->moved = true;
-        return true;
+        return;
     }
     
     else if (piece->type == 'k' && end == 62 && !piece->moved) {
@@ -72,7 +71,7 @@ bool Player::move(int start, int end, Board* board) {
         board->boardState[end]->location = end;
         board->boardState[61]->location = 61;
         piece->moved = true;
-        return true;
+        return;
     }
     
     else if (piece->type == 'k' && end == 58 && !piece->moved) {
@@ -81,8 +80,10 @@ bool Player::move(int start, int end, Board* board) {
         board->boardState[end]->location = end;
         board->boardState[59]->location = 59;
         piece->moved = true;
-        return true;
+        return;
     }
+    piece->moved = true;
+
 
 
     // Changes the location in the selected pieces
@@ -92,6 +93,7 @@ bool Player::move(int start, int end, Board* board) {
     board->boardState[end]->location = start;
     std::iter_swap(board->boardState.begin() + start, board->boardState.begin() + end);
 
+    
     // Pawn promotion
     if ((end < 64 && end > 55 && board->boardState[end]->type == 'P') || (end < 8 && end >= 0 && board->boardState[end]->type == 'p')) {
         promote(end);
@@ -114,7 +116,7 @@ bool Player::move(int start, int end, Board* board) {
     }
     
     // En Passant
-    else if (board->boardState[end]->type == 'p' && (start - end == 9 || start - end == 7)) {
+    if (board->boardState[end]->type == 'p' && (start - end == 9 || start - end == 7)) {
         int killAt = (start - end == 9) ? start-1 : start+1;
         delete board->boardState[killAt];
         board->boardState[killAt] = new emptyPiece(board, false, killAt, ' ');
@@ -123,10 +125,8 @@ bool Player::move(int start, int end, Board* board) {
         int killAt = (end - start == 7) ? start-1 : start+1;
         delete board->boardState[killAt];
         board->boardState[killAt] = new emptyPiece(board, false, killAt, ' ');
-    }
+    }    
 
-    piece->moved = true;
-    
-    return true;
+    return;
 
 }

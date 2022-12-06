@@ -3,34 +3,44 @@
 
 #include "player.h"
 
+struct BestMove {
+    int start;
+    int end;
+
+    bool no_moves;
+
+    BestMove(int start, int end);
+    BestMove(bool no_moves);
+};
+
 class Computer: public Player {
     public:
-        std::vector<std::vector<int>> personalMoves;
-        int ownKingPosition; // check if i need this later
-    public:
+        bool isWhite;
+        Board* board;
         Computer(bool isWhite, Board* board);
-        int returnWeight(int start, int end);
-        void updateData(int level);
-        virtual void getmove() = 0;
+        void getmove(Board* test);
         void promote(int piece);
+        virtual BestMove evaluate(Board* test) = 0;
+
+
 };
 
 class Level1: public Computer {
     public:
-        void getmove();
         Level1(bool isWhite, Board* board);
+        BestMove evaluate(Board* test);
 };
 
 class Level2: public Computer {
     public:
-        void getmove();
         Level2(bool isWhite, Board* board);
+        BestMove evaluate(Board* test);
 };
 
 class Level3: public Computer {
     public:
-        void getmove();
         Level3(bool isWhite, Board* board);
+        BestMove evaluate(Board* test);
 };
 
 #endif

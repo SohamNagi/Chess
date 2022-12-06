@@ -2,41 +2,12 @@
 #include <iostream>
 #include <algorithm>
 
-
-// make extra moves like castle and en passant and 2step pawn work in setup
-
-
-// Still need to implement:
-// - Remove moves that result in checks
-// - En Passant
-// - Castling
-// - Remove all moves that don't fix a current check
-// - should something else change if the legal move involves capturing?
-
-// personal notes:
-
-// Use functions for the bishop and rook so the queen's function is shorter
-// + a lot could be done to make the code shorter and more readable
-
-// could implement a vector in the board class that has the attack coords for white and black
-// the only problem with this is the processing required, after every move the program would need to iterate through
-// all 64 locations and iterate through those coords' legalmoves vector. Could instead copy over the entire vector,
-// so instead we have 2 vectors (black and white attack coords) that consist of 0-16 vectors each, optimizing the program
-
-// refactor to reduce x and y, and use location instead
-//cant castle if king is in chec
-
-
-// CASTLING CHECKTEST en passant?
-
 // Helper function to check if a location is an opponent
 bool isEnemy(Pieces* piece, int checkLocation) {
     return (!piece->board->boardState[checkLocation]->isEmpty && 
         piece->board->boardState[checkLocation]->isWhite != piece->isWhite);
 }
 
-
-//  !!!!!!!!!!!!!! implement castling constraints and copy constructors and add code to each piece !!!!!!!!!!!!!!
 // check if given move results in on king being in check
 bool resultsInCheck(Pieces* piece, int end) {
     for (auto i : piece->board->boardState) {
