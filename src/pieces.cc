@@ -88,11 +88,9 @@ bool resultsInCheck(Pieces* piece, int end) {
     piece->board->boardState[start]->location = start;
     piece->board->boardState[end]->location = end;
 
-
     for (auto i: piece->board->boardState) {
         i->updateMoves(false);
     }
-
 
     return isCheck;
 
@@ -120,7 +118,9 @@ Pieces::~Pieces() {}
 
 // emptyPiece constructor
 emptyPiece::emptyPiece(Board* board, bool isWhite, int location, char type) :
-    Pieces{ board, isWhite, location, type, true } {}
+    Pieces{ board, isWhite, location, type, true } {
+        moved = true;
+    }
 
 // emptyPiece updatemoves
 void emptyPiece::updateMoves(bool checkTest) {}
@@ -142,7 +142,7 @@ void Pawn::updateMoves(bool checkTest) {
         addToLegalMoves(checkTest, this, (y + 1) * 8 + x);
     }
     // Check the space 2 above
-    if (isWhite && !moved && board->boardState[(y + 1) * 8 + x]->isEmpty && board->boardState[(y + 2) * 8 + x]->isEmpty) {
+    if (isWhite && !moved && ((y + 1) * 8 + x < 64) && ((y + 2) * 8 + x < 64) && board->boardState[(y + 1) * 8 + x]->isEmpty && board->boardState[(y + 2) * 8 + x]->isEmpty) {
         addToLegalMoves(checkTest, this, (y + 2) * 8 + x);
     }
     // Check 1 up and 1 left to see if a capture is available
@@ -163,14 +163,14 @@ void Pawn::updateMoves(bool checkTest) {
         board->boardState[y*8 + x + 1]->twoStep - board->halfMoves == -1) {
         addToLegalMoves(checkTest, this, (y + 1) * 8 + (x + 1));
     }
-
     // Black Pawns:
     // Check the space immediately below
     if (!isWhite && y - 1 >= 0 && board->boardState[(y - 1) * 8 + x]->isEmpty) {
         addToLegalMoves(checkTest, this, (y - 1) * 8 + x);
     }
+    
     // Check the space 2 below
-    if (!isWhite && !moved && board->boardState[(y - 1) * 8 + x]->isEmpty && board->boardState[(y - 2) * 8 + x]->isEmpty) {
+    if (!isWhite && !moved && ((y - 1) * 8 + x >= 0) && ((y - 2) * 8 + x >= 0) && board->boardState[(y - 1) * 8 + x]->isEmpty && board->boardState[(y - 2) * 8 + x]->isEmpty) {
         addToLegalMoves(checkTest, this, (y - 2) * 8 + x);
     }
     // Check 1 down and 1 left to see if a capture is available
@@ -186,6 +186,7 @@ void Pawn::updateMoves(bool checkTest) {
         board->boardState[y*8 + x - 1]->twoStep - board->halfMoves == -1) {
         addToLegalMoves(checkTest, this, (y - 1) * 8 + (x - 1));
     }
+    
     // Check En Passant right
     if (!isWhite && x < 7 && board->boardState[y*8 + x + 1]->type == 'P' && 
         board->boardState[y*8 + x + 1]->twoStep - board->halfMoves == -1) {
