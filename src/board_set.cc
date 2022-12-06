@@ -8,7 +8,9 @@
 
 using namespace std;
 
+// Board setup returns a pointer to a board object by taking user input
 Board* board_setup(vector<char>* start, string set_turn, int status){
+    // Creates base graphic window
     auto win = new Xwindow{500,500};
     win->drawStringBold(90, 35, "CS246 - C++ Chess");
     vector<char> opti;
@@ -31,6 +33,7 @@ Board* board_setup(vector<char>* start, string set_turn, int status){
     win->fillRectangle(400+shift, shift, 5, 405, 1);
     win->fillRectangle(shift, 400+shift, 400, 5, 1);
 
+    // Initialse Variables For Board Construction
     string command;
     string output;
     int empty = 0;
@@ -50,6 +53,7 @@ Board* board_setup(vector<char>* start, string set_turn, int status){
     cout << "\"done\" to return to main menu and start a game. " << endl;
 
     while(cin >> command){
+        // Add a new piece to given index
         if(command == "+"){
             char piece; std::cin >> piece;
             char file; std::cin >> file;
@@ -57,6 +61,7 @@ Board* board_setup(vector<char>* start, string set_turn, int status){
             grid[(8*(row-1))+mapFiles(file)] = piece;
             txt_printer(grid);
             gfx_printer(win,grid, &opti);
+        // Remove piece from given index
         } else if (command == "-"){
             char piece; std::cin >> piece;
             char file; std::cin >> file;
@@ -64,6 +69,7 @@ Board* board_setup(vector<char>* start, string set_turn, int status){
             grid[(8*(row-1))+mapFiles(file)] = ' ';
             txt_printer(grid);
             gfx_printer(win,grid,&opti);
+        // Set turn
         } else if (command == "="){
             string color; std::cin >> color;
             if (color == "white"){
@@ -73,6 +79,7 @@ Board* board_setup(vector<char>* start, string set_turn, int status){
                 std::cout << "Set turn to black!" << std::endl;
                 turn = " b";
             }
+        // Build board from fen input
         } else if (command == "fen"){
             std::cin >> output;
             std::cin >> turn;
@@ -91,12 +98,14 @@ Board* board_setup(vector<char>* start, string set_turn, int status){
                 i->moved = true;
             }
             return final_board;
+        // Quit setup mode
         } else if (command == "done"){
             system("clear");
             break;
         }
     }
 
+    // Parse through 8x8 array to build a fen
     for(int i = 7; i >= 0; i--){
         for(int j = 0; j < 8; j++){
             if(grid[(8*i) + j] == ' '){
@@ -124,16 +133,19 @@ Board* board_setup(vector<char>* start, string set_turn, int status){
         return new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
     }
     output += turn;
+    // Construct board using generated FEN
     final_board = new Board(output);
+    // Check if board is valid, else restart setup
     if(!final_board->isValid()){
         delete final_board;
         std::cout << "Your board is invalid, please fix it!" << std::endl;
         final_board = board_setup(&grid, turn, -1);
     }
 
+    // Prevent castling and pawn pushes
     for(auto i: final_board->boardState){
         i->moved = true;
     }
-    
+
     return final_board;
 }

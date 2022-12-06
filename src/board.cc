@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <vector>
 
-// Setup boards may be in check// Setup needs to assign proper turn from fen
+// Board constructor, takes in input as a fen string
 Board::Board(std::string input):
     illegalmoves{64, std::vector<int> (0)}, halfMoves{0}, moves{1} , WhiteCheck{false}, BlackCheck{false}, eval{0} 
 {
@@ -62,6 +62,7 @@ Board::Board(std::string input):
     }
 }
 
+// Tells pieces to update their legal moves
 void Board::notifyStateChange(bool checkTest) {
     for (auto i : boardState) {
         i->updateMoves(checkTest);
@@ -78,13 +79,21 @@ void Board::notifyStateChange(bool checkTest) {
     }
 }
 
+// Board Destructor
 Board::~Board(){
     for(auto i: boardState){
         delete i;
     }
 }
 
-// Checks if the board has an active check, returns 1 if white is in check, -1 if black is in check, and 0 if no checks
+// Checks if the board has an active check and returns according to the following format
+// Normal Board 0
+// White Check  1
+// Black Check -1
+// White Checkmate 2
+// White Checkmate -2
+// Stalemate 3
+
 int Board::boardInCheck(bool checkTest){
     if (!checkTest) {
         for (auto i: boardState) {
