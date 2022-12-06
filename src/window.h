@@ -4,9 +4,9 @@
 #include <X11/Xlib.h>
 #include <iostream>
 #include <string>
-#define BKGND 11
-#define FORGND 12
-#define HGLT 4
+#define BKGND 13
+#define FORGND 14
+#define HGLT 7
 
 struct mouseLocation {
     int x;

@@ -21,7 +21,7 @@ Xwindow::Xwindow(int width, int height) {
   // Set up colours.
   XColor xcolour;
   Colormap cmap;
-  std::vector<std::string>color_vals{"white", "black", "red", "green", "blue", "cyan", "yellow", "magenta", "orange", "brown","Gray41","Bisque", "Sienna"};
+  std::vector<std::string>color_vals{"white", "black", "red", "green", "blue", "cyan", "yellow", "magenta", "orange", "brown","Gray41","Bisque", "Sienna", "Papaya Whip" ,"Dark Green"};
   int num_colors = color_vals.size();
   cmap=DefaultColormap(d,DefaultScreen(d));
   for(int i=0; i < num_colors; ++i) {
