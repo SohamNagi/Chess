@@ -268,20 +268,22 @@ void King::updateMoves(bool checkTest)  {
     }
 
     // Castling
-    if (isWhite && !moved && board->boardState[5]->isEmpty && board->boardState[6]->isEmpty && 
-        board->boardState[7]->type == 'R' && !board->boardState[7]->moved) {
+    if (isWhite && !moved && !board->WhiteCheck && (board->boardState[5]->isEmpty && !resultsInCheck(this, 5)) && 
+    (board->boardState[6]->isEmpty && !resultsInCheck(this, 6)) && board->boardState[7]->type == 'R' && !board->boardState[7]->moved) {
             legalmoves.emplace_back(6);
     }
-    if (isWhite && !moved && board->boardState[3]->isEmpty && board->boardState[2]->isEmpty && 
-        board->boardState[1]->isEmpty && board->boardState[0]->type == 'R' && !board->boardState[0]->moved) {
+    if (isWhite && !moved && !board->WhiteCheck && (board->boardState[3]->isEmpty && !resultsInCheck(this, 3)) && 
+    (board->boardState[2]->isEmpty && !resultsInCheck(this, 2)) && board->boardState[1]->isEmpty && board->boardState[0]->type == 'R' &&
+    !board->boardState[0]->moved) {
             legalmoves.emplace_back(2);
     }
-    if (!isWhite && !moved && board->boardState[61]->isEmpty && board->boardState[62]->isEmpty && 
-        board->boardState[63]->type == 'r' && !board->boardState[63]->moved) {
+    if (!isWhite && !moved && !board->BlackCheck && (board->boardState[61]->isEmpty && !resultsInCheck(this, 61)) && 
+    (board->boardState[62]->isEmpty && !resultsInCheck(this, 62)) && board->boardState[63]->type == 'r' && !board->boardState[63]->moved) {
             legalmoves.emplace_back(62);
     }
-    if (!isWhite && !moved && board->boardState[59]->isEmpty && board->boardState[58]->isEmpty && 
-        board->boardState[57]->isEmpty && board->boardState[56]->type == 'r' && !board->boardState[56]->moved) {
+    if (!isWhite && !moved && !board->BlackCheck && (board->boardState[59]->isEmpty && !resultsInCheck(this, 59)) &&
+    (board->boardState[58]->isEmpty && !resultsInCheck(this, 58)) && board->boardState[57]->isEmpty && board->boardState[56]->type == 'r' &&
+    !board->boardState[56]->moved) {
             legalmoves.emplace_back(58);
     }
 }
