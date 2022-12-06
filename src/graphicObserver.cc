@@ -3,6 +3,7 @@
 #include "game.h"
 
 int BOARD_COL = 8;
+int HIGHLIGHT = 4;
 
 std::string parse(char input){
     if(input == 'K'){
@@ -67,7 +68,7 @@ void graphicObserver::square_highlight(int index){
     int shift = 50;
     int x = index % 8;
     int y = (index-(index % 8)) /8;
-    win->BlankRectangle((x*50)+shift,400-(y*50),50,50,4);
+    win->BlankRectangle((x*50)+shift,400-(y*50),50,50,HIGHLIGHT);
 }
 
 void graphicObserver::square_unhighlight(int index){
