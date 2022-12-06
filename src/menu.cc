@@ -76,7 +76,7 @@ int main(int argc, char const *argv[])
             Game* round = new Game(start_board, white, black);
             round->notifyObservers();
             round->start();
-            int score = round->getResult();
+            int score = round->result;
             if (score == -1){
                 ++black_wins;
             } else if (score == 0){
@@ -94,7 +94,8 @@ int main(int argc, char const *argv[])
             cout << "Invalid command! Try again!" << endl;
         }
     }
+
     cout << "Final Score:" << endl;
-    cout << "White: " << white_wins << endl;
-    cout << "Black: " << black_wins << endl;
+    cout << "White: " << white_wins + (draw / 2) << endl;
+    cout << "Black: " << black_wins + (draw / 2) << endl;
 }

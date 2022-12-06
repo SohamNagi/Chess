@@ -108,7 +108,6 @@ void Game::start(){
         break;
       } else if (board_state == 3){
         std::cout << "Stalemate - Game Drawn!" << std::endl;
-        std::cout << "Checkmate! Black Loses!" << std::endl;
         result = 0;
         for (auto i: observers){
           delete i;
