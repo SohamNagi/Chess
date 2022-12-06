@@ -34,7 +34,6 @@ bool Player::move(int start, int end, Board* board) {
     }
 
     // Add exception moving your piece to a square with an existing pieces of the same colour
-    // EXCEPT for castling
 
 
 

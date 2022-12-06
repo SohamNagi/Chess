@@ -97,7 +97,7 @@ Board::~Board(){
 int Board::boardInCheck(bool checkTest){
     if (!checkTest) {
         for (auto i: boardState) {
-        i->updateMoves(false);
+            i->updateMoves(false);
         }
     } else {
         notifyStateChange(true);
@@ -187,7 +187,7 @@ bool Board::isValid(){
         return false;
     }
 
-    if (this->boardInCheck(true) != 0){
+    if (this->boardInCheck(false) != 0){
         std::cout << "Board in check" << std::endl;
         return false;
     }

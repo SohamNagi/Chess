@@ -251,6 +251,13 @@ Rook::~Rook() {}
 King::King(Board* board, bool isWhite, int location, char type) :
     Pieces{ board, isWhite, location, type, false } {}
 
+bool castlingSpace(Pieces* piece, int location, bool checkTest) {
+    if (checkTest) {
+        return (piece->board->boardState[location]->isEmpty && !resultsInCheck(piece, location));
+    }
+    return (piece->board->boardState[location]->isEmpty);
+}
+
 void King::updateMoves(bool checkTest)  {
     legalmoves.clear();
     int x = location % 8;
@@ -268,21 +275,21 @@ void King::updateMoves(bool checkTest)  {
     }
 
     // Castling
-    if (isWhite && !moved && !board->WhiteCheck && (board->boardState[5]->isEmpty && !resultsInCheck(this, 5)) && 
-    (board->boardState[6]->isEmpty && !resultsInCheck(this, 6)) && board->boardState[7]->type == 'R' && !board->boardState[7]->moved) {
+    if (isWhite && !moved && !board->WhiteCheck && castlingSpace(this, 5, checkTest) && 
+    castlingSpace(this, 6, checkTest) && board->boardState[7]->type == 'R' && !board->boardState[7]->moved) {
             legalmoves.emplace_back(6);
     }
-    if (isWhite && !moved && !board->WhiteCheck && (board->boardState[3]->isEmpty && !resultsInCheck(this, 3)) && 
-    (board->boardState[2]->isEmpty && !resultsInCheck(this, 2)) && board->boardState[1]->isEmpty && board->boardState[0]->type == 'R' &&
+    if (isWhite && !moved && !board->WhiteCheck && castlingSpace(this, 3, checkTest) && 
+    castlingSpace(this, 2, checkTest) && board->boardState[1]->isEmpty && board->boardState[0]->type == 'R' &&
     !board->boardState[0]->moved) {
             legalmoves.emplace_back(2);
     }
-    if (!isWhite && !moved && !board->BlackCheck && (board->boardState[61]->isEmpty && !resultsInCheck(this, 61)) && 
-    (board->boardState[62]->isEmpty && !resultsInCheck(this, 62)) && board->boardState[63]->type == 'r' && !board->boardState[63]->moved) {
+    if (!isWhite && !moved && !board->BlackCheck && castlingSpace(this, 61, checkTest) && 
+    castlingSpace(this, 62, checkTest) && board->boardState[63]->type == 'r' && !board->boardState[63]->moved) {
             legalmoves.emplace_back(62);
     }
-    if (!isWhite && !moved && !board->BlackCheck && (board->boardState[59]->isEmpty && !resultsInCheck(this, 59)) &&
-    (board->boardState[58]->isEmpty && !resultsInCheck(this, 58)) && board->boardState[57]->isEmpty && board->boardState[56]->type == 'r' &&
+    if (!isWhite && !moved && !board->BlackCheck && castlingSpace(this, 59, checkTest) &&
+    castlingSpace(this, 58, checkTest) && board->boardState[57]->isEmpty && board->boardState[56]->type == 'r' &&
     !board->boardState[56]->moved) {
             legalmoves.emplace_back(58);
     }
