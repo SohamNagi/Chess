@@ -5,7 +5,10 @@
 #include <cstdlib>
 
 Computer::Computer(bool isWhite, Board* board): Player(isWhite, board) {};
-void Computer::promote(int piece) {}; // Implement
+void Computer::promote(int piece) {
+    delete board->boardState[piece];
+    board->boardState[piece] = new Queen(board, board->boardState[piece]->isWhite, piece, 'Q');
+}
 
 BestMove::BestMove(int start, int end): start{start}, end{end}, no_moves{false} {};
 BestMove::BestMove(bool no_moves): start{0}, end{0}, no_moves{no_moves} {};
