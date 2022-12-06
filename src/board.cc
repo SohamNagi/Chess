@@ -120,6 +120,8 @@ int Board::boardInCheck(bool checkTest){
     }
 
     int result = 0;
+    WhiteCheck = false;
+    BlackCheck = false;
 
     if (std::find(whiteMoves.begin(), whiteMoves.end(), blackKingPosition) != whiteMoves.end()) {
         BlackCheck = true;

@@ -17,9 +17,9 @@ int main(int argc, char const *argv[])
     cout << "|    BY ABDULLAH SHAHID, ARIQ ISHFAR, & SOHAM NAGI    |" << endl;
     cout << "+-----------------------------------------------------+" << endl;
 
-    int black_wins = 0;
-    int white_wins = 0;
-    int draw = 0;
+    double black_wins = 0;
+    double white_wins = 0;
+    double draw = 0;
 
     string command;
     Board* start_board = new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
