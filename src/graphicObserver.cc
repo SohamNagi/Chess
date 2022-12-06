@@ -96,8 +96,8 @@ void graphicObserver::notify(){
                 }
                 grid[index] = curr; // Reset Value in Optimization index
                 std::string s(1, curr);
-                //win->drawString(i*50 + 15 + shift, j*50 + 35 + shift, s); // Print Piece Name
-                 win->drawSym(i*50 + 15 + shift, j*50 + 35 + shift, parse(curr)); // Print Piece Name
+                win->drawString(i*50 + 15 + shift, j*50 + 35 + shift, s); // Print Piece Name
+                //win->drawSym(i*50 + 15 + shift, j*50 + 35 + shift, parse(curr)); // Print Piece Name
             }
         }
     }

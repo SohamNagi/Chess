@@ -7,10 +7,10 @@
 
 class Human: public Player {
     public:
-        //graphicObserver* gfx;
+        graphicObserver* gfx;
         void getmove(Board* test = nullptr);
         void promote(int piece);
-        Human(bool isWhite, Board* board);//, graphicObserver* obs);
+        Human(bool isWhite, Board* board, graphicObserver* obs);
         virtual ~Human();
 };
 
