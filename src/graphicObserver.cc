@@ -2,6 +2,8 @@
 #include "window.h"
 #include "game.h"
 
+int BOARD_COL = 8;
+
 std::string parse(char input){
     if(input == 'K'){
                 return "k";
@@ -44,7 +46,7 @@ win{new Xwindow(500,500)}, subject{sub}
         win->drawStringBold(20, i*50 + 35 + shift, std::to_string(8-i));
         for(int j = 0; j < 8; j++){
             if ((j+i) % 2 != 0){
-                win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, 4); // Print Black Square
+                win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, BOARD_COL); // Print Black Square
             }
         }
         std::string s(1,file);
@@ -65,7 +67,7 @@ void graphicObserver::square_highlight(int index){
     int shift = 50;
     int x = index % 8;
     int y = (index-(index % 8)) /8;
-    win->BlankRectangle((x*50)+shift,400-(y*50),50,50);
+    win->BlankRectangle((x*50)+shift,400-(y*50),50,50,4);
 }
 
 void graphicObserver::square_unhighlight(int index){
@@ -75,7 +77,7 @@ void graphicObserver::square_unhighlight(int index){
     if ((x+y) % 2 != 0){
         win->BlankRectangle((x*50)+shift,400-(y*50),50,50,0);
     } else {
-        win->BlankRectangle((x*50)+shift,400-(y*50),50,50,4);
+        win->BlankRectangle((x*50)+shift,400-(y*50),50,50,BOARD_COL);
     }
 }
 
@@ -87,14 +89,14 @@ void graphicObserver::notify(){
             char curr = subject->getState(index); // Fetch Current Char
             if(curr != grid[index]){ // Optimization - Store board and only print if changed
                 if ((j+i) % 2 != 0){
-                    win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, 4); // Print Black Square
+                    win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, BOARD_COL); // Print Black Square
                 } else {
                     win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, 0);
                 }
                 grid[index] = curr; // Reset Value in Optimization index
                 std::string s(1, curr);
-                win->drawString(i*50 + 15 + shift, j*50 + 35 + shift, s); // Print Piece Name
-                // win->drawSym(i*50 + 15 + shift, j*50 + 35 + shift, parse(curr)); // Print Piece Name
+                //win->drawString(i*50 + 15 + shift, j*50 + 35 + shift, s); // Print Piece Name
+                 win->drawSym(i*50 + 15 + shift, j*50 + 35 + shift, parse(curr)); // Print Piece Name
             }
         }
     }
