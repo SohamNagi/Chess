@@ -4,6 +4,9 @@
 #include <X11/Xlib.h>
 #include <iostream>
 #include <string>
+#define BKGND 11
+#define FORGND 12
+#define HGLT 4
 
 struct mouseLocation {
     int x;
@@ -12,12 +15,13 @@ struct mouseLocation {
 };
 
 
+
 class Xwindow {
   Display *d;
   Window w;
   int s;
   GC gc;
-  unsigned long colours[10];
+  unsigned long colours[100];
 
  public:
   Xwindow(int width=500, int height=500);  // Constructor; displays the window.

@@ -89,7 +89,7 @@ void Game::start(){
       } else if (board_state == 1){
         std::cout << "White King In Check!"  << std::endl;
       } else if (board_state == -2){
-        std::cout << "Checkmate! Black Loses!" << std::endl;
+        std::cout << "Checkmate! White Wins!" << std::endl;
         result = 1;
         for (auto i: observers){
           delete i;
@@ -98,7 +98,7 @@ void Game::start(){
         delete blackPlayer;
         break;
       } else if (board_state == 2){
-        std::cout << "Checkmate! White Loses!" << std::endl;
+        std::cout << "Checkmate! Black Wins!" << std::endl;
         result = -1;
         for (auto i: observers){
           delete i;

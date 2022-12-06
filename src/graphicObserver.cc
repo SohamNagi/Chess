@@ -2,9 +2,6 @@
 #include "window.h"
 #include "game.h"
 
-int BOARD_COL = 8;
-int HIGHLIGHT = 4;
-
 std::string parse(char input){
     if(input == 'K'){
                 return "k";
@@ -47,7 +44,7 @@ win{new Xwindow(500,500)}, subject{sub}
         win->drawStringBold(20, i*50 + 35 + shift, std::to_string(8-i));
         for(int j = 0; j < 8; j++){
             if ((j+i) % 2 != 0){
-                win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, BOARD_COL); // Print Black Square
+                win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, FORGND); // Print Black Square
             }
         }
         std::string s(1,file);
@@ -68,7 +65,7 @@ void graphicObserver::square_highlight(int index){
     int shift = 50;
     int x = index % 8;
     int y = (index-(index % 8)) /8;
-    win->BlankRectangle((x*50)+shift,400-(y*50),50,50,HIGHLIGHT);
+    win->BlankRectangle((x*50)+shift,400-(y*50),50,50,HGLT);
 }
 
 void graphicObserver::square_unhighlight(int index){
@@ -76,9 +73,9 @@ void graphicObserver::square_unhighlight(int index){
     int x = index % 8;
     int y = (index-(index % 8)) / 8;
     if ((x+y) % 2 != 0){
-        win->BlankRectangle((x*50)+shift,400-(y*50),50,50,0);
+        win->BlankRectangle((x*50)+shift,400-(y*50),50,50,BKGND);
     } else {
-        win->BlankRectangle((x*50)+shift,400-(y*50),50,50,BOARD_COL);
+        win->BlankRectangle((x*50)+shift,400-(y*50),50,50,FORGND);
     }
 }
 
@@ -90,9 +87,9 @@ void graphicObserver::notify(){
             char curr = subject->getState(index); // Fetch Current Char
             if(curr != grid[index]){ // Optimization - Store board and only print if changed
                 if ((j+i) % 2 != 0){
-                    win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, BOARD_COL); // Print Black Square
+                    win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, FORGND); // Print Black Square
                 } else {
-                    win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, 0);
+                    win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, BKGND);
                 }
                 grid[index] = curr; // Reset Value in Optimization index
                 std::string s(1, curr);
@@ -106,8 +103,6 @@ void graphicObserver::notify(){
     win->fillRectangle(shift, shift, 5, 400, 1);
     win->fillRectangle(400+shift, shift, 5, 405, 1);
     win->fillRectangle(shift, 400+shift, 400, 5, 1);
-    // Mouse testing
-    //while(1){int status = 1;win->getMouseData(status);if(status == -1){break;}}
 }
 
 

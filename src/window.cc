@@ -3,8 +3,10 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
+#include <vector>
 #include <unistd.h>
 #include "window.h"
+
 
 using namespace std;
 
@@ -16,8 +18,20 @@ Xwindow::Xwindow(int width, int height) {
     exit(1);
   }
   s = DefaultScreen(d);
+  // Set up colours.
+  XColor xcolour;
+  Colormap cmap;
+  std::vector<std::string>color_vals{"white", "black", "red", "green", "blue", "cyan", "yellow", "magenta", "orange", "brown","Gray41","Bisque", "Sienna"};
+  int num_colors = color_vals.size();
+  cmap=DefaultColormap(d,DefaultScreen(d));
+  for(int i=0; i < num_colors; ++i) {
+      XParseColor(d,cmap,color_vals[i].c_str(),&xcolour);
+      XAllocColor(d,cmap,&xcolour);
+      colours[i]=xcolour.pixel;
+  }
+
   w = XCreateSimpleWindow(d, RootWindow(d, s), 10, 10, width, height, 1,
-                          BlackPixel(d, s), WhitePixel(d, s));
+                          BlackPixel(d, s), colours[BKGND]);
   XMapRaised(d, w);
   XSetStandardProperties(d, w, "CS246 - Chess++", "CS246 - Chess++", None, NULL, 0, NULL);
   XSelectInput(d, w, ExposureMask | ButtonPressMask | KeyPressMask);
@@ -29,17 +43,7 @@ Xwindow::Xwindow(int width, int height) {
   XFlush(d);
   XFlush(d);
 
-  // Set up colours.
-  XColor xcolour;
-  Colormap cmap;
-  char color_vals[10][10]={"white", "black", "red", "green", "blue", "cyan", "yellow", "magenta", "orange", "brown"};
-
-  cmap=DefaultColormap(d,DefaultScreen(d));
-  for(int i=0; i < 10; ++i) {
-      XParseColor(d,cmap,color_vals[i],&xcolour);
-      XAllocColor(d,cmap,&xcolour);
-      colours[i]=xcolour.pixel;
-  }
+  
 
   XSetForeground(d,gc,colours[Black]);
 
