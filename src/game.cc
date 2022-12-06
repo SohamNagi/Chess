@@ -13,11 +13,11 @@ Game::Game(Board* brd, std::string white, std::string black):
     board{brd}, result{11}
 {
     attach(new textObserver(this));
-    graphicObserver* gfx = new graphicObserver(this);
-    attach(gfx);
+    //graphicObserver* gfx = new graphicObserver(this);
+    //attach(gfx);
 
     if (white == "human"){
-      whitePlayer = new Human(true, brd, gfx);
+      whitePlayer = new Human(true, brd);//, gfx);
     } else if (white == "1") {
       whitePlayer = new Level1(true, brd);
     } else if (white == "2") {
@@ -27,7 +27,7 @@ Game::Game(Board* brd, std::string white, std::string black):
     }
 
     if (black == "human"){
-      blackPlayer = new Human(false, brd,gfx);
+      blackPlayer = new Human(false, brd);//,gfx);
     } else if (black == "1") {
       blackPlayer = new Level1(false, brd);
     } else if (black == "2") {
@@ -62,7 +62,7 @@ void Game::detach(Observer *o) {
 
 void Game::start(){
   std::string command;
-  board->notifyStateChange(false);
+  board->notifyStateChange(true);
   while(std::cin >> command){
     if (command == "move"){
       bool skip = false;
@@ -83,6 +83,12 @@ void Game::start(){
       if (board->whiteTurn) board->moves += 1;
       notifyObservers();
       board->notifyStateChange(true);
+      // for (auto i : board->boardState) {
+      //   std::cout << i->type << i->location << " ";
+      //   for (auto j : i->legalmoves) {
+      //     std::cout << j << ",";
+      //   }
+      // }      
       int board_state = board->boardInCheck(true);
       if(board_state == -1){
         std::cout << "Black King In Check!" << std::endl;
