@@ -122,13 +122,15 @@ Board* board_setup(vector<char>* start, string set_turn, int status){
             // IF WHITE ROOKS ARE CORRECT
             if(final_board->boardState[0]->type == 'R'){
                 final_board->boardState[0]->moved = false;
-            } else if(final_board->boardState[7]->type == 'R'){
+            } 
+            if(final_board->boardState[7]->type == 'R'){
                 final_board->boardState[7]->moved = false;
             }
             // IF BLACK ROOKS ARE CORRECT
-            if(final_board->boardState[56]->type == 'R'){
+            if(final_board->boardState[56]->type == 'r'){
                 final_board->boardState[56]->moved = false;
-            } else if(final_board->boardState[63]->type == 'R'){
+            } 
+            if(final_board->boardState[63]->type == 'r'){
                 final_board->boardState[63]->moved = false;
             }
             #pragma endregion SET_MOVED
@@ -205,13 +207,15 @@ Board* board_setup(vector<char>* start, string set_turn, int status){
     // IF WHITE ROOKS ARE CORRECT
     if(final_board->boardState[0]->type == 'R'){
         final_board->boardState[0]->moved = false;
-    } else if(final_board->boardState[7]->type == 'R'){
+    }
+    if(final_board->boardState[7]->type == 'R'){
         final_board->boardState[7]->moved = false;
     }
     // IF BLACK ROOKS ARE CORRECT
-    if(final_board->boardState[56]->type == 'R'){
+    if(final_board->boardState[56]->type == 'r'){
         final_board->boardState[56]->moved = false;
-    } else if(final_board->boardState[63]->type == 'R'){
+    } 
+    if(final_board->boardState[63]->type == 'r'){
         final_board->boardState[63]->moved = false;
     }
 #pragma endregion SET_MOVED
