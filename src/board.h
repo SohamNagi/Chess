@@ -26,7 +26,7 @@ class Board {
     public:
         void attachPiece();
         void detachPiece();
-        int boardInCheck();
+        int boardInCheck(bool checkTest);
         Board(std::string fen);
         bool isValid();
         void notifyStateChange(bool checkTest);

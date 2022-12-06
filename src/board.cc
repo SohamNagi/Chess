@@ -85,10 +85,15 @@ Board::~Board(){
 }
 
 // Checks if the board has an active check, returns 1 if white is in check, -1 if black is in check, and 0 if no checks
-int Board::boardInCheck(){
-    for (auto i: boardState) {
+int Board::boardInCheck(bool checkTest){
+    if (!checkTest) {
+        for (auto i: boardState) {
         i->updateMoves(false);
+        }
+    } else {
+        notifyStateChange(true);
     }
+    
     std::vector<int> blackMoves;
     std::vector<int> whiteMoves;
     int whiteKingPosition = -1;
@@ -105,13 +110,29 @@ int Board::boardInCheck(){
         }
     }
 
+    int result = 0;
+
     if (std::find(whiteMoves.begin(), whiteMoves.end(), blackKingPosition) != whiteMoves.end()) {
-        return -1;
+        BlackCheck = true;
+        result = -1;
     }
-    else if (std::find(blackMoves.begin(), blackMoves.end(), whiteKingPosition) != blackMoves.end()) {
-        return 1;
+    if (blackMoves.empty() && BlackCheck) {
+        result = -2;
     }
-    return 0;
+    if (blackMoves.empty() && !BlackCheck) {
+        result = 3;
+    }
+    if (std::find(blackMoves.begin(), blackMoves.end(), whiteKingPosition) != blackMoves.end()) {
+        WhiteCheck = true;
+        result = 1;
+    }
+    if (whiteMoves.empty() && WhiteCheck) {
+        result = 2;
+    }
+    if (whiteMoves.empty() && !WhiteCheck) {
+        result = 3;
+    }
+    return result;
 }
 
 
@@ -148,7 +169,7 @@ bool Board::isValid(){
         return false;
     }
 
-    if (this->boardInCheck() != 0){
+    if (this->boardInCheck(true) != 0){
         std::cout << "Board in check" << std::endl;
         return false;
     }

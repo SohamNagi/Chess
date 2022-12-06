@@ -59,7 +59,7 @@ bool resultsInCheck(Pieces* piece, int end) {
     }
     // checking if theres a check
     int checkState = 0;
-    checkState = piece->board->boardInCheck();
+    checkState = piece->board->boardInCheck(false);
     bool isCheck;
     if ((piece->isWhite && checkState == 1) || (!piece->isWhite && checkState == -1)) isCheck = true;
     else isCheck = false;

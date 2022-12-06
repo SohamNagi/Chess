@@ -14,7 +14,7 @@ Game::Game(Board* brd, std::string white, std::string black):
 {
     attach(new textObserver(this));
     graphicObserver* gfx = new graphicObserver(this);
-    //attach(gfx);
+    attach(gfx);
 
     if (white == "human"){
       whitePlayer = new Human(true, brd, gfx);
@@ -37,7 +37,6 @@ Game::Game(Board* brd, std::string white, std::string black):
     }
 
 }
-
 
 int Game::getResult(){return result;}
 
@@ -84,6 +83,40 @@ void Game::start(){
       if (board->whiteTurn) board->moves += 1;
       notifyObservers();
       board->notifyStateChange(true);
+      int board_state = board->boardInCheck(true);
+      if(board_state == -1){
+        std::cout << "Black King In Check!" << std::endl;
+      } else if (board_state == 1){
+        std::cout << "White King In Check!"  << std::endl;
+      } else if (board_state == -2){
+        std::cout << "Checkmate! Black Loses!" << std::endl;
+        result = 1;
+        for (auto i: observers){
+          delete i;
+        }
+        delete whitePlayer;
+        delete blackPlayer;
+        break;
+      } else if (board_state == 2){
+        std::cout << "Checkmate! White Loses!" << std::endl;
+        result = -1;
+        for (auto i: observers){
+          delete i;
+        }
+        delete whitePlayer;
+        delete blackPlayer;
+        break;
+      } else if (board_state == 3){
+        std::cout << "Stalemate - Game Drawn!" << std::endl;
+        std::cout << "Checkmate! Black Loses!" << std::endl;
+        result = 0;
+        for (auto i: observers){
+          delete i;
+        }
+        delete whitePlayer;
+        delete blackPlayer;
+        break;
+      }
     } else if (command == "resign"){
       if (board->whiteTurn){
         result = -1;
@@ -91,7 +124,6 @@ void Game::start(){
         result = 1;
       }
       //DELETE OBSERVERS AND PIECES BOARD
-      delete board;
       for (auto i: observers){
         delete i;
       }

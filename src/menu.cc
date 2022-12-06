@@ -88,6 +88,7 @@ int main(int argc, char const *argv[])
             delete start_board;
             start_board = new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         } else if (command == "quit"){
+            delete start_board;
             break;
         } else {
             cout << "Invalid command! Try again!" << endl;
