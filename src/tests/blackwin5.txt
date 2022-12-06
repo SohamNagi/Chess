@@ -77,7 +77,8 @@ move a4a3
 move g3h3
 move a3a2
 move h3h1
-move a2a1Q
+move a2a1
+q
 move h1a1
 move a8a1
 move c7c6
