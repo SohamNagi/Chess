@@ -40,7 +40,7 @@ bool isEnemy(Pieces* piece, int checkLocation) {
 // check if given move results in on king being in check
 bool resultsInCheck(Pieces* piece, int end) {
     for (auto i : piece->board->boardState) {
-        if ((i->type == 'k' || i->type == 'K') && i->location == end) return true;
+        if ((i->type == 'k' || i->type == 'K') && i->location == end) return false;
     }
     int start = piece->location;
     // making the move
@@ -61,7 +61,7 @@ bool resultsInCheck(Pieces* piece, int end) {
     int checkState = 0;
     checkState = piece->board->boardInCheck(false);
     bool isCheck;
-    if ((piece->isWhite && checkState == 1) || (!piece->isWhite && checkState == -1)) isCheck = true;
+    if ((piece->isWhite && (checkState == 1 || checkState == 2)) || (!piece->isWhite && (checkState == -1 || checkState == -2))) isCheck = true;
     else isCheck = false;
 
     // undoing the move made
@@ -210,7 +210,7 @@ void Rook::updateMoves(bool checkTest) {
     for (int i = y + 1; i <= 7; i++) {
         if (board->boardState[i * 8 + x]->isEmpty) {
             addToLegalMoves(checkTest, this, i * 8 + x);
-        } else if (board->boardState[i * 8 + x]->isWhite != isWhite) {
+        } else if (isEnemy(this, i * 8 + x)) {
             addToLegalMoves(checkTest, this, i * 8 + x);
             break;
         } else break;
@@ -219,7 +219,7 @@ void Rook::updateMoves(bool checkTest) {
     for (int i = y - 1; i >= 0; i--) {
         if (board->boardState[i * 8 + x]->isEmpty) {
             addToLegalMoves(checkTest, this, i * 8 + x);
-        } else if (board->boardState[i * 8 + x]->isWhite != isWhite) {
+        } else if (isEnemy(this, i * 8 + x)) {
             addToLegalMoves(checkTest, this, i * 8 + x);
             break;
         } else break;
@@ -228,7 +228,7 @@ void Rook::updateMoves(bool checkTest) {
     for (int i = x + 1; i <= 7; i++) {
         if (board->boardState[y * 8 + i]->isEmpty) {
             addToLegalMoves(checkTest, this, y * 8 + i);
-        } else if (board->boardState[y * 8 + i]->isWhite != isWhite) {
+        } else if (isEnemy(this, y * 8 + i)) {
             addToLegalMoves(checkTest, this, y * 8 + i);
             break;
         } else break;
@@ -237,11 +237,11 @@ void Rook::updateMoves(bool checkTest) {
     for (int i = x - 1; i >= 0; i--) {
         if (board->boardState[y * 8 + i]->isEmpty) {
             addToLegalMoves(checkTest, this, y * 8 + i);
-        } else if (board->boardState[y * 8 + i]->isWhite != isWhite) {
+        } else if (isEnemy(this, y * 8 + i)) {
             addToLegalMoves(checkTest, this, y * 8 + i);
             break;
         } else break;
-    }    
+    }
 }
 
 // Rook destructor
@@ -262,7 +262,6 @@ void King::updateMoves(bool checkTest)  {
             int possible = (y + j) * 8 + (x + i);
             if ((x + i) >= 0 && (x + i) < 8 && (y + j) >= 0 && (y + j) < 8 && 0 <= possible && possible < 64 && !(i == 0 && j == 0) && (board->boardState[possible]->isEmpty ||
                 board->boardState[possible]->isWhite != isWhite)) {
-                    if (checkTest) std::cout << "-- " << location << " " << possible << std::endl;
                     addToLegalMoves(checkTest, this, (y + j) * 8 + (x + i));
                 }
         }
@@ -303,7 +302,7 @@ void Queen::updateMoves(bool checkTest) {
     for (int i = y + 1; i <= 7; i++) {
         if (board->boardState[i * 8 + x]->isEmpty) {
             addToLegalMoves(checkTest, this, i * 8 + x);
-        } else if (board->boardState[i * 8 + x]->isWhite != isWhite) {
+        } else if (isEnemy(this, i * 8 + x)) {
             addToLegalMoves(checkTest, this, i * 8 + x);
             break;
         } else break;
@@ -312,7 +311,7 @@ void Queen::updateMoves(bool checkTest) {
     for (int i = y - 1; i >= 0; i--) {
         if (board->boardState[i * 8 + x]->isEmpty) {
             addToLegalMoves(checkTest, this, i * 8 + x);
-        } else if (board->boardState[i * 8 + x]->isWhite != isWhite) {
+        } else if (isEnemy(this, i * 8 + x)) {
             addToLegalMoves(checkTest, this, i * 8 + x);
             break;
         } else break;
@@ -321,7 +320,7 @@ void Queen::updateMoves(bool checkTest) {
     for (int i = x + 1; i <= 7; i++) {
         if (board->boardState[y * 8 + i]->isEmpty) {
             addToLegalMoves(checkTest, this, y * 8 + i);
-        } else if (board->boardState[y * 8 + i]->isWhite != isWhite) {
+        } else if (isEnemy(this, y * 8 + i)) {
             addToLegalMoves(checkTest, this, y * 8 + i);
             break;
         } else break;
@@ -330,7 +329,7 @@ void Queen::updateMoves(bool checkTest) {
     for (int i = x - 1; i >= 0; i--) {
         if (board->boardState[y * 8 + i]->isEmpty) {
             addToLegalMoves(checkTest, this, y * 8 + i);
-        } else if (board->boardState[y * 8 + i]->isWhite != isWhite) {
+        } else if (isEnemy(this, y * 8 + i)) {
             addToLegalMoves(checkTest, this, y * 8 + i);
             break;
         } else break;
@@ -348,7 +347,7 @@ void Queen::updateMoves(bool checkTest) {
                     break;
                 }
                 addToLegalMoves(checkTest, this, j * 8 + i);
-                if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite != isWhite) {
+                if (isEnemy(this, j * 8 + i)) {
                     doubleBreak = true;
                     break;
                 }
@@ -367,7 +366,7 @@ void Queen::updateMoves(bool checkTest) {
                     break;
                 }
                 addToLegalMoves(checkTest, this, j * 8 + i);
-                if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite != isWhite) {
+                if (isEnemy(this, j * 8 + i)) {
                     doubleBreak = true;
                     break;
                 }
@@ -387,7 +386,7 @@ void Queen::updateMoves(bool checkTest) {
                     break;
                 }
                 addToLegalMoves(checkTest, this, j * 8 + i);
-                if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite != isWhite) {
+                if (isEnemy(this, j * 8 + i)) {
                     doubleBreak = true;
                     break;
                 }
@@ -407,7 +406,7 @@ void Queen::updateMoves(bool checkTest) {
                     break;
                 }
                 addToLegalMoves(checkTest, this, j * 8 + i);
-                if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite != isWhite) {
+                if (isEnemy(this, j * 8 + i)) {
                     doubleBreak = true;
                     break;
                 }
@@ -437,7 +436,7 @@ void Knight::updateMoves(bool checkTest) {
     for (int i = 0; i < 8; i++) {
         int possible = (y + yChange[i]) * 8 + x + xChange[i];
         if (0 <= possible && possible < 64 && y + yChange[i] < 8 && x + xChange[i] < 8 && y + yChange[i] >= 0 && x + xChange[i] >= 0 &&
-            (board->boardState[possible]->isEmpty || board->boardState[possible]->isWhite != isWhite)) {
+            (board->boardState[possible]->isEmpty || isEnemy(this, possible))) {
                 addToLegalMoves(checkTest, this, possible);
         }
     }
@@ -468,7 +467,7 @@ void Bishop::updateMoves(bool checkTest) {
                     break;
                 }
                 addToLegalMoves(checkTest, this, j * 8 + i);
-                if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite != isWhite) {
+                if (isEnemy(this, j * 8 + i)) {
                     doubleBreak = true;
                     break;
                 }
@@ -486,7 +485,7 @@ void Bishop::updateMoves(bool checkTest) {
                     break;
                 }
                 addToLegalMoves(checkTest, this, j * 8 + i);
-                if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite != isWhite) {
+                if (isEnemy(this, j * 8 + i)) {
                     doubleBreak = true;
                     break;
                 }
@@ -506,7 +505,7 @@ void Bishop::updateMoves(bool checkTest) {
                     break;
                 }
                 addToLegalMoves(checkTest, this, j * 8 + i);
-                if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite != isWhite) {
+                if (isEnemy(this, j * 8 + i)) {
                     doubleBreak = true;
                     break;
                 }
@@ -526,7 +525,7 @@ void Bishop::updateMoves(bool checkTest) {
                     break;
                 }
                 addToLegalMoves(checkTest, this, j * 8 + i);
-                if (!board->boardState[j * 8 + i]->isEmpty && board->boardState[j * 8 + i]->isWhite != isWhite) {
+                if (isEnemy(this, j * 8 + i)) {
                     doubleBreak = true;
                     break;
                 }

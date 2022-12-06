@@ -65,6 +65,13 @@ void Game::start(){
   board->notifyStateChange(true);
   while(std::cin >> command){
     if (command == "move"){
+      // for (auto i : board->boardState) {
+      //   std::cout << "--- " << i->type << i->location << " ";
+      //   for (auto j : i->legalmoves) {
+      //     std::cout << j << ",";
+      //   }
+      //   std::cout << std::endl;
+      // }    
       bool skip = false;
       try {
         if (board->whiteTurn){
@@ -88,6 +95,7 @@ void Game::start(){
       //   for (auto j : i->legalmoves) {
       //     std::cout << j << ",";
       //   }
+      //   std::cout << std::endl;
       // }      
       int board_state = board->boardInCheck(true);
       if(board_state == -1){

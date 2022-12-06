@@ -12,16 +12,9 @@ Player::~Player() {}
 
 bool Player::move(int start, int end, Board* board) {
 
+
     Pieces* piece = board->boardState[start];
 
-    // std::cout << "Legal moves prior to making the move: [";
-    // for (auto i: piece->legalmoves) {
-    //     int x = i % 8;
-    //     int y = (i-(i % 8)) / 8;
-    //     char row = x + 'a';
-    //     std::cout << row << y + 1 << ", ";
-    // }
-    // std::cout << ']' << std::endl;
 
     // Checks if the square (represented as an index to the
     //    boardState) contains and empty.
@@ -29,7 +22,7 @@ bool Player::move(int start, int end, Board* board) {
     if (board->boardState[start]->isEmpty) {
         throw std::invalid_argument("Moving blank piece! Try again");
     }
-
+    
     //if (start == end) {
     //    cerr << "Start and end positions cannot be the same! Try again!" << endl;
     // }
@@ -54,35 +47,41 @@ bool Player::move(int start, int end, Board* board) {
     }
 
     // Update moved field
-    piece->moved = true;
-
     // Castling
-    if (piece->type == 'K' && end == 6) {
+    if (piece->type == 'K' && end == 6 && !piece->moved) {
         std::iter_swap(board->boardState.begin() + start, board->boardState.begin() + end);
         std::iter_swap(board->boardState.begin() + 7, board->boardState.begin() + 5);
         board->boardState[end]->location = end;
         board->boardState[5]->location = 5;
+        piece->moved = true;
         return true;
     }
-    else if (piece->type == 'K' && end == 2) {
+    
+    else if (piece->type == 'K' && end == 2 && !piece->moved) {
         std::iter_swap(board->boardState.begin() + start, board->boardState.begin() + end);
         std::iter_swap(board->boardState.begin() + 0, board->boardState.begin() + 3);
         board->boardState[end]->location = end;
         board->boardState[3]->location = 3;
+        piece->moved = true;
         return true;
     }
-    else if (piece->type == 'k' && end == 62) {
+    
+    else if (piece->type == 'k' && end == 62 && !piece->moved) {
+        std::cout << "castled" << std::endl;
         std::iter_swap(board->boardState.begin() + start, board->boardState.begin() + end);
         std::iter_swap(board->boardState.begin() + 63, board->boardState.begin() + 61);
         board->boardState[end]->location = end;
         board->boardState[61]->location = 61;
+        piece->moved = true;
         return true;
     }
-    else if (piece->type == 'k' && end == 58) {
+    
+    else if (piece->type == 'k' && end == 58 && !piece->moved) {
         std::iter_swap(board->boardState.begin() + start, board->boardState.begin() + end);
         std::iter_swap(board->boardState.begin() + 56, board->boardState.begin() + 59);
         board->boardState[end]->location = end;
         board->boardState[59]->location = 59;
+        piece->moved = true;
         return true;
     }
 
@@ -127,6 +126,8 @@ bool Player::move(int start, int end, Board* board) {
         board->boardState[killAt] = new emptyPiece(board, false, killAt, ' ');
     }
 
+    piece->moved = true;
+    
     return true;
 
 }

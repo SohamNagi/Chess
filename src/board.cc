@@ -122,6 +122,14 @@ int Board::boardInCheck(bool checkTest){
     WhiteCheck = false;
     BlackCheck = false;
 
+    // for (auto i : boardState) {
+    //     std::cout << "--- " << i->type << i->location << " ";
+    //     for (auto j : i->legalmoves) {
+    //         std::cout << j << ",";
+    //     }
+    //     std::cout << std::endl;
+    // }
+
     if (std::find(whiteMoves.begin(), whiteMoves.end(), blackKingPosition) != whiteMoves.end()) {
         BlackCheck = true;
         result = -1;
@@ -130,7 +138,6 @@ int Board::boardInCheck(bool checkTest){
         result = -2;
     }
     if (blackMoves.empty() && !BlackCheck) {
-        std::cout << "black empty" << std::endl;
         result = 3;
     }
     if (std::find(blackMoves.begin(), blackMoves.end(), whiteKingPosition) != blackMoves.end()) {
@@ -141,14 +148,6 @@ int Board::boardInCheck(bool checkTest){
         result = 2;
     }
     if (whiteMoves.empty() && !WhiteCheck) {
-        std::cout << "white empty" << std::endl;
-        for (auto i : boardState) {
-            std::cout << i->type << i->location << std::endl;
-            for (auto j : i->legalmoves) {
-                std::cout << j << ",";
-            }
-            std::cout << std::endl;
-        }
         result = 3;
     }
     return result;
