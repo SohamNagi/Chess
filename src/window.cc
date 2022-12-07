@@ -7,13 +7,14 @@
 #include <unistd.h>
 #include "window.h"
 
-
 using namespace std;
 
-Xwindow::Xwindow(int width, int height) {
+Xwindow::Xwindow(int width, int height)
+{
 
   d = XOpenDisplay(NULL);
-  if (d == NULL) {
+  if (d == NULL)
+  {
     cerr << "Cannot open display" << endl;
     exit(1);
   }
@@ -21,13 +22,14 @@ Xwindow::Xwindow(int width, int height) {
   // Set up colours.
   XColor xcolour;
   Colormap cmap;
-  std::vector<std::string>color_vals{"white", "black", "red", "green", "blue", "cyan", "yellow", "magenta", "orange", "brown","Gray41","Bisque", "Sienna", "Papaya Whip" ,"Dark Green"};
+  std::vector<std::string> color_vals{"white", "black", "red", "green", "blue", "cyan", "yellow", "magenta", "orange", "brown", "Gray41", "Bisque", "Sienna", "Papaya Whip", "Dark Green"};
   int num_colors = color_vals.size();
-  cmap=DefaultColormap(d,DefaultScreen(d));
-  for(int i=0; i < num_colors; ++i) {
-      XParseColor(d,cmap,color_vals[i].c_str(),&xcolour);
-      XAllocColor(d,cmap,&xcolour);
-      colours[i]=xcolour.pixel;
+  cmap = DefaultColormap(d, DefaultScreen(d));
+  for (int i = 0; i < num_colors; ++i)
+  {
+    XParseColor(d, cmap, color_vals[i].c_str(), &xcolour);
+    XAllocColor(d, cmap, &xcolour);
+    colours[i] = xcolour.pixel;
   }
 
   w = XCreateSimpleWindow(d, RootWindow(d, s), 10, 10, width, height, 1,
@@ -36,132 +38,141 @@ Xwindow::Xwindow(int width, int height) {
   XSetStandardProperties(d, w, "CS246 - Chess++", "CS246 - Chess++", None, NULL, 0, NULL);
   XSelectInput(d, w, ExposureMask | ButtonPressMask | KeyPressMask);
 
-  Pixmap pix = XCreatePixmap(d,w,width,
-        height,DefaultDepth(d,DefaultScreen(d)));
-  gc = XCreateGC(d, pix, 0,(XGCValues *)0);
+  Pixmap pix = XCreatePixmap(d, w, width,
+                             height, DefaultDepth(d, DefaultScreen(d)));
+  gc = XCreateGC(d, pix, 0, (XGCValues *)0);
 
   XFlush(d);
   XFlush(d);
 
-  
-
-  XSetForeground(d,gc,colours[Black]);
+  XSetForeground(d, gc, colours[Black]);
 
   // Make window non-resizeable.
   XSizeHints hints;
-  hints.flags = (USPosition | PSize | PMinSize | PMaxSize );
+  hints.flags = (USPosition | PSize | PMinSize | PMaxSize);
   hints.height = hints.base_height = hints.min_height = hints.max_height = height;
   hints.width = hints.base_width = hints.min_width = hints.max_width = width;
   XSetNormalHints(d, w, &hints);
 
-  XSynchronize(d,True);
+  XSynchronize(d, True);
 
   usleep(1000);
 
   // Make sure we don't race against the Window being shown
   XEvent ev;
-  while(1) {
+  while (1)
+  {
     XNextEvent(d, &ev);
-    if(ev.type == Expose) break;
+    if (ev.type == Expose)
+      break;
   }
 }
 
-Xwindow::~Xwindow() {
+Xwindow::~Xwindow()
+{
   XFreeGC(d, gc);
   XCloseDisplay(d);
 }
 
-void Xwindow::fillRectangle(int x, int y, int width, int height, int colour) {
+void Xwindow::fillRectangle(int x, int y, int width, int height, int colour)
+{
   XSetForeground(d, gc, colours[colour]);
   XFillRectangle(d, w, gc, x, y, width, height);
   XSetForeground(d, gc, colours[Black]);
 }
 
-void Xwindow::BlankRectangle(int x, int y, int width, int height, int colour) {
+void Xwindow::BlankRectangle(int x, int y, int width, int height, int colour)
+{
   XSetForeground(d, gc, colours[colour]);
   int thickness = 3;
   XFillRectangle(d, w, gc, x, y, width, thickness);
-  XFillRectangle(d, w, gc, x, y+height-thickness, width, thickness);
-  XFillRectangle(d, w, gc, x+width-thickness, y, thickness, height);
+  XFillRectangle(d, w, gc, x, y + height - thickness, width, thickness);
+  XFillRectangle(d, w, gc, x + width - thickness, y, thickness, height);
   XFillRectangle(d, w, gc, x, y, thickness, height);
   XSetForeground(d, gc, colours[Black]);
 }
 
-void Xwindow::drawStringBold(int x, int y, string msg) {
+void Xwindow::drawStringBold(int x, int y, string msg)
+{
   char **missing_charset_list_return;
   int missing_charset_count_return;
   char *def_string_return;
   std::string fontname = "-*-*-demibold-r-*-*-34-240-100-100-*-203-*-*";
   XFontSet setB = XCreateFontSet(d, fontname.c_str(), &missing_charset_list_return, &missing_charset_count_return, &def_string_return);
-  Xutf8DrawString(d,w,setB,DefaultGC(d, s), x, y, msg.c_str(), msg.length());
+  Xutf8DrawString(d, w, setB, DefaultGC(d, s), x, y, msg.c_str(), msg.length());
   XFreeFontSet(d, setB);
 }
 
-void Xwindow::drawString(int x, int y, string msg) {
+void Xwindow::drawString(int x, int y, string msg)
+{
   char **missing_charset_list_return;
   int missing_charset_count_return;
   char *def_string_return;
   std::string fontname = "-*-*-*-r-*-*-25-*-100-100-*-203-*-*";
   XFontSet set = XCreateFontSet(d, fontname.c_str(), &missing_charset_list_return, &missing_charset_count_return, &def_string_return);
-  Xutf8DrawString(d,w,set,DefaultGC(d, s), x, y, msg.c_str(), msg.length());
+  Xutf8DrawString(d, w, set, DefaultGC(d, s), x, y, msg.c_str(), msg.length());
   XFreeFontSet(d, set);
 }
 
 // DRAWS PIECES ON SOHAM"S MAC
-void Xwindow::drawSym(int x, int y, string msg) {
+void Xwindow::drawSym(int x, int y, string msg)
+{
   char **missing_charset_list_return;
   int missing_charset_count_return;
   char *def_string_return;
   std::string fontname = "-*-chess-*-*-*-*-*-*-*-*-*-*-*-*";
   std::string sym;
-  if(msg == "K"){
-                sym = "k";
-            } else if (msg == "Q"){
-                sym = "q";
-            } else if (msg == "P"){
-                sym = "p";
-            } else if (msg == "N"){
-                sym = "h";
-            } else if (msg == "R"){
-                sym = "r";
-            } else if (msg == "B"){
-                sym = "b";
-            } else if (msg == "k"){
-                sym = "l";
-            } else if (msg == "q"){
-                sym = "w";
-            } else if (msg == "p"){
-                sym = "o";
-            } else if (msg == "n"){
-                sym = "j";
-            } else if (msg == "r"){
-                sym = "t";
-            } else if (msg == "b"){
-                sym = "n";
-            }
-
-
+#pragma region symCONV
+  if (msg == "K")
+  {
+    sym = "k";
+  }
+  else if (msg == "Q")
+  {
+    sym = "q";
+  }
+  else if (msg == "P")
+  {
+    sym = "p";
+  }
+  else if (msg == "N")
+  {
+    sym = "h";
+  }
+  else if (msg == "R")
+  {
+    sym = "r";
+  }
+  else if (msg == "B")
+  {
+    sym = "b";
+  }
+  else if (msg == "k")
+  {
+    sym = "l";
+  }
+  else if (msg == "q")
+  {
+    sym = "w";
+  }
+  else if (msg == "p")
+  {
+    sym = "o";
+  }
+  else if (msg == "n")
+  {
+    sym = "j";
+  }
+  else if (msg == "r")
+  {
+    sym = "t";
+  }
+  else if (msg == "b")
+  {
+    sym = "n";
+  }
+#pragma endregion symCONV
   XFontSet setC = XCreateFontSet(d, fontname.c_str(), &missing_charset_list_return, &missing_charset_count_return, &def_string_return);
-  Xutf8DrawString(d,w,setC,DefaultGC(d, s), x, y, sym.c_str(), sym.length());
+  Xutf8DrawString(d, w, setC, DefaultGC(d, s), x, y, sym.c_str(), sym.length());
   XFreeFontSet(d, setC);
 }
-
- // Mouse Tracking
-  mouseLocation Xwindow::getMouseData(int& status) {
-    XEvent event;
-    if (XCheckMaskEvent(d, ButtonPress, &event)) {
-    char file = (((event.xbutton.x/50)*50) - 50)/50 + 'a'; 
-    int rank = 8 - ((((event.xbutton.y/50)*50) - 50)/50);
-
-    std::cout << file << rank << std::endl;
-
-        if (event.xbutton.x < 50 || event.xbutton.x > 450 || event.xbutton.y < 50 || event.xbutton.y > 450){
-            status = -1;
-        }
-        return mouseLocation{event.xbutton.x, event.xbutton.y, true};
-    } else {
-        return mouseLocation{-1, -1, false};
-    }
-}
-
-

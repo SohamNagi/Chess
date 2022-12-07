@@ -9,27 +9,27 @@
 class Piece;
 class Player;
 
-class Game {
+class Game
+{
 
     // Fields for Game
-    private:
-        std::vector<std::string> history;
-        Player* whitePlayer;
-        Player* blackPlayer;
-        std::vector<Observer*> observers;
-    
-    public:
-        Board* board;
-        int result;
-        Game(Board* brd, std::string white, std::string black);
-       // void undo();
-        // void makeMoves();
-        void start();
-        int getResult();
-        void attach(Observer *o);
-        void detach(Observer *o);
-        void notifyObservers();
-        char getState(int index);
+private:
+    Player *whitePlayer;
+    Player *blackPlayer;
+    std::vector<Observer *> observers;
+    Board *board;
+
+public:
+    int result;
+
+    // Methods for game
+public:
+    Game(Board *brd, std::string white, std::string black);
+    void start();
+    void attach(Observer *o);
+    void detach(Observer *o);
+    void notifyObservers();
+    char getState(int index);
 };
 
 #endif
