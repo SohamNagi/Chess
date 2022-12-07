@@ -13,6 +13,30 @@ bool resultsInCheck(Pieces* piece, int end) {
     for (auto i : piece->board->boardState) {
         if ((i->type == 'k' || i->type == 'K') && i->location == end) return false;
     }
+
+    if (piece->type == 'k') {
+        int x = end % 8;
+        int y = (end-(end % 8)) / 8;
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int possible = (y + j) * 8 + (x + i);
+                if ((x + i) >= 0 && (x + i) < 8 && (y + j) >= 0 && (y + j) < 8 && 0 <= possible && possible < 64 && !(i == 0 && j == 0) &&
+                    piece->board->boardState[possible]->type == 'K') return true;
+            }
+        }
+    }
+    if (piece->type == 'K') {
+        int x = end % 8;
+        int y = (end-(end % 8)) / 8;
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int possible = (y + j) * 8 + (x + i);
+                if ((x + i) >= 0 && (x + i) < 8 && (y + j) >= 0 && (y + j) < 8 && 0 <= possible && possible < 64 && !(i == 0 && j == 0) &&
+                    piece->board->boardState[possible]->type == 'k') return true;
+            }
+        }
+    }
+
     int start = piece->location;
     // making the move
     piece->board->boardState[start]->location = end;
@@ -62,7 +86,6 @@ bool resultsInCheck(Pieces* piece, int end) {
     for (auto i: piece->board->boardState) {
         i->updateMoves(false);
     }
-
     return isCheck;
 
 }

@@ -109,23 +109,27 @@ void Player::move(int start, int end) {
         board->boardState[end]->twoStep = board->halfMoves;
     }
 
+    
+    // En Passant
+    int change = start - end;
+    if (board->boardState[end]->type == 'p' && (change == 9 || change == 7) && board->boardState[start]->type == 'P' &&
+        (board->boardState[start]->twoStep - board->halfMoves == -1)) {
+        int killAt = (start - end == 9) ? start-1 : start+1;
+        delete board->boardState[killAt];
+        board->boardState[killAt] = new emptyPiece(board, false, killAt, ' ');
+    }
+    else if (board->boardState[end]->type == 'P' && (change == -7 || change == -9) && board->boardState[start]->type == 'p' &&
+        (board->boardState[start]->twoStep - board->halfMoves == -1)) {
+        int killAt = (end - start == 7) ? start-1 : start+1;
+        delete board->boardState[killAt];
+        board->boardState[killAt] = new emptyPiece(board, false, killAt, ' ');
+    }    
+
     // Capturing
     if (!board->boardState[start]->isEmpty) {
         delete board->boardState[start];
         board->boardState[start] = new emptyPiece(board, false, start, ' ');
     }
-    
-    // En Passant
-    if (board->boardState[end]->type == 'p' && (start - end == 9 || start - end == 7)) {
-        int killAt = (start - end == 9) ? start-1 : start+1;
-        delete board->boardState[killAt];
-        board->boardState[killAt] = new emptyPiece(board, false, killAt, ' ');
-    }
-    else if (board->boardState[end]->type == 'P' && (end - start == 7 || end - start == 9)) {
-        int killAt = (end - start == 7) ? start-1 : start+1;
-        delete board->boardState[killAt];
-        board->boardState[killAt] = new emptyPiece(board, false, killAt, ' ');
-    }    
 
     return;
 
