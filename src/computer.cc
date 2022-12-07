@@ -74,10 +74,10 @@ int returnWeightLevel3(Computer* comp, int start, int end) {
         }
     }
 
-    if (!comp->board->boardState[start]->type == 'p') {
+    if (comp->board->boardState[start]->type == 'p') {
         weight += (8 - (start - (start % 8)) / 8) / 2;
     }
-    if (!comp->board->boardState[start]->type == 'P') {
+    if (comp->board->boardState[start]->type == 'P') {
         weight += ((start - (start % 8)) / 8) / 2;
     }
 
