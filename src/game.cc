@@ -13,8 +13,8 @@ Game::Game(Board* brd, std::string white, std::string black):
     board{brd}, result{11}
 {
     attach(new textObserver(this));
-    graphicObserver* gfx = nullptr;//new graphicObserver(this);
-    //attach(gfx);
+    graphicObserver* gfx = new graphicObserver(this);
+    attach(gfx);
 
     if (white == "human"){
       whitePlayer = new Human(true, brd, gfx);

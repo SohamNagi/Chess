@@ -36,21 +36,21 @@ std::string parse(char input){
 graphicObserver::graphicObserver(Game* sub):
 win{new Xwindow(500,500)}, subject{sub}
 {
-    // win->drawStringBold(90, 35, "CS246 - C++ Chess");
-    // grid.assign(64, ' ');
-    // int shift = 50;
-    // char file = 'A';
-    // for(int i = 0; i < 8; i++){
-    //     win->drawStringBold(20, i*50 + 35 + shift, std::to_string(8-i));
-    //     for(int j = 0; j < 8; j++){
-    //         if ((j+i) % 2 != 0){
-    //             win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, FORGND); // Print Black Square
-    //         }
-    //     }
-    //     std::string s(1,file);
-    //     win->drawStringBold((i*50) + 10 + shift, 490, s);
-    //     file++;
-    // }
+    win->drawStringBold(90, 35, "CS246 - C++ Chess");
+    grid.assign(64, ' ');
+    int shift = 50;
+    char file = 'A';
+    for(int i = 0; i < 8; i++){
+        win->drawStringBold(20, i*50 + 35 + shift, std::to_string(8-i));
+        for(int j = 0; j < 8; j++){
+            if ((j+i) % 2 != 0){
+                win->fillRectangle((i*50) + shift, (j*50) + shift, 50, 50, FORGND); // Print Black Square
+            }
+        }
+        std::string s(1,file);
+        win->drawStringBold((i*50) + 10 + shift, 490, s);
+        file++;
+    }
 };
 
 graphicObserver::~graphicObserver(){
@@ -65,18 +65,18 @@ void graphicObserver::square_highlight(int index){
     int shift = 50;
     int x = index % 8;
     int y = (index-(index % 8)) /8;
-    //win->BlankRectangle((x*50)+shift,400-(y*50),50,50,HGLT);
+    win->BlankRectangle((x*50)+shift,400-(y*50),50,50,HGLT);
 }
 
 void graphicObserver::square_unhighlight(int index){
     int shift = 50;
     int x = index % 8;
     int y = (index-(index % 8)) / 8;
-    // if ((x+y) % 2 != 0){
-    //     win->BlankRectangle((x*50)+shift,400-(y*50),50,50,BKGND);
-    // } else {
-    //     win->BlankRectangle((x*50)+shift,400-(y*50),50,50,FORGND);
-    // }
+    if ((x+y) % 2 != 0){
+        win->BlankRectangle((x*50)+shift,400-(y*50),50,50,BKGND);
+    } else {
+        win->BlankRectangle((x*50)+shift,400-(y*50),50,50,FORGND);
+    }
 }
 
 void graphicObserver::notify(){
