@@ -92,7 +92,7 @@ void Human::getmove() {
             gfx->square_unhighlight(i);
         }
 
-        move(start, end, board);
+        move(start, end);
 
         break;
 
