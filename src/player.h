@@ -5,22 +5,20 @@
 
 class Rook;
 
-class Player {
+class Player
+{
 
-    public:
-        bool isWhite;
-        Board* board;
-        Player(bool isWhite, Board* board);
-        virtual ~Player() = 0;
+public:
+    bool isWhite;
+    Board *board;
+    Player(bool isWhite, Board *board);
+    virtual ~Player() = 0;
 
-        void resign();
-        void move(int start, int end);
-        virtual void getmove() = 0;
-        virtual void promote(int piece) = 0;
-        void castle(Rook* rook);
+    void resign();
+    void move(int start, int end);
+    virtual void getmove() = 0;
+    virtual void promote(int piece) = 0;
+    void castle(Rook *rook);
 };
 
-
 #endif
-
-
