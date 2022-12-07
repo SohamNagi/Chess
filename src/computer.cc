@@ -7,18 +7,32 @@
 #include <iostream>
 #include <random>
 
-Computer::Computer(bool isWhite, Board *board) : Player{isWhite, board}, personalMoves{std::vector<int>(std::vector<int>(0))} {};
+// Lookup function for piece weights
+int materialWeight(char type) {
+    if (type == 'p' || type == 'P') return 1;
+    if (type == 'n' || type == 'N') return 3;
+    if (type == 'b' || type == 'B') return 3;
+    if (type == 'r' || type == 'R') return 5;
+    if (type == 'q' || type == 'Q') return 9;
+    return 0;
+}
 
-void Computer::promote(int piece)
-{
+// Computer constructor
+Computer::Computer(bool isWhite, Board* board):
+    Player{isWhite, board}, personalMoves{std::vector<int> (std::vector<int> (0))},
+    enemyMoves{std::vector<int> (std::vector<int> (0))}
+{};
+
+// Promote function for computer, defaults to queen
+void Computer::promote(int piece) {
+    bool isWhiteReplace = board->boardState[piece]->isWhite;
     delete board->boardState[piece];
-    board->boardState[piece] = new Queen(board, board->boardState[piece]->isWhite, piece, 'Q');
+    board->boardState[piece] = new Queen(board, isWhiteReplace, piece, 'Q');
 }
 
-int returnWeightLevel2(Computer *comp, int start, int end)
-{
-    if (!comp->board->boardState[end]->isEmpty)
-    {
+// Adjusts move weights for level 2 computer
+int returnWeightLevel2(Computer* comp, int start, int end) {
+    if (!comp->board->boardState[end]->isEmpty) {
         return 5;
     }
 
@@ -46,69 +60,98 @@ int returnWeightLevel2(Computer *comp, int start, int end)
     return 1;
 }
 
-int returnWeightLevel3(Computer *comp, int start, int end)
-{
-    if (!comp->board->boardState[end]->isEmpty)
-    {
-        return 5;
-    }
+// Adjusts move weights for level 3 computer
+int returnWeightLevel3(Computer* comp, int start, int end) {
+    int weight = 0;
+    int change = 0;
 
-    comp->board->boardState[start]->location = end;
-    comp->board->boardState[end]->location = start;
-    std::iter_swap(comp->board->boardState.begin() + start, comp->board->boardState.begin() + end);
-    int checkState = 0;
-    checkState = comp->board->boardInCheck(false);
-    std::iter_swap(comp->board->boardState.begin() + start, comp->board->boardState.begin() + end);
-    comp->board->boardState[start]->location = start;
-    comp->board->boardState[end]->location = end;
-    for (auto i : comp->board->boardState)
-    {
-        i->updateMoves(false);
-    }
-    if ((comp->isWhite && checkState == 2) || (!comp->isWhite && checkState == -2))
-    {
-        return -20;
-    }
-    if ((comp->isWhite && checkState == -2) || (!comp->isWhite && checkState == 2))
-    {
-        return 20;
-    }
-    if ((comp->isWhite && checkState == 1) || (!comp->isWhite && checkState == -1))
-    {
-        return -10;
-    }
-    if ((comp->isWhite && checkState == -1) || (!comp->isWhite && checkState == 1))
-    {
-        return 10;
-    }
-    return 1;
-}
-
-void Computer::updateData(int level)
-{
-    for (auto moveVec : personalMoves)
-    {
-        moveVec.clear();
-    }
-    personalMoves.clear();
-    for (auto i : board->boardState)
-    {
-        if (i->isWhite == isWhite && (i->type == 'K' || i->type == 'k'))
-        {
-            ownKingPosition = i->location;
+    if (!comp->board->boardState[end]->isEmpty) {
+        change = materialWeight(comp->board->boardState[start]->type) - materialWeight(comp->board->boardState[end]->type);
+        if (change < 0) {
+            weight += -change*3;
+        } else {
+            weight += change;
         }
-        if (!i->isEmpty && i->isWhite == isWhite)
-        {
-            for (auto move : i->legalmoves)
-            {
-                std::vector<int> moveVec = {i->location, move};
-                personalMoves.emplace_back(moveVec);
+    }
+
+    if (!comp->board->boardState[start]->type == 'p') {
+        weight += (8 - (start - (start % 8)) / 8) / 2;
+    }
+    if (!comp->board->boardState[start]->type == 'P') {
+        weight += ((start - (start % 8)) / 8) / 2;
+    }
+
+    for (auto moveVec : comp->enemyMoves) {
+        if (moveVec[1] == start) {
+            change = materialWeight(comp->board->boardState[moveVec[0]]->type) - materialWeight(comp->board->boardState[start]->type);
+            if (change < 0) {
+                weight += change*3;
+            } else {
+                weight += change;
             }
         }
     }
 
-    if (level == 2)
+    for (auto moveVec : comp->enemyMoves) {
+        if (moveVec[1] == end) {
+            change = materialWeight(comp->board->boardState[moveVec[0]]->type) - materialWeight(comp->board->boardState[start]->type);
+            if (change < 0) {
+                weight -= change*3;
+            } else {
+                weight -= change;
+            }
+        }
+    }
+
+    comp->board->boardState[start]->location = end;
+    comp->board->boardState[end]->location = start;
+    std::iter_swap(comp->board->boardState.begin() + start, comp->board->boardState.begin() + end);
+    int checkState = 0;
+    checkState = comp->board->boardInCheck(false);
+    std::iter_swap(comp->board->boardState.begin() + start, comp->board->boardState.begin() + end);
+    comp->board->boardState[start]->location = start;
+    comp->board->boardState[end]->location = end;
+    for (auto i : comp->board->boardState)
     {
+        i->updateMoves(false);
+    }
+    if ((comp->isWhite && checkState == 2) || (!comp->isWhite && checkState == -2)) {
+        weight = -9999;
+    }
+    if ((comp->isWhite && checkState == -2) || (!comp->isWhite && checkState == 2)) {
+        weight = 9999;
+    }
+    if ((comp->isWhite && checkState == 1) || (!comp->isWhite && checkState == -1)) {
+        weight -= 20;
+    }
+    if ((comp->isWhite && checkState == -1) || (!comp->isWhite && checkState == 1)) {
+        weight += 20;
+    }
+    return weight;
+}
+
+// Updates the computer's fields with data about the game
+void Computer::updateData(int level) {
+    for (auto moveVec : personalMoves) {
+        moveVec.clear();
+    }
+    personalMoves.clear();
+    for(auto i: board->boardState){
+        if (!i->isEmpty && i->isWhite == isWhite) {
+            for (auto move: i->legalmoves) {
+                std::vector<int> moveVec = {i->location, move};
+                personalMoves.emplace_back(moveVec);
+            }
+        }
+        if (level >= 3 && !i->isEmpty && i->isWhite != isWhite) {
+            for (auto move: i->legalmoves) {
+                std::vector<int> moveVec = {i->location, move};
+                enemyMoves.emplace_back(moveVec);
+            }
+        }
+    }
+
+    if (level >= 2) {
         int size = personalMoves.size();
         for (int j = 0; j < size; j++)
         {
@@ -118,21 +161,21 @@ void Computer::updateData(int level)
     }
 }
 
-// Level1 function
-Level1::Level1(bool isWhite, Board *board) : Computer(isWhite, board){};
+// Level 1 computer constructor
+Level1::Level1(bool isWhite, Board* board): Computer(isWhite, board) {};
 
-void Level1::getmove()
-{
+// Move function for level 1 computer
+void Level1::getmove() {
     updateData(1);
     int randomMove = (std::rand() % (personalMoves.size()));
     move(personalMoves[randomMove][0], personalMoves[randomMove][1]);
 }
 
-// Level2 function
-Level2::Level2(bool isWhite, Board *board) : Computer(isWhite, board){};
+// Level 2 computer constructor
+Level2::Level2(bool isWhite, Board* board): Computer(isWhite, board) {};
 
-void Level2::getmove()
-{
+// Move function for level 2 computer
+void Level2::getmove() {
     updateData(2);
     std::random_device rd;
     std::mt19937 g(rd());
@@ -151,11 +194,11 @@ void Level2::getmove()
     move(personalMoves[bestMove][0], personalMoves[bestMove][1]);
 }
 
-// Level2 function
-Level3::Level3(bool isWhite, Board *board) : Computer(isWhite, board){};
+// Level 3 computer constructor
+Level3::Level3(bool isWhite, Board* board): Computer(isWhite, board) {};
 
-void Level3::getmove()
-{
+// Move function for level 3 computer
+void Level3::getmove() {
     updateData(3);
     std::random_device rd;
     std::mt19937 g(rd());

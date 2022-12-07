@@ -69,10 +69,8 @@ bool resultsInCheck(Pieces *piece, int end)
     int checkState = 0;
     checkState = piece->board->boardInCheck(false);
     bool isCheck;
-    if ((piece->isWhite && (checkState == 1 || checkState == 2)) || (!piece->isWhite && (checkState == -1 || checkState == -2)))
-        isCheck = true;
-    else
-        isCheck = false;
+    if ((piece->isWhite && (checkState == 1 || checkState == 2)) || (!piece->isWhite && (checkState == -1 || checkState == -2))) isCheck = true;
+    else isCheck = false;
 
     // undoing the move made
     delete piece->board->boardState[start];
