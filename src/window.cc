@@ -113,8 +113,36 @@ void Xwindow::drawSym(int x, int y, string msg) {
   int missing_charset_count_return;
   char *def_string_return;
   std::string fontname = "-*-chess-*-*-*-*-*-*-*-*-*-*-*-*";
+  std::string sym;
+  if(msg == "K"){
+                sym = "k";
+            } else if (msg == "Q"){
+                sym = "q";
+            } else if (msg == "P"){
+                sym = "p";
+            } else if (msg == "N"){
+                sym = "h";
+            } else if (msg == "R"){
+                sym = "r";
+            } else if (msg == "B"){
+                sym = "b";
+            } else if (msg == "k"){
+                sym = "l";
+            } else if (msg == "q"){
+                sym = "w";
+            } else if (msg == "p"){
+                sym = "o";
+            } else if (msg == "n"){
+                sym = "j";
+            } else if (msg == "r"){
+                sym = "t";
+            } else if (msg == "b"){
+                sym = "n";
+            }
+
+
   XFontSet setC = XCreateFontSet(d, fontname.c_str(), &missing_charset_list_return, &missing_charset_count_return, &def_string_return);
-  Xutf8DrawString(d,w,setC,DefaultGC(d, s), x, y, msg.c_str(), msg.length());
+  Xutf8DrawString(d,w,setC,DefaultGC(d, s), x, y, sym.c_str(), sym.length());
   XFreeFontSet(d, setC);
 }
 
