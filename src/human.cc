@@ -49,15 +49,9 @@ void Human::getmove() {
 
         Pieces* piece = board->boardState[start];
 
-        std::cout << "Legal moves prior to making the move: [";
         for (auto i: piece->legalmoves) {
-            int x = i % 8;
-            int y = (i-(i % 8)) / 8;
-            char row = x + 'a';
-            std::cout << row << y + 1 << ", ";
             gfx->square_highlight(i);
         }
-        std::cout << ']' << std::endl;
 
 
         // Reading end position
