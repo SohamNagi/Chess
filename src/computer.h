@@ -6,7 +6,7 @@
 class Computer: public Player {
     public:
         std::vector<std::vector<int>> personalMoves;
-        int ownKingPosition; // check if i need this later
+        std::vector<std::vector<int>> enemyMoves;
     public:
         Computer(bool isWhite, Board* board);
         void updateData(int level);

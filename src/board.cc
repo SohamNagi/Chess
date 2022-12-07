@@ -127,16 +127,11 @@ int Board::boardInCheck(bool checkTest){
     if (whiteTurn && std::find(whiteMoves.begin(), whiteMoves.end(), blackKingPosition) != whiteMoves.end()) {
         BlackCheck = true;        
         result = -1;
-        if (checkTest) {
-            std::cout << "checkecheck" << std::endl;
-            for (auto i : blackMoves) std::cout << i << ",";
-            std::cout << "checkecheck2" << std::endl;
-        }
     }
     if (whiteTurn && blackMoves.empty() && BlackCheck) {
         result = -2;
     }
-    if (whiteTurn && blackMoves.empty() && !BlackCheck) {
+    if (blackMoves.empty() && !BlackCheck) {
         result = 3;
     }
     if (!whiteTurn && std::find(blackMoves.begin(), blackMoves.end(), whiteKingPosition) != blackMoves.end()) {
@@ -146,7 +141,7 @@ int Board::boardInCheck(bool checkTest){
     if (!whiteTurn && whiteMoves.empty() && WhiteCheck) {
         result = 2;
     }
-    if (!whiteTurn && whiteMoves.empty() && !WhiteCheck) {
+    if (whiteMoves.empty() && !WhiteCheck) {
         result = 3;
     }
 

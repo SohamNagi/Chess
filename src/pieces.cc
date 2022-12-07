@@ -58,7 +58,7 @@ bool resultsInCheck(Pieces* piece, int end) {
     bool isCheck;
     if ((piece->isWhite && (checkState == 1 || checkState == 2)) || (!piece->isWhite && (checkState == -1 || checkState == -2))) isCheck = true;
     else isCheck = false;
-
+    if (piece->type == 'k' && end == 31) std::cout << "result " << isCheck << std::endl;
     // undoing the move made
     delete piece->board->boardState[start];
 
@@ -95,6 +95,7 @@ bool resultsInCheck(Pieces* piece, int end) {
 void addToLegalMoves(bool checkTest, Pieces* piece, int move) {
     if (checkTest) {
         if (resultsInCheck(piece, move)) piece->board->illegalmoves[piece->location].emplace_back(move);
+        if (piece->type == 'k' && move == 31) std::cout << "testtest " << move << " " << resultsInCheck(piece, move) << std::endl;
     }
     if (std::find(piece->legalmoves.begin(), piece->legalmoves.end(), move) == piece->legalmoves.end()) {
         piece->legalmoves.emplace_back(move);
