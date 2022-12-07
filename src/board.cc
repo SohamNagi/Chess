@@ -128,9 +128,7 @@ int Board::boardInCheck(bool checkTest){
         BlackCheck = true;        
         result = -1;
         if (checkTest) {
-            std::cout << "checkecheck" << std::endl;
             for (auto i : blackMoves) std::cout << i << ",";
-            std::cout << "checkecheck2" << std::endl;
         }
     }
     if (whiteTurn && blackMoves.empty() && BlackCheck) {
