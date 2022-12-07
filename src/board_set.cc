@@ -50,7 +50,6 @@ Board *board_setup(vector<char> *start, string set_turn, int status)
     Board *final_board = nullptr;
 
     // Clear screen and print instructions
-    system("clear");
     cout << "You are in setup mode, here are your commands:" << endl;
     cout << "\"+ piece square\" to place a piece. " << endl;
     cout << "\"- square\" to remove a piece " << endl;
@@ -111,7 +110,6 @@ Board *board_setup(vector<char> *start, string set_turn, int status)
             output += " ";
             output += turn;
             std::cout << output << endl;
-            system("clear");
             final_board = new Board(output);
             if (!final_board->isValid())
             {
@@ -175,7 +173,6 @@ Board *board_setup(vector<char> *start, string set_turn, int status)
         }
         else if (command == "done")
         {
-            system("clear");
             break;
         }
     }

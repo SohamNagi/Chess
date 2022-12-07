@@ -44,7 +44,6 @@ int main(int argc, char const *argv[])
         }
         else if (command == "game")
         {
-            system("clear");
             if (start_board == nullptr)
             {
                 start_board = new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
@@ -67,7 +66,7 @@ int main(int argc, char const *argv[])
                 cout << "Invalid command for white! Try again." << endl;
             }
 
-            system("clear");
+
             cout << "Select if black is to be a human player or a computer player from levels 1 to 3." << endl;
             cout << "(human/1/2/3):" << endl;
 
@@ -82,7 +81,6 @@ int main(int argc, char const *argv[])
 
                 cout << "Invalid command for black! Try again." << endl;
             }
-            system("clear");
             Game *round = new Game(start_board, white, black);
             round->notifyObservers();
             round->start();
