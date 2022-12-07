@@ -129,9 +129,15 @@ void Player::move(int start, int end)
     // Capturing
     if (!board->boardState[start]->isEmpty)
     {
+        board->moves = -1;
         delete board->boardState[start];
         board->boardState[start] = new emptyPiece(board, false, start, ' ');
     }
 
+    if (board->boardState[start]->type == 'P' || board->boardState[start]->type == 'p')
+    {
+        board->moves = -1;
+    }
+    board->moves++;
     return;
 }

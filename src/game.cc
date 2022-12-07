@@ -117,6 +117,19 @@ void Game::start()
       board->whiteTurn = !board->whiteTurn;
 // Check for wins and draws
 #pragma region wincheck
+
+      if (board->moves >= 100)
+      {
+        std::cout << "50 Move Draw!" << std::endl;
+        result = 0;
+        for (auto i : observers)
+        {
+          delete i;
+        }
+        delete whitePlayer;
+        delete blackPlayer;
+        break;
+      }
       if (board_state == -1)
       {
         std::cout << "Black King In Check!" << std::endl;
