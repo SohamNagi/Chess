@@ -31,6 +31,10 @@ Game::Game(Board *brd, std::string white, std::string black) : board{brd}, resul
   {
     whitePlayer = new Level3(true, brd);
   }
+  else if (white == "4")
+  {
+    whitePlayer = new Level3(true, brd);
+  }
 
   if (black == "human")
   {
@@ -45,6 +49,10 @@ Game::Game(Board *brd, std::string white, std::string black) : board{brd}, resul
     blackPlayer = new Level2(false, brd);
   }
   else if (black == "3")
+  {
+    blackPlayer = new Level3(false, brd);
+  }
+  else if (black == "4")
   {
     blackPlayer = new Level3(false, brd);
   }
@@ -118,6 +126,7 @@ void Game::start()
 // Check for wins and draws
 #pragma region wincheck
 
+      // 50 Move Check
       if (board->moves >= 100)
       {
         std::cout << "50 Move Draw!" << std::endl;
@@ -130,6 +139,27 @@ void Game::start()
         delete blackPlayer;
         break;
       }
+
+      int piecesCount = 0;
+      for (auto piece : board->boardState)
+      {
+        if (!piece->isEmpty)
+          piecesCount++;
+      }
+
+      if (piecesCount == 2)
+      {
+        std::cout << "Draw! Insufficient Pieces!" << std::endl;
+        result = 0;
+        for (auto i : observers)
+        {
+          delete i;
+        }
+        delete whitePlayer;
+        delete blackPlayer;
+        break;
+      }
+
       if (board_state == -1)
       {
         std::cout << "Black King In Check!" << std::endl;
