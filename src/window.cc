@@ -45,7 +45,7 @@ Xwindow::Xwindow(int width, int height)
   XFlush(d);
   XFlush(d);
 
-  XSetForeground(d, gc, colours[Black]);
+  XSetForeground(d, gc, colours[black]);
 
   // Make window non-resizeable.
   XSizeHints hints;
@@ -78,7 +78,7 @@ void Xwindow::fillRectangle(int x, int y, int width, int height, int colour)
 {
   XSetForeground(d, gc, colours[colour]);
   XFillRectangle(d, w, gc, x, y, width, height);
-  XSetForeground(d, gc, colours[Black]);
+  XSetForeground(d, gc, colours[black]);
 }
 
 void Xwindow::BlankRectangle(int x, int y, int width, int height, int colour)
@@ -89,7 +89,7 @@ void Xwindow::BlankRectangle(int x, int y, int width, int height, int colour)
   XFillRectangle(d, w, gc, x, y + height - thickness, width, thickness);
   XFillRectangle(d, w, gc, x + width - thickness, y, thickness, height);
   XFillRectangle(d, w, gc, x, y, thickness, height);
-  XSetForeground(d, gc, colours[Black]);
+  XSetForeground(d, gc, colours[black]);
 }
 
 void Xwindow::drawStringBold(int x, int y, string msg)

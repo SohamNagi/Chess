@@ -43,8 +43,8 @@ public:
   };
 
   // Draws a rectangle
-  void fillRectangle(int x, int y, int width, int height, int colour = Black);
-  void BlankRectangle(int x, int y, int width, int height, int colour = Red);
+  void fillRectangle(int x, int y, int width, int height, int colour = black);
+  void BlankRectangle(int x, int y, int width, int height, int colour = red);
 
   // Draws strings
   void drawString(int x, int y, std::string msg);
