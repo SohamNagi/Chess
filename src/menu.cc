@@ -52,8 +52,8 @@ int main(int argc, char const *argv[])
             string white;
             string black;
 
-            cout << "Select if white is to be a human player or a computer player from levels 1 to 4." << endl;
-            cout << "(human/1/2/3/4):" << endl;
+            cout << "Select if white is to be a human player or a computer player from levels 1 to 3." << endl;
+            cout << "(human/1/2/3):" << endl;
 
             while (true)
             {
@@ -68,8 +68,8 @@ int main(int argc, char const *argv[])
             }
 
             system("clear");
-            cout << "Select if black is to be a human player or a computer player from levels 1 to 4." << endl;
-            cout << "(human/1/2/3/4):" << endl;
+            cout << "Select if black is to be a human player or a computer player from levels 1 to 3." << endl;
+            cout << "(human/1/2/3):" << endl;
 
             while (true)
             {

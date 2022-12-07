@@ -5,7 +5,7 @@ OBJECTS = board.o game.o human.o menu.o observer.o graphicObserver.o pieces.o pl
 DEPENDS = ${OBJECTS:.o=.d}
 
 ${EXEC}: ${OBJECTS}
-	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} -L/opt/X11/lib -lX11
+	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} -lX11
 	
 -include ${DEPENDS}
 
