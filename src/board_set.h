@@ -3,7 +3,7 @@
 #include <string>
 #include "board.h"
 
-
-Board* board_setup(std::vector<char>* start, std::string set_turn, int status);
+// Board setup returns a pointer to a board object by taking user input
+Board *board_setup(std::vector<char> *start, std::string set_turn, int status);
 
 #endif

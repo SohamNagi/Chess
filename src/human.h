@@ -4,15 +4,14 @@
 #include "player.h"
 #include "graphicObserver.h"
 
-
-class Human: public Player {
-    public:
-        graphicObserver* gfx;
-        void getmove();
-        void promote(int piece);
-        Human(bool isWhite, Board* board, graphicObserver* obs);
-        virtual ~Human();
+class Human : public Player
+{
+public:
+    graphicObserver *gfx;
+    void getmove();
+    void promote(int piece);
+    Human(bool isWhite, Board *board, graphicObserver *obs);
+    virtual ~Human();
 };
 
-
-#endif 
+#endif

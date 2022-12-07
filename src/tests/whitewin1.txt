@@ -66,3 +66,4 @@ move a3a4
 move g4g5
 move h6h5
 move e7h7
+quit

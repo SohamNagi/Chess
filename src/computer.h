@@ -14,22 +14,25 @@ class Computer: public Player {
         void promote(int piece);
 };
 
-class Level1: public Computer {
-    public:
-        void getmove();
-        Level1(bool isWhite, Board* board);
+class Level1 : public Computer
+{
+public:
+    void getmove();
+    Level1(bool isWhite, Board *board);
 };
 
-class Level2: public Computer {
-    public:
-        void getmove();
-        Level2(bool isWhite, Board* board);
+class Level2 : public Computer
+{
+public:
+    void getmove();
+    Level2(bool isWhite, Board *board);
 };
 
-class Level3: public Computer {
-    public:
-        void getmove();
-        Level3(bool isWhite, Board* board);
+class Level3 : public Computer
+{
+public:
+    void getmove();
+    Level3(bool isWhite, Board *board);
 };
 
 #endif

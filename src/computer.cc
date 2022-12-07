@@ -44,14 +44,17 @@ int returnWeightLevel2(Computer* comp, int start, int end) {
     std::iter_swap(comp->board->boardState.begin() + start, comp->board->boardState.begin() + end);
     comp->board->boardState[start]->location = start;
     comp->board->boardState[end]->location = end;
-    for (auto i : comp->board->boardState) {
+    for (auto i : comp->board->boardState)
+    {
         i->updateMoves(false);
     }
 
-    if ((comp->isWhite && checkState == -2) || (!comp->isWhite && checkState == 2)) {
+    if ((comp->isWhite && checkState == -2) || (!comp->isWhite && checkState == 2))
+    {
         return 20;
     }
-    if ((comp->isWhite && checkState == -1) || (!comp->isWhite && checkState == 1)) {
+    if ((comp->isWhite && checkState == -1) || (!comp->isWhite && checkState == 1))
+    {
         return 10;
     }
     return 1;
@@ -108,7 +111,8 @@ int returnWeightLevel3(Computer* comp, int start, int end) {
     std::iter_swap(comp->board->boardState.begin() + start, comp->board->boardState.begin() + end);
     comp->board->boardState[start]->location = start;
     comp->board->boardState[end]->location = end;
-    for (auto i : comp->board->boardState) {
+    for (auto i : comp->board->boardState)
+    {
         i->updateMoves(false);
     }
     if ((comp->isWhite && checkState == 2) || (!comp->isWhite && checkState == -2)) {
@@ -149,7 +153,8 @@ void Computer::updateData(int level) {
 
     if (level >= 2) {
         int size = personalMoves.size();
-        for (int j = 0; j < size; j++) {
+        for (int j = 0; j < size; j++)
+        {
             int add = returnWeightLevel2(this, personalMoves[j][0], personalMoves[j][1]);
             personalMoves[j].emplace_back(add);
         }
@@ -178,8 +183,10 @@ void Level2::getmove() {
     int bestMove = 0;
     int bestMoveWeight = 0;
     int length = personalMoves.size();
-    for (int i = 0; i < length; i++) {
-        if (personalMoves[i][2] > bestMoveWeight) {
+    for (int i = 0; i < length; i++)
+    {
+        if (personalMoves[i][2] > bestMoveWeight)
+        {
             bestMove = i;
             bestMoveWeight = personalMoves[i][2];
         }
@@ -199,8 +206,10 @@ void Level3::getmove() {
     int bestMove = 0;
     int bestMoveWeight = 0;
     int length = personalMoves.size();
-    for (int i = 0; i < length; i++) {
-        if (personalMoves[i][2] > bestMoveWeight) {
+    for (int i = 0; i < length; i++)
+    {
+        if (personalMoves[i][2] > bestMoveWeight)
+        {
             bestMove = i;
             bestMoveWeight = personalMoves[i][2];
         }

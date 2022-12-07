@@ -3,10 +3,10 @@
 
 class Xwindow;
 
-class Observer {
- public:
+class Observer
+{
+public:
   virtual void notify() = 0;
   virtual ~Observer() = default;
-  virtual Xwindow* getWin() = 0;
 };
 #endif

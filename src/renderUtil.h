@@ -8,6 +8,6 @@ int mapFiles(char file);
 std::string getPieceSym(char name);
 
 void txt_printer(std::vector<char> grid);
-void gfx_printer(Xwindow* win, std::vector<char> grid, std::vector<char>* opti);
+void gfx_printer(Xwindow *win, std::vector<char> grid, std::vector<char> *opti);
 
 #endif
