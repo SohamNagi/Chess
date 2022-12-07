@@ -79,11 +79,11 @@ void Game::start(){
       if (skip) continue;
       skip = false;
       board->halfMoves += 1;
-      board->whiteTurn = !board->whiteTurn;
       if (board->whiteTurn) board->moves += 1;
       notifyObservers();
       board->notifyStateChange(true);    
       int board_state = board->boardInCheck(true);
+      board->whiteTurn = !board->whiteTurn;
       if(board_state == -1){
         std::cout << "Black King In Check!" << std::endl;
       } else if (board_state == 1){

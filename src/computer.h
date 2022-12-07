@@ -9,7 +9,6 @@ class Computer: public Player {
         int ownKingPosition; // check if i need this later
     public:
         Computer(bool isWhite, Board* board);
-        int returnWeight(int start, int end);
         void updateData(int level);
         virtual void getmove() = 0;
         void promote(int piece);
